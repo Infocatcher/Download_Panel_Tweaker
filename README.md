@@ -1,6 +1,6 @@
 #### Internals
 Compact downloads list style: https://github.com/Infocatcher/UserStyles/tree/master/Compact_downloads
-Visible downloads count limit: https://gist.github.com/Infocatcher/5387328
+<br>Visible downloads count limit: https://gist.github.com/Infocatcher/5387328
 
 Additional tweaks can be done using following style:
 ```css
