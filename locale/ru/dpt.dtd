@@ -1,0 +1,7 @@
+<!ENTITY dpt.useOldUI "Использовать старый интерфейс загрузок (не рекомендуется)">
+<!ENTITY dpt.itemCountLimit "Ограничение видимого количества загрузок">
+<!ENTITY dpt.panelWidth "Ширина панели загрузок">
+<!ENTITY dpt.progressBarHeight "Высота полосы прогресса">
+<!ENTITY dpt.detailedText "Показывать скорость загрузки">
+<!ENTITY dpt.compactDownloads "Использовать компактный список загрузок">
+<!ENTITY dpt.decolorizePausedProgress "Обесцвечивать полосу прогресса приостановленных загрузок">

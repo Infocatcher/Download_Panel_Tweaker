@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE vbox SYSTEM "chrome://downloadpaneltweaker/locale/dpt.dtd">
+<vbox xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<setting pref="browser.download.useToolkitUI" type="bool" title="&dpt.useOldUI;" onpreferencechanged='
+		var useOld = this.value;
+		for(var setting = this.nextSibling; setting; setting = setting.nextSibling) {
+			if(setting.localName == "setting") {
+				if(useOld)
+					setting.setAttribute("disabled", useOld);
+				else
+					setting.removeAttribute("disabled");
+			}
+		}' />
+	<setting pref="extensions.downloadPanelTweaker.itemCountLimit" type="integer" title="&dpt.itemCountLimit;" />
+	<setting pref="extensions.downloadPanelTweaker.panelWidth" type="integer" title="&dpt.panelWidth;" />
+	<setting pref="extensions.downloadPanelTweaker.progressBarHeight" type="integer" title="&dpt.progressBarHeight;" />
+	<setting pref="extensions.downloadPanelTweaker.detailedText" type="bool" title="&dpt.detailedText;" />
+	<setting pref="extensions.downloadPanelTweaker.compactDownloads" type="bool" title="&dpt.compactDownloads;" />
+	<setting pref="extensions.downloadPanelTweaker.decolorizePausedProgress" type="bool" title="&dpt.decolorizePausedProgress;" />
+</vbox>

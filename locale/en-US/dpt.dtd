@@ -1,0 +1,7 @@
+<!ENTITY dpt.useOldUI "Use old downloads interface (not recommended)">
+<!ENTITY dpt.itemCountLimit "Visible downloads count limit">
+<!ENTITY dpt.panelWidth "Download panel width">
+<!ENTITY dpt.progressBarHeight "Progress bar height">
+<!ENTITY dpt.detailedText "Show download speed">
+<!ENTITY dpt.compactDownloads "Use compact downloads list">
+<!ENTITY dpt.decolorizePausedProgress "Decolorize progress bar of paused downloads">
