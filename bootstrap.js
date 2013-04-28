@@ -100,11 +100,10 @@ var dpTweaker = {
 		window.removeEventListener("load", this, false); // Window can be closed before "load"
 		if(reason == WINDOW_CLOSED && !this.isTargetWindow(window))
 			return;
-		if(reason != WINDOW_CLOSED && reason != APP_SHUTDOWN) {
+		if(reason != WINDOW_CLOSED && reason != APP_SHUTDOWN)
 			this.setItemCountLimit(window, false);
-			if(prefs.get("detailedText"))
-				this.patchDownloads(window, false);
-		}
+		if(prefs.get("detailedText"))
+			this.patchDownloads(window, false, reason == WINDOW_CLOSED);
 	},
 	isTargetWindow: function(window) {
 		return window.document.documentElement.getAttribute("windowtype") == "navigator:browser";
@@ -237,7 +236,7 @@ var dpTweaker = {
 		_log("setItemCountLimit(): " + itemCountLimit);
 	},
 
-	patchDownloads: function(window, patch) {
+	patchDownloads: function(window, patch, forceDestroy) {
 		var dwip = window.DownloadsViewItem.prototype;
 		if(patch) {
 			var _this = this;
@@ -250,9 +249,10 @@ var dpTweaker = {
 			);
 		}
 		else {
-			patcher.unwrapFunction(dwip, "_updateStatusLine", "DownloadsViewItem.prototype._updateStatusLine");
+			patcher.unwrapFunction(dwip, "_updateStatusLine", "DownloadsViewItem.prototype._updateStatusLine", forceDestroy);
 		}
-		this.updateDownloads(window, patch);
+		if(!forceDestroy)
+			this.updateDownloads(window, patch);
 		_log("patchDownloads(" + patch + ")");
 	},
 	updateDownloads: function(window, patch) {
