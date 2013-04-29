@@ -153,7 +153,9 @@ var dpTweaker = {
 				/* Download Panel Tweaker: change some sizes */\n\
 				@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");\n\
 				@-moz-document url("chrome://browser/content/browser.xul"),\n\
-					url("chrome://browser/content/places/places.xul") {\n\
+					url("chrome://browser/content/places/places.xul"),\n\
+					url("about:downloads"),\n\
+					url("chrome://browser/content/downloads/contentAreaDownloadsView.xul") {\n\
 					' + containerSelector + ' {\n\
 						width: ' + panelWidth + 'ch !important;\n\
 						min-width: 0 !important;\n\
