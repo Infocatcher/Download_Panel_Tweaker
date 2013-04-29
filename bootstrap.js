@@ -33,7 +33,7 @@ var dpTweaker = {
 
 		prefs.init();
 
-		if(prefs.get("detailedText"))
+		if(prefs.get("showDownloadRate"))
 			this.showDownloadRate(true);
 		if(prefs.get("decolorizePausedProgress"))
 			this.showPausedDownloadsSummary(true);
@@ -56,7 +56,7 @@ var dpTweaker = {
 			if(prefs.get("compactDownloads"))
 				this.loadCompactStyle(false);
 			this.loadTweakStyle(false);
-			if(prefs.get("detailedText"))
+			if(prefs.get("showDownloadRate"))
 				this.showDownloadRate(false);
 			if(prefs.get("decolorizePausedProgress"))
 				this.showPausedDownloadsSummary(false);
@@ -99,7 +99,7 @@ var dpTweaker = {
 		this.setItemCountLimit(window, true);
 		if(reason != WINDOW_LOADED) window.setTimeout(function() {
 			var document = window.document;
-			if(prefs.get("detailedText"))
+			if(prefs.get("showDownloadRate"))
 				this.udateDownloadRate(document, true);
 			if(prefs.get("decolorizePausedProgress"))
 				this.updateDownloadsSummary(document, true);
@@ -115,7 +115,7 @@ var dpTweaker = {
 		if(reason != WINDOW_CLOSED && reason != APP_SHUTDOWN) {
 			this.setItemCountLimit(window, false);
 			var document = window.document;
-			if(prefs.get("detailedText"))
+			if(prefs.get("showDownloadRate"))
 				this.udateDownloadRate(document, false);
 			if(prefs.get("decolorizePausedProgress"))
 				this.updateDownloadsSummary(document, false);
@@ -343,7 +343,7 @@ var dpTweaker = {
 	prefChanged: function(pName, pVal) {
 		if(pName == "compactDownloads")
 			this.loadCompactStyle(pVal);
-		else if(pName == "detailedText") {
+		else if(pName == "showDownloadRate") {
 			this.showDownloadRate(pVal);
 			var ws = Services.wm.getEnumerator("navigator:browser");
 			while(ws.hasMoreElements())
