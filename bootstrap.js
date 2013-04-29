@@ -33,12 +33,18 @@ var dpTweaker = {
 
 		prefs.init();
 
+		if(prefs.get("detailedText"))
+			this.showDownloadRate(true);
+		if(prefs.get("decolorizePausedProgress"))
+			this.showPausedDownloadsSummary(true);
+
 		var ws = Services.wm.getEnumerator("navigator:browser");
 		while(ws.hasMoreElements())
 			this.initWindow(ws.getNext(), reason);
 		if(!this._tweakStyleLoaded && Services.wm.getMostRecentWindow("Places:Organizer"))
 			this.loadStyles();
 		Services.ww.registerNotification(this);
+
 		_log("Successfully started");
 	},
 	destroy: function(reason) {
@@ -46,16 +52,20 @@ var dpTweaker = {
 			return;
 		this.initialized = false;
 
-		var ws = Services.wm.getEnumerator("navigator:browser");
-		while(ws.hasMoreElements())
-			this.destroyWindow(ws.getNext(), reason);
-		Services.ww.unregisterNotification(this);
-
 		if(reason != APP_SHUTDOWN) {
 			if(prefs.get("compactDownloads"))
 				this.loadCompactStyle(false);
 			this.loadTweakStyle(false);
+			if(prefs.get("detailedText"))
+				this.showDownloadRate(false);
+			if(prefs.get("decolorizePausedProgress"))
+				this.showPausedDownloadsSummary(false);
 		}
+
+		var ws = Services.wm.getEnumerator("navigator:browser");
+		while(ws.hasMoreElements())
+			this.destroyWindow(ws.getNext(), reason);
+		Services.ww.unregisterNotification(this);
 
 		prefs.destroy();
 		if(patcherLoaded) {
@@ -87,11 +97,13 @@ var dpTweaker = {
 		if(reason == WINDOW_LOADED && !this.isTargetWindow(window))
 			return;
 		this.setItemCountLimit(window, true);
-		if(prefs.get("detailedText")) {
-			window.setTimeout(function() {
-				this.patchDownloads(window, true);
-			}.bind(this), 0);
-		}
+		if(reason != WINDOW_LOADED) window.setTimeout(function() {
+			var document = window.document;
+			if(prefs.get("detailedText"))
+				this.udateDownloadRate(document, true);
+			if(prefs.get("decolorizePausedProgress"))
+				this.updateDownloadsSummary(document, true);
+		}.bind(this), 0);
 		window.setTimeout(function() {
 			this.loadStyles();
 		}.bind(this), 50);
@@ -100,10 +112,14 @@ var dpTweaker = {
 		window.removeEventListener("load", this, false); // Window can be closed before "load"
 		if(reason == WINDOW_CLOSED && !this.isTargetWindow(window))
 			return;
-		if(reason != WINDOW_CLOSED && reason != APP_SHUTDOWN)
+		if(reason != WINDOW_CLOSED && reason != APP_SHUTDOWN) {
 			this.setItemCountLimit(window, false);
-		if(prefs.get("detailedText"))
-			this.patchDownloads(window, false, reason == WINDOW_CLOSED);
+			var document = window.document;
+			if(prefs.get("detailedText"))
+				this.udateDownloadRate(document, false);
+			if(prefs.get("decolorizePausedProgress"))
+				this.updateDownloadsSummary(document, false);
+		}
 	},
 	isTargetWindow: function(window) {
 		return window.document.documentElement.getAttribute("windowtype") == "navigator:browser";
@@ -136,6 +152,7 @@ var dpTweaker = {
 	minPanelWidth: 5,
 	minProgressBarHeight: 6,
 	maxProgressBarHeight: 50,
+	pausedAttr: "downloadPanelTweaker_paused",
 	loadTweakStyle: function(add) {
 		if(!add ^ this._tweakStyleLoaded)
 			return;
@@ -176,11 +193,14 @@ var dpTweaker = {
 						prefs.get("decolorizePausedProgress")
 						? '\n\
 					/* Paused downloads */\n\
-					.download-state[state="4"] .downloadProgress {\n\
+					.download-state[state="4"] .downloadProgress,\n\
+					#downloadsSummary[' + this.pausedAttr + '] .downloadProgress {\n\
 						filter: url("chrome://mozapps/skin/extensions/extensions.svg#greyscale");\n\
 					}\n\
 					.download-state[state="4"] .downloadProgress > .progress-bar,\n\
-					.download-state[state="4"] .downloadProgress > .progress-remainder {\n\
+					.download-state[state="4"] .downloadProgress > .progress-remainder,\n\
+					#downloadsSummary[' + this.pausedAttr + '] .downloadProgress > .progress-bar,\n\
+					#downloadsSummary[' + this.pausedAttr + '] .downloadProgress > .progress-remainder {\n\
 						opacity: 0.85;\n\
 					}'
 						: ""
@@ -238,27 +258,25 @@ var dpTweaker = {
 		_log("setItemCountLimit(): " + itemCountLimit);
 	},
 
-	patchDownloads: function(window, patch, forceDestroy) {
-		var dwip = window.DownloadsViewItem.prototype;
+	showDownloadRate: function(patch) {
+		var {DownloadUtils} = Components.utils.import("resource://gre/modules/DownloadUtils.jsm", {});
+		const bakKey = "_downloadPanelTweaker_getDownloadStatusNoRate";
+		if(!patch ^ bakKey in DownloadUtils)
+			return;
 		if(patch) {
-			var _this = this;
-			patcher.wrapFunction(dwip, "_updateStatusLine", "DownloadsViewItem.prototype._updateStatusLine",
-				function before() {},
-				function after() {
-					if(this.dataItem.state == Components.interfaces.nsIDownloadManager.DOWNLOAD_DOWNLOADING)
-						_this.updateDownload(this._element, true);
-				}
-			);
+			DownloadUtils[bakKey] = DownloadUtils.getDownloadStatusNoRate;
+			DownloadUtils.getDownloadStatusNoRate = DownloadUtils.getDownloadStatus;
 		}
 		else {
-			patcher.unwrapFunction(dwip, "_updateStatusLine", "DownloadsViewItem.prototype._updateStatusLine", forceDestroy);
+			DownloadUtils.getDownloadStatusNoRate = DownloadUtils[bakKey];
+			delete DownloadUtils[bakKey];
 		}
-		if(!forceDestroy)
-			this.updateDownloads(window, patch);
-		_log("patchDownloads(" + patch + ")");
+		_log("showDownloadRate(" + patch + ")");
 	},
-	updateDownloads: function(window, patch) {
-		var document = window.document;
+	udateDownloadRate: function(document, patch) {
+		if(!patch)
+			return; // Not implemented
+		_log("udateDownloadRate(" + patch + ")");
 		var lb = document.getElementById("downloadsListBox");
 		lb && Array.forEach(
 			lb.getElementsByTagName("richlistitem"),
@@ -268,33 +286,69 @@ var dpTweaker = {
 					&& item.getAttribute("state") == "0" // Downloading
 					&& item.hasAttribute("status")
 					&& item.hasAttribute("statusTip")
-				)
-					this.updateDownload(item, patch);
-			},
-			this
+				) {
+					var statusTip = item.getAttribute("statusTip");
+					statusTip && item.setAttribute("status", statusTip);
+				}
+			}
 		);
+		var details = document.getElementById("downloadsSummaryDetails");
+		if(details) {
+			var tip = details.getAttribute("tooltiptext");
+			tip && details.setAttribute("value", tip);
+		}
 	},
-	updateDownload: function(elt, patch) {
-		var newStatus;
+
+	showPausedDownloadsSummary: function(patch) {
+		var {DownloadsCommon} = Components.utils.import("resource://app/modules/DownloadsCommon.jsm", {});
+		var dlcGlobal = Components.utils.getGlobalForObject(DownloadsCommon);
+		var DownloadsSummaryData = dlcGlobal.DownloadsSummaryData;
 		if(patch) {
-			var status = elt.getAttribute("status");
-			var statusTip = elt.getAttribute("statusTip") || status;
-			elt.setAttribute("downloadPanelTweaker_origStatus", status);
-			newStatus = statusTip;
+			var _this = this;
+			patcher.wrapFunction(DownloadsSummaryData.prototype, "_updateView", "DownloadsSummaryData.prototype._updateView",
+				function before() {},
+				function after(ret, aView) {
+					_this.updateDownloadsSummary(aView._summaryNode, true);
+				}
+			);
 		}
 		else {
-			var origStatus = elt.getAttribute("downloadPanelTweaker_origStatus");
-			elt.removeAttribute("downloadPanelTweaker_origStatus");
-			if(!origStatus)
-				return;
-			newStatus = origStatus;
+			patcher.unwrapFunction(DownloadsSummaryData.prototype, "_updateView", "DownloadsSummaryData.prototype._updateView");
 		}
-		elt.setAttribute("status", newStatus);
+		_log("showPausedDownloadsSummary(" + patch + ")");
+	},
+	updateDownloadsSummary: function(summaryNode, patch) {
+		if(summaryNode && summaryNode instanceof Components.interfaces.nsIDOMDocument)
+			summaryNode = summaryNode.getElementById("downloadsSummary");
+		if(!summaryNode)
+			return;
+		if(!patch) {
+			_log("updateDownloadsSummary(): Restore");
+			summaryNode.removeAttribute(this.pausedAttr);
+			return;
+		}
+		var details = summaryNode.getElementsByAttribute("id", "downloadsSummaryDetails")[0];
+		if(!details)
+			return;
+		var paused = !details.getAttribute("value");
+		if(!paused ^ summaryNode.hasAttribute(this.pausedAttr))
+			return;
+		_log("updateDownloadsSummary(): Paused: " + paused);
+		if(paused)
+			summaryNode.setAttribute(this.pausedAttr, "true");
+		else
+			summaryNode.removeAttribute(this.pausedAttr);
 	},
 
 	prefChanged: function(pName, pVal) {
 		if(pName == "compactDownloads")
 			this.loadCompactStyle(pVal);
+		else if(pName == "detailedText") {
+			this.showDownloadRate(pVal);
+			var ws = Services.wm.getEnumerator("navigator:browser");
+			while(ws.hasMoreElements())
+				this.udateDownloadRate(ws.getNext().document, pVal);
+		}
 		else if(pName == "itemCountLimit") {
 			if(pVal < this.minItemCountLimit) {
 				prefs.set(pName, this.minItemCountLimit);
@@ -303,11 +357,6 @@ var dpTweaker = {
 			var ws = Services.wm.getEnumerator("navigator:browser");
 			while(ws.hasMoreElements())
 				this.setItemCountLimit(ws.getNext(), true);
-		}
-		else if(pName == "detailedText") {
-			var ws = Services.wm.getEnumerator("navigator:browser");
-			while(ws.hasMoreElements())
-				this.patchDownloads(ws.getNext(), pVal);
 		}
 		else if(
 			pName == "panelWidth"
@@ -327,6 +376,11 @@ var dpTweaker = {
 					prefs.set(pName, this.maxProgressBarHeight);
 					return;
 				}
+			}
+			if(pName == "decolorizePausedProgress") {
+				var ws = Services.wm.getEnumerator("navigator:browser");
+				while(ws.hasMoreElements())
+					this.updateDownloadsSummary(ws.getNext().document, pVal);
 			}
 			this.reloadTweakStyle();
 		}
