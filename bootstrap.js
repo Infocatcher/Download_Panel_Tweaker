@@ -218,6 +218,20 @@ var dpTweaker = {
 		this.loadTweakStyle(false);
 		this.loadTweakStyle(true);
 	},
+	_reloadTweakStyleTimer: null,
+	reloadTweakStyleProxy: function() {
+		var timer = this._reloadTweakStyleTimer;
+		if(timer)
+			timer.cancel();
+		else {
+			timer = this._reloadTweakStyleTimer = Components.classes["@mozilla.org/timer;1"]
+				.createInstance(Components.interfaces.nsITimer);
+		}
+		timer.init(function() {
+			this._reloadTweakStyleTimer = null;
+			this.reloadTweakStyle();
+		}.bind(this), 300, timer.TYPE_ONE_SHOT);
+	},
 	loadSheet: function(cssURI, load) {
 		var sss = this.sss;
 		if(!load ^ sss.sheetRegistered(cssURI, sss.USER_SHEET))
@@ -380,7 +394,7 @@ var dpTweaker = {
 				while(ws.hasMoreElements())
 					this.updateDownloadsSummary(ws.getNext().document, pVal);
 			}
-			this.reloadTweakStyle();
+			this.reloadTweakStyleProxy();
 		}
 	}
 };
