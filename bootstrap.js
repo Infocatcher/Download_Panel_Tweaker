@@ -390,6 +390,7 @@ var dpTweaker = {
 				}
 			}
 			if(pName == "decolorizePausedProgress") {
+				this.showPausedDownloadsSummary(pVal);
 				var ws = Services.wm.getEnumerator("navigator:browser");
 				while(ws.hasMoreElements())
 					this.updateDownloadsSummary(ws.getNext().document, pVal);
