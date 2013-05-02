@@ -362,10 +362,8 @@ var dpTweaker = {
 				this.udateDownloadRate(ws.getNext().document, pVal);
 		}
 		else if(pName == "itemCountLimit") {
-			if(pVal < this.minItemCountLimit) {
-				prefs.set(pName, this.minItemCountLimit);
+			if(this.wrongPref(pName, pVal, this.minItemCountLimit, 10e3))
 				return;
-			}
 			var ws = Services.wm.getEnumerator("navigator:browser");
 			while(ws.hasMoreElements())
 				this.setItemCountLimit(ws.getNext(), true);
@@ -375,20 +373,13 @@ var dpTweaker = {
 			|| pName == "progressBarHeight"
 			|| pName == "decolorizePausedProgress"
 		) {
-			if(pName == "panelWidth" && pVal < this.minPanelWidth) {
-				prefs.set(pName, this.minPanelWidth);
+			if(
+				pName == "panelWidth"
+					&& this.wrongPref(pName, pVal, this.minPanelWidth, 10e3)
+				|| pName == "progressBarHeight"
+					&& this.wrongPref(pName, pVal, this.minProgressBarHeight, this.maxProgressBarHeight)
+			)
 				return;
-			}
-			if(pName == "progressBarHeight") {
-				if(pVal < this.minProgressBarHeight) {
-					prefs.set(pName, this.minProgressBarHeight);
-					return;
-				}
-				else if(pVal > this.maxProgressBarHeight) {
-					prefs.set(pName, this.maxProgressBarHeight);
-					return;
-				}
-			}
 			if(pName == "decolorizePausedProgress") {
 				this.showPausedDownloadsSummary(pVal);
 				var ws = Services.wm.getEnumerator("navigator:browser");
@@ -397,6 +388,29 @@ var dpTweaker = {
 			}
 			this.reloadTweakStyleProxy();
 		}
+	},
+	_wrongPrefTimer: null,
+	wrongPref: function(pName, pVal, min, max) {
+		var timer = this._wrongPrefTimer;
+		timer && timer.cancel();
+
+		var corrected;
+		if(pVal > max)
+			corrected = max;
+		else if(pVal < min)
+			corrected = min;
+		else
+			return false;
+
+		if(!timer) {
+			timer = this._wrongPrefTimer = Components.classes["@mozilla.org/timer;1"]
+				.createInstance(Components.interfaces.nsITimer);
+		}
+		timer.init(function() {
+			this._wrongPrefTimer = null;
+			prefs.set(pName, corrected);
+		}.bind(this), 500, timer.TYPE_ONE_SHOT);
+		return true;
 	}
 };
 
