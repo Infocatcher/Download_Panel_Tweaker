@@ -42,7 +42,7 @@ var dpTweaker = {
 		while(ws.hasMoreElements())
 			this.initWindow(ws.getNext(), reason);
 		if(!this._tweakStyleLoaded && Services.wm.getMostRecentWindow("Places:Organizer"))
-			this.loadStyles();
+			this.loadStyles(true);
 		Services.ww.registerNotification(this);
 
 		_log("Successfully started");
@@ -53,9 +53,7 @@ var dpTweaker = {
 		this.initialized = false;
 
 		if(reason != APP_SHUTDOWN) {
-			if(prefs.get("compactDownloads"))
-				this.loadCompactStyle(false);
-			this.loadTweakStyle(false);
+			this.loadStyles(false);
 			if(prefs.get("showDownloadRate"))
 				this.showDownloadRate(false);
 			if(prefs.get("decolorizePausedProgress"))
@@ -91,7 +89,7 @@ var dpTweaker = {
 
 	initWindow: function(window, reason) {
 		if(reason == WINDOW_LOADED && this.isLibraryWindow(window)) {
-			this.loadStyles();
+			this.loadStyles(true);
 			return;
 		}
 		if(reason == WINDOW_LOADED && !this.isTargetWindow(window))
@@ -105,7 +103,7 @@ var dpTweaker = {
 				this.updateDownloadsSummary(document, true);
 		}.bind(this), 0);
 		window.setTimeout(function() {
-			this.loadStyles();
+			this.loadStyles(true);
 		}.bind(this), 50);
 	},
 	destroyWindow: function(window, reason) {
@@ -133,10 +131,10 @@ var dpTweaker = {
 		return this.sss = Components.classes["@mozilla.org/content/style-sheet-service;1"]
 			.getService(Components.interfaces.nsIStyleSheetService);
 	},
-	loadStyles: function() {
+	loadStyles: function(add) {
 		if(prefs.get("compactDownloads"))
-			this.loadCompactStyle(true);
-		this.loadTweakStyle(true);
+			this.loadCompactStyle(add);
+		this.loadTweakStyle(add);
 	},
 	_compactStyleLoaded: false,
 	loadCompactStyle: function(add) {
@@ -167,7 +165,7 @@ var dpTweaker = {
 				? ".downloadContainer"
 				: "#downloadsListBox";
 			var cssStr = '\
-				/* Download Panel Tweaker: change some sizes */\n\
+				/* Download Panel Tweaker */\n\
 				@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");\n\
 				@-moz-document url("chrome://browser/content/browser.xul"),\n\
 					url("chrome://browser/content/places/places.xul"),\n\
