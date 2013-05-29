@@ -28,6 +28,16 @@
 
 		<em:localized>
 			<Description>
+				<em:locale>en-US</em:locale>
+				<em:name>Download Panel Tweaker</em:name>
+				<em:description>Some tweaks for built-in download panel</em:description>
+				<em:creator>Infocatcher</em:creator>
+				<em:contributor>Icon: based on icon from Farm-fresh icon set by FatCow Web Hosting + built-in Firefox download icon</em:contributor>
+			</Description>
+		</em:localized>
+
+		<em:localized>
+			<Description>
 				<em:locale>ru</em:locale>
 				<em:name>Download Panel Tweaker</em:name>
 				<em:description>Некоторые улучшения для встроенной панели загрузок</em:description>
