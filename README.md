@@ -3,7 +3,7 @@ Compact downloads list style: https://github.com/Infocatcher/UserStyles/tree/mas
 <br>Visible downloads count limit: https://gist.github.com/Infocatcher/5387328
 <br>Show download rate: https://gist.github.com/Infocatcher/5787749
 
-Additional tweaks can be done using following style:
+Additional tweaks can be done using following style (but `[downloadPanelTweaker_paused]` doesn't work without extension):
 ```css
 /* Download Panel Tweaker */
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
