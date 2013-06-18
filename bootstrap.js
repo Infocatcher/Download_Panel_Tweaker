@@ -97,7 +97,8 @@ var dpTweaker = {
 		}
 		if(reason == WINDOW_LOADED && !this.isTargetWindow(window))
 			return;
-		window.addEventListener("command", this, true);
+		if(prefs.get("useDownloadsHotkeyToTogglePanel"))
+			window.addEventListener("command", this, true);
 		this.setItemCountLimit(window, true);
 		if(reason != WINDOW_LOADED) window.setTimeout(function() {
 			var document = window.document;
@@ -114,7 +115,8 @@ var dpTweaker = {
 		window.removeEventListener("load", this, false); // Window can be closed before "load"
 		if(reason == WINDOW_CLOSED && !this.isTargetWindow(window))
 			return;
-		window.removeEventListener("command", this, true);
+		if(prefs.get("useDownloadsHotkeyToTogglePanel"))
+			window.removeEventListener("command", this, true);
 		if(reason != WINDOW_CLOSED && reason != APP_SHUTDOWN) {
 			this.setItemCountLimit(window, false);
 			var document = window.document;
@@ -411,6 +413,16 @@ var dpTweaker = {
 					this.updateDownloadsSummary(ws.getNext().document, pVal);
 			}
 			this.reloadTweakStyleProxy();
+		}
+		else if(pName == "useDownloadsHotkeyToTogglePanel") {
+			var ws = Services.wm.getEnumerator("navigator:browser");
+			while(ws.hasMoreElements()) {
+				var window = ws.getNext();
+				if(pVal)
+					window.addEventListener("command", this, true);
+				else
+					window.removeEventListener("command", this, true);
+			}
 		}
 	},
 	_wrongPrefTimer: null,
