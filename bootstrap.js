@@ -85,6 +85,9 @@ var dpTweaker = {
 			window.removeEventListener("load", this, false);
 			this.initWindow(window, WINDOW_LOADED);
 		}
+		else if(e.type == "command") {
+			this.overrideDownloadsCommand(e);
+		}
 	},
 
 	initWindow: function(window, reason) {
@@ -94,6 +97,7 @@ var dpTweaker = {
 		}
 		if(reason == WINDOW_LOADED && !this.isTargetWindow(window))
 			return;
+		window.addEventListener("command", this, true);
 		this.setItemCountLimit(window, true);
 		if(reason != WINDOW_LOADED) window.setTimeout(function() {
 			var document = window.document;
@@ -110,6 +114,7 @@ var dpTweaker = {
 		window.removeEventListener("load", this, false); // Window can be closed before "load"
 		if(reason == WINDOW_CLOSED && !this.isTargetWindow(window))
 			return;
+		window.removeEventListener("command", this, true);
 		if(reason != WINDOW_CLOSED && reason != APP_SHUTDOWN) {
 			this.setItemCountLimit(window, false);
 			var document = window.document;
@@ -350,6 +355,25 @@ var dpTweaker = {
 			summaryNode.setAttribute(this.pausedAttr, "true");
 		else
 			summaryNode.removeAttribute(this.pausedAttr);
+	},
+
+	overrideDownloadsCommand: function(e) {
+		if(e.target.id != "Tools:Downloads")
+			return;
+		if(e.sourceEvent && e.sourceEvent.target.nodeName != "key")
+			return;
+		e.preventDefault();
+		e.stopPropagation();
+		e.stopImmediatePropagation();
+		var window = e.currentTarget;
+		this.toggleDownloadPanel(window);
+	},
+	toggleDownloadPanel: function(window) {
+		var DownloadsPanel = window.DownloadsPanel;
+		if(DownloadsPanel.isPanelShowing)
+			DownloadsPanel.hidePanel();
+		else
+			DownloadsPanel.showPanel();
 	},
 
 	prefChanged: function(pName, pVal) {
