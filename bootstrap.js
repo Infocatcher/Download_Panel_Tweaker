@@ -108,6 +108,9 @@ var dpTweaker = {
 				this.updateDownloadsSummary(document, true);
 		}.bind(this), 0);
 		window.setTimeout(function() {
+			this.setFixToolbox(window, true);
+		}.bind(this), 0);
+		window.setTimeout(function() {
 			this.loadStyles(true);
 		}.bind(this), 50);
 	},
@@ -125,6 +128,7 @@ var dpTweaker = {
 			if(prefs.get("decolorizePausedProgress"))
 				this.updateDownloadsSummary(document, false);
 		}
+		this.setFixToolbox(window, false);
 	},
 	isTargetWindow: function(window) {
 		return window.document.documentElement.getAttribute("windowtype") == "navigator:browser";
@@ -376,6 +380,45 @@ var dpTweaker = {
 			DownloadsPanel.hidePanel();
 		else
 			DownloadsPanel.showPanel();
+	},
+
+	setFixToolbox: function(window, enable) {
+		var document = window.document;
+		var tb = document.getElementById("navigator-toolbox");
+		if(enable) {
+			var mo = new window.MutationObserver(this.handleMutationsFixed);
+			mo.observe(tb, {
+				attributes: true,
+				attributeFilter: ["tabsontop"]
+			});
+			tb._downloadPanelTweakerMutationObserver = mo;
+			this.fixToolbox(tb);
+		}
+		else {
+			tb._downloadPanelTweakerMutationObserver.disconnect();
+			delete tb._downloadPanelTweakerMutationObserver;
+			if(tb.hasAttribute("_downloadPanelTweaker_tabsontop")) {
+				tb.setAttribute("tabsontop", tb.getAttribute("_downloadPanelTweaker_tabsontop"));
+				tb.removeAttribute("_downloadPanelTweaker_tabsontop")
+			}
+		}
+	},
+	get handleMutationsFixed() {
+		delete this.handleMutationsFixed;
+		return this.handleMutationsFixed = this.handleMutations.bind(this);
+	},
+	handleMutations: function(mutations) {
+		var tb = mutations[0].target;
+		this.fixToolbox(tb);
+	},
+	fixToolbox: function(tb) {
+		var root = tb.ownerDocument.documentElement;
+		var tt = tb.getAttribute("tabsontop");
+		var ttRoot = root.getAttribute("tabsontop");
+		if(tt && ttRoot && ttRoot != tt) {
+			tb.setAttribute("_downloadPanelTweaker_tabsontop", tt);
+			tb.setAttribute("tabsontop", ttRoot);
+		}
 	},
 
 	prefChanged: function(pName, pVal) {
