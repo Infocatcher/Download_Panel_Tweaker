@@ -386,6 +386,14 @@ var dpTweaker = {
 		var document = window.document;
 		var tb = document.getElementById("navigator-toolbox");
 		if(enable) {
+			if(
+				!tb.hasAttribute("tabsontop")
+				|| !document.documentElement.hasAttribute("tabsontop")
+			) {
+				_log('setFixToolbox(): nothing to do, "tabsontop" attribute not found');
+				return;
+			}
+
 			var mo = new window.MutationObserver(this.handleMutationsFixed);
 			mo.observe(tb, {
 				attributes: true,
@@ -394,7 +402,7 @@ var dpTweaker = {
 			tb._downloadPanelTweakerMutationObserver = mo;
 			this.fixToolbox(tb);
 		}
-		else {
+		else if("_downloadPanelTweakerMutationObserver" in tb) {
 			tb._downloadPanelTweakerMutationObserver.disconnect();
 			delete tb._downloadPanelTweakerMutationObserver;
 			if(tb.hasAttribute("_downloadPanelTweaker_tabsontop")) {
