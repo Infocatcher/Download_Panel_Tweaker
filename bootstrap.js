@@ -426,6 +426,7 @@ var dpTweaker = {
 		if(tt && ttRoot && ttRoot != tt) {
 			tb.setAttribute("_downloadPanelTweaker_tabsontop", tt);
 			tb.setAttribute("tabsontop", ttRoot);
+			_log("fixToolbox(): override \"tabsontop\" on #navigator-toolbox: " + tt + " => " + ttRoot);
 		}
 	},
 
