@@ -5,4 +5,4 @@
 <!ENTITY dpt.showDownloadRate "Показывать скорость загрузки">
 <!ENTITY dpt.compactDownloads "Использовать компактный список загрузок">
 <!ENTITY dpt.decolorizePausedProgress "Обесцвечивать полосу прогресса приостановленных загрузок">
-<!ENTITY dpt.decolorizePausedProgress "Сочетание клавиш для загрузок (Ctrl+J) переключает панель загрузок">
+<!ENTITY dpt.useDownloadsHotkeyToTogglePanel "Сочетание клавиш для загрузок (Ctrl+J) переключает панель загрузок">
