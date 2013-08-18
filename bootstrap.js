@@ -172,9 +172,6 @@ var dpTweaker = {
 			var pbHeight = Math.max(this.minProgressBarHeight, Math.min(this.maxProgressBarHeight,
 				prefs.get("progressBarHeight", 10)
 			));
-			var containerSelector = parseFloat(Services.appinfo.version) >= 20
-				? ".downloadContainer"
-				: "#downloadsListBox";
 			var cssStr = '\
 				/* Download Panel Tweaker */\n\
 				@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");\n\
@@ -182,7 +179,12 @@ var dpTweaker = {
 					url("chrome://browser/content/places/places.xul"),\n\
 					url("about:downloads"),\n\
 					url("chrome://browser/content/downloads/contentAreaDownloadsView.xul") {\n\
-					' + containerSelector + ' {\n\
+					#downloadsListBox { /* Firefox < 20 or NASA Night Launch theme */\n\
+						width: auto !important;\n\
+						min-width: 0 !important;\n\
+						max-width: none !important;\n\
+					}\n\
+					.downloadContainer {\n\
 						width: ' + panelWidth + 'ch !important;\n\
 						min-width: 0 !important;\n\
 					}\n\
