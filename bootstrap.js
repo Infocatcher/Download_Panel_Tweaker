@@ -107,7 +107,7 @@ var dpTweaker = {
 			if(prefs.get("decolorizePausedProgress"))
 				this.updateDownloadsSummary(document, true);
 		}.bind(this), 0);
-		window.setTimeout(function() {
+		if(prefs.get("fixWrongTabsOnTopAttribute")) window.setTimeout(function() {
 			this.setFixToolbox(window, true);
 		}.bind(this), 0);
 		window.setTimeout(function() {
@@ -128,7 +128,8 @@ var dpTweaker = {
 			if(prefs.get("decolorizePausedProgress"))
 				this.updateDownloadsSummary(document, false);
 		}
-		this.setFixToolbox(window, false);
+		if(prefs.get("fixWrongTabsOnTopAttribute"))
+			this.setFixToolbox(window, false);
 	},
 	isTargetWindow: function(window) {
 		return window.document.documentElement.getAttribute("windowtype") == "navigator:browser";
@@ -477,6 +478,11 @@ var dpTweaker = {
 				else
 					window.removeEventListener("command", this, true);
 			}
+		}
+		else if(pName == "fixWrongTabsOnTopAttribute") {
+			var ws = Services.wm.getEnumerator("navigator:browser");
+			while(ws.hasMoreElements())
+				this.setFixToolbox(ws.getNext(), pVal);
 		}
 	},
 	_wrongPrefTimer: null,

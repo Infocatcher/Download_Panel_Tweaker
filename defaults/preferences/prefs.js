@@ -5,5 +5,6 @@ pref("extensions.downloadPanelTweaker.showDownloadRate", true);
 pref("extensions.downloadPanelTweaker.compactDownloads", true);
 pref("extensions.downloadPanelTweaker.decolorizePausedProgress", true);
 pref("extensions.downloadPanelTweaker.useDownloadsHotkeyToTogglePanel", true);
+pref("extensions.downloadPanelTweaker.fixWrongTabsOnTopAttribute", true);
 
 pref("extensions.downloadPanelTweaker.debug", false);
