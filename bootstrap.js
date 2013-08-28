@@ -326,9 +326,7 @@ var dpTweaker = {
 	},
 
 	showPausedDownloadsSummary: function(patch) {
-		var {DownloadsCommon} = Components.utils.import("resource://app/modules/DownloadsCommon.jsm", {});
-		var dlcGlobal = Components.utils.getGlobalForObject(DownloadsCommon);
-		var DownloadsSummaryData = dlcGlobal.DownloadsSummaryData;
+		var {DownloadsSummaryData} = Components.utils.import("resource://app/modules/DownloadsCommon.jsm", {});
 		if(patch) {
 			var _this = this;
 			patcher.wrapFunction(DownloadsSummaryData.prototype, "_updateView", "DownloadsSummaryData.prototype._updateView",
