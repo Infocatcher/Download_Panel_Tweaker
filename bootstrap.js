@@ -35,8 +35,6 @@ var dpTweaker = {
 
 		if(prefs.get("showDownloadRate"))
 			this.showDownloadRate(true);
-		if(prefs.get("decolorizePausedProgress"))
-			this.showPausedDownloadsSummary(true);
 
 		var ws = Services.wm.getEnumerator("navigator:browser");
 		while(ws.hasMoreElements())
@@ -99,7 +97,11 @@ var dpTweaker = {
 			return;
 		if(prefs.get("useDownloadsHotkeyToTogglePanel"))
 			window.addEventListener("command", this, true);
-		this.setItemCountLimit(window, true);
+		window.setTimeout(function() {
+			this.setItemCountLimit(window, true);
+			if(prefs.get("decolorizePausedProgress"))
+				this.showPausedDownloadsSummary(true);
+		}.bind(this), 0);
 		if(reason != WINDOW_LOADED) window.setTimeout(function() {
 			var document = window.document;
 			if(prefs.get("showDownloadRate"))
@@ -259,6 +261,7 @@ var dpTweaker = {
 	minItemCountLimit: 1,
 	_origItemCountLimit: undefined,
 	setItemCountLimit: function(window, set) {
+		_log("DownloadsCommon loaded: " + !Object.getOwnPropertyDescriptor(window, "DownloadsCommon").get);
 		var DownloadsView = window.DownloadsView;
 		var DownloadsPanel = window.DownloadsPanel;
 		var DownloadsCommon = window.DownloadsCommon;
@@ -325,7 +328,12 @@ var dpTweaker = {
 		}
 	},
 
+	_downloadsSummaryPatched: false,
 	showPausedDownloadsSummary: function(patch) {
+		if(!patch ^ this._downloadsSummaryPatched)
+			return;
+		this._downloadsSummaryPatched = patch;
+
 		var {DownloadsSummaryData} = Components.utils.import("resource://app/modules/DownloadsCommon.jsm", {});
 		if(patch) {
 			var _this = this;
