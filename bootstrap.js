@@ -33,9 +33,6 @@ var dpTweaker = {
 
 		prefs.init();
 
-		if(prefs.get("showDownloadRate"))
-			this.showDownloadRate(true);
-
 		var ws = Services.wm.getEnumerator("navigator:browser");
 		while(ws.hasMoreElements())
 			this.initWindow(ws.getNext(), reason);
@@ -99,6 +96,8 @@ var dpTweaker = {
 			window.addEventListener("command", this, true);
 		window.setTimeout(function() {
 			this.setItemCountLimit(window, true);
+			if(prefs.get("showDownloadRate"))
+				this.showDownloadRate(true);
 			if(prefs.get("decolorizePausedProgress"))
 				this.showPausedDownloadsSummary(true);
 		}.bind(this), 0);
