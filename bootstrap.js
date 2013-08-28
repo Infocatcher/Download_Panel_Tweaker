@@ -96,17 +96,16 @@ var dpTweaker = {
 			window.addEventListener("command", this, true);
 		window.setTimeout(function() {
 			this.setItemCountLimit(window, true);
-			if(prefs.get("showDownloadRate"))
-				this.showDownloadRate(true);
-			if(prefs.get("decolorizePausedProgress"))
-				this.showPausedDownloadsSummary(true);
-		}.bind(this), 0);
-		if(reason != WINDOW_LOADED) window.setTimeout(function() {
+			var needUpdate = reason != WINDOW_LOADED;
 			var document = window.document;
-			if(prefs.get("showDownloadRate"))
-				this.udateDownloadRate(document, true);
-			if(prefs.get("decolorizePausedProgress"))
-				this.updateDownloadsSummary(document, true);
+			if(prefs.get("showDownloadRate")) {
+				this.showDownloadRate(true);
+				needUpdate && this.udateDownloadRate(document, true);
+			}
+			if(prefs.get("decolorizePausedProgress")) {
+				this.showPausedDownloadsSummary(true);
+				needUpdate && this.updateDownloadsSummary(document, true);
+			}
 		}.bind(this), 0);
 		if(prefs.get("fixWrongTabsOnTopAttribute")) window.setTimeout(function() {
 			this.setFixToolbox(window, true);
