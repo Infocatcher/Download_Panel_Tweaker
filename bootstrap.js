@@ -390,7 +390,10 @@ var dpTweaker = {
 				cleanUp: function downloadPanelTweakerWrapper() {
 					var stack = new Error().stack;
 					_log("Services.downloads.cleanUp()\n" + new Error().stack);
-					if(stack.indexOf("@resource://app/components/DownloadsStartup.js:") != -1) {
+					if(
+						stack.indexOf("@resource://app/components/DownloadsStartup.js:") != -1
+						|| stack.indexOf("@resource://gre/components/DownloadsStartup.js:") != -1 // Firefox 20 and older
+					) {
 						_log("Prevent Services.downloads.cleanUp()");
 						return undefined;
 					}
