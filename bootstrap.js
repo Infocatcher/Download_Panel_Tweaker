@@ -383,7 +383,7 @@ var dpTweaker = {
 	},
 
 	dontRemoveFinishedDownloads: function(patch) {
-		const bakKey = "_downloadPanelTweaker_download";
+		const bakKey = "_downloadPanelTweaker_downloads";
 		if(!patch ^ bakKey in Services)
 			return;
 		if(patch) {
@@ -392,7 +392,7 @@ var dpTweaker = {
 				__proto__: Services.downloads,
 				cleanUp: function downloadPanelTweakerWrapper() {
 					var stack = new Error().stack;
-					_log("Services.downloads.cleanUp()\n" + new Error().stack);
+					_log("Services.downloads.cleanUp()\n" + stack);
 					if(
 						stack.indexOf("@resource://app/components/DownloadsStartup.js:") != -1
 						|| stack.indexOf("@resource://gre/components/DownloadsStartup.js:") != -1 // Firefox 20 and older
