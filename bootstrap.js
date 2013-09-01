@@ -53,6 +53,8 @@ var dpTweaker = {
 				this.showDownloadRate(false);
 			if(prefs.get("decolorizePausedProgress"))
 				this.showPausedDownloadsSummary(false);
+			if(prefs.get("dontRemoveFinishedDownloads"))
+				this.dontRemoveFinishedDownloads(false);
 		}
 
 		var ws = Services.wm.getEnumerator("navigator:browser");
@@ -106,6 +108,8 @@ var dpTweaker = {
 				this.showPausedDownloadsSummary(true);
 				needUpdate && this.updateDownloadsSummary(document, true);
 			}
+			if(prefs.get("dontRemoveFinishedDownloads"))
+				this.dontRemoveFinishedDownloads(true);
 		}.bind(this), 0);
 		if(prefs.get("fixWrongTabsOnTopAttribute")) window.setTimeout(function() {
 			this.setFixToolbox(window, true);
@@ -375,6 +379,32 @@ var dpTweaker = {
 			summaryNode.removeAttribute(this.pausedAttr);
 	},
 
+	dontRemoveFinishedDownloads: function(patch) {
+		const bakKey = "_downloadPanelTweaker_download";
+		if(!patch ^ bakKey in Services)
+			return;
+		if(patch) {
+			var downloads = Services[bakKey] = Services.downloads;
+			Services.downloads = {
+				__proto__: Services.downloads,
+				cleanUp: function downloadPanelTweakerWrapper() {
+					var stack = new Error().stack;
+					_log("Services.downloads.cleanUp()\n" + new Error().stack);
+					if(stack.indexOf("@resource://app/components/DownloadsStartup.js:") != -1) {
+						_log("Prevent Services.downloads.cleanUp()");
+						return undefined;
+					}
+					return downloads.cleanUp.apply(downloads, arguments);
+				}
+			};
+		}
+		else {
+			Services.downloads = Services[bakKey];
+			delete Services[bakKey];
+		}
+		_log("dontRemoveFinishedDownloads(" + patch + ")");
+	},
+
 	overrideDownloadsCommand: function(e) {
 		if(e.target.id != "Tools:Downloads")
 			return;
@@ -488,6 +518,8 @@ var dpTweaker = {
 					window.removeEventListener("command", this, true);
 			}
 		}
+		else if(pName == "dontRemoveFinishedDownloads")
+			this.dontRemoveFinishedDownloads(pVal);
 		else if(pName == "fixWrongTabsOnTopAttribute") {
 			var ws = Services.wm.getEnumerator("navigator:browser");
 			while(ws.hasMoreElements())
