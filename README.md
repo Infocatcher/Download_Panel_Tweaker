@@ -11,7 +11,13 @@ Additional tweaks can be done using following style (but `[downloadPanelTweaker_
 	url("chrome://browser/content/places/places.xul"),
 	url("about:downloads"),
 	url("chrome://browser/content/downloads/contentAreaDownloadsView.xul") {
-	.downloadContainer {
+	#downloadsListBox { /* Firefox < 20 or NASA Night Launch theme */
+		width: auto !important;
+		min-width: 0 !important;
+		max-width: none !important;
+	}
+	.downloadContainer,
+	.download-state > vbox /* Firefox < 20 */ {
 		width: 58ch !important;
 		min-width: 0 !important;
 	}
@@ -27,6 +33,11 @@ Additional tweaks can be done using following style (but `[downloadPanelTweaker_
 		min-width: 20px !important;
 		min-height: 10px !important;
 		height: 10px !important;
+	}
+	.downloadProgress > .progress-bar {
+		height: auto !important;
+		min-height: 2px !important;
+		max-height: 10px !important;
 	}
 	/* Paused downloads */
 	.download-state[state="4"] .downloadProgress,
