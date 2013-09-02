@@ -369,17 +369,25 @@ var dpTweaker = {
 			summaryNode.removeAttribute(this.pausedAttr);
 			return;
 		}
+		var progress = summaryNode.getElementsByAttribute("id", "downloadsSummaryProgress")[0];
+		if(progress) {
+			// Round off "value", but don't dispatch "ValueChange" event, for styles like
+			// https://github.com/Infocatcher/UserStyles/blob/master/Download_percentage
+			var val = progress.value;
+			if(val.indexOf(".") != -1)
+				progress.setAttribute("value", Math.round(val));
+		}
 		var details = summaryNode.getElementsByAttribute("id", "downloadsSummaryDetails")[0];
-		if(!details)
-			return;
-		var paused = !details.getAttribute("value");
-		if(!paused ^ summaryNode.hasAttribute(this.pausedAttr))
-			return;
-		_log("updateDownloadsSummary(): Paused: " + paused);
-		if(paused)
-			summaryNode.setAttribute(this.pausedAttr, "true");
-		else
-			summaryNode.removeAttribute(this.pausedAttr);
+		if(details) {
+			var paused = !details.getAttribute("value");
+			if(!paused ^ summaryNode.hasAttribute(this.pausedAttr))
+				return;
+			_log("updateDownloadsSummary(): Paused: " + paused);
+			if(paused)
+				summaryNode.setAttribute(this.pausedAttr, "true");
+			else
+				summaryNode.removeAttribute(this.pausedAttr);
+		}
 	},
 
 	dontRemoveFinishedDownloads: function(patch) {
