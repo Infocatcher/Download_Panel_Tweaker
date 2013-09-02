@@ -212,7 +212,7 @@ var dpTweaker = {
 					.downloadProgress > .progress-bar {\n\
 						height: auto !important;\n\
 						min-height: 2px !important;\n\
-						max-height: ' + pbHeight + ' !important;\n\
+						max-height: ' + pbHeight + 'px !important;\n\
 					}' + (
 						prefs.get("decolorizePausedProgress")
 						? '\n\
