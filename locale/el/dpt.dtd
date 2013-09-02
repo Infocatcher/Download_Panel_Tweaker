@@ -1,0 +1,8 @@
+<!ENTITY dpt.useOldUI "Χρήση κλασικού παραθύρου λήψεων (δεν συνιστάται)">
+<!ENTITY dpt.itemCountLimit "Αριθμός ορατών λήψεων">
+<!ENTITY dpt.panelWidth "Πλάτος πλαισίου λήψεων">
+<!ENTITY dpt.progressBarHeight "Ύψος γραμμής προόδου">
+<!ENTITY dpt.showDownloadRate "Εμφάνιση ρυθμού λήψης">
+<!ENTITY dpt.compactDownloads "Χρήση συμπαγούς λίστας λήψεων">
+<!ENTITY dpt.decolorizePausedProgress "Αποχρωμάτιση γραμμής προόδου λήψεων σε παύση">
+<!ENTITY dpt.useDownloadsHotkeyToTogglePanel "Εναλλαγή σε πλαίσιο λήψεων με το πλήκτρο συντόμευσης λήψεων αρχείων (Ctrl+J)">
