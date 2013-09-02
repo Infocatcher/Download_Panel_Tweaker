@@ -5,4 +5,5 @@
 <!ENTITY dpt.showDownloadRate "Εμφάνιση ρυθμού λήψης">
 <!ENTITY dpt.compactDownloads "Χρήση συμπαγούς λίστας λήψεων">
 <!ENTITY dpt.decolorizePausedProgress "Αποχρωμάτιση γραμμής προόδου λήψεων σε παύση">
+<!ENTITY dpt.dontRemoveFinishedDownloads "Don't remove finished downloads">
 <!ENTITY dpt.useDownloadsHotkeyToTogglePanel "Εναλλαγή σε πλαίσιο λήψεων με το πλήκτρο συντόμευσης λήψεων αρχείων (Ctrl+J)">

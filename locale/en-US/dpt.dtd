@@ -5,4 +5,5 @@
 <!ENTITY dpt.showDownloadRate "Show download rate">
 <!ENTITY dpt.compactDownloads "Use compact downloads list">
 <!ENTITY dpt.decolorizePausedProgress "Decolorize progress bar of paused downloads">
+<!ENTITY dpt.dontRemoveFinishedDownloads "Don't remove finished downloads">
 <!ENTITY dpt.useDownloadsHotkeyToTogglePanel "Hotkey for downloads (Ctrl+J) toggles download panel">
