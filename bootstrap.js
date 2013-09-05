@@ -148,18 +148,30 @@ var dpTweaker = {
 			.getService(Components.interfaces.nsIStyleSheetService);
 	},
 	loadStyles: function(add) {
-		if(prefs.get("compactDownloads"))
-			this.loadCompactStyle(add);
+		this.loadCompactStyle(add ? prefs.get("compactDownloads") : 0);
 		this.loadTweakStyle(add);
 	},
 	_compactStyleLoaded: false,
-	loadCompactStyle: function(add) {
-		if(!add ^ this._compactStyleLoaded)
-			return;
-		this._compactStyleLoaded = add;
-		var cssURI = Services.io.newURI("chrome://downloadpaneltweaker/content/compactDownloads.css", null, null);
-		this.loadSheet(cssURI, add);
-		_log("loadCompactStyle(" + add + ")");
+	_forceCompactStyleLoaded: false,
+	loadCompactStyle: function(compact) {
+		var loadCompact = compact == 1;
+		if(loadCompact != this._compactStyleLoaded) {
+			this._compactStyleLoaded = loadCompact;
+			this.loadSheet(
+				Services.io.newURI("chrome://downloadpaneltweaker/content/compactDownloads.css", null, null),
+				loadCompact
+			);
+			_log((loadCompact ? "Load" : "Unload") + " compactDownloads.css");
+		}
+		var loadForceCompact = compact == 2;
+		if(loadForceCompact != this._forceCompactStyleLoaded) {
+			this._forceCompactStyleLoaded = loadForceCompact;
+			this.loadSheet(
+				Services.io.newURI("chrome://downloadpaneltweaker/content/compactDownloadsForce.css", null, null),
+				loadForceCompact
+			);
+			_log((loadForceCompact ? "Load" : "Unload") + " compactDownloadsForce.css");
+		}
 	},
 	_tweakStyleLoaded: false,
 	tweakCssURI: null,
@@ -573,6 +585,7 @@ var prefs = {
 			return;
 		this.initialized = true;
 
+		this.migratePrefs();
 		//~ todo: add condition when https://bugzilla.mozilla.org/show_bug.cgi?id=564675 will be fixed
 		this.loadDefaultPrefs();
 		Services.prefs.addObserver(this.ns, this, false);
@@ -593,6 +606,15 @@ var prefs = {
 		dpTweaker.prefChanged(shortName, val);
 	},
 
+	migratePrefs: function() {
+		var compactPref = this.ns + "compactDownloads";
+		var compact = this.getPref(compactPref);
+		if(typeof compact == "boolean") {
+			Services.prefs.deleteBranch(compactPref);
+			if(compact === false)
+				this.setPref(compactPref, 0);
+		}
+	},
 	loadDefaultPrefs: function() {
 		var defaultBranch = Services.prefs.getDefaultBranch("");
 		var prefsFile = "chrome://downloadpaneltweaker/content/defaults/preferences/prefs.js";
