@@ -52,4 +52,11 @@
 	#downloadsSummaryDetails[value=""][tooltiptext=""] {
 		height: 0 !important;
 	}
+	/* about:downloads page */
+	#contentAreaDownloadsView {
+		padding: 0 !important;
+	}
+	#contentAreaDownloadsView #downloadsRichListBox > scrollbox {
+		padding: 2px !important;
+	}
 }
