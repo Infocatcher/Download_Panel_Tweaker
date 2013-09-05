@@ -31,7 +31,7 @@
 		-moz-margin-end: 5px !important;
 	}
 	.downloadDetails {
-		margin: 0 6px 1px !important;
+		margin: -1px 6px 1px !important;
 		-moz-margin-end: 5px !important;
 	}
 	.downloadTypeIcon {
@@ -47,7 +47,7 @@
 		padding: 5px 3px !important;
 	}
 	.downloadProgress {
-		margin: 1px 4px 0 !important;
+		margin: 1px 4px !important;
 	}
 	#downloadsSummaryDetails[value=""][tooltiptext=""] {
 		height: 0 !important;
