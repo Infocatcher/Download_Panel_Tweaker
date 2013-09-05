@@ -2,6 +2,7 @@
 Compact downloads list style: https://github.com/Infocatcher/UserStyles/tree/master/Compact_downloads
 <br>Visible downloads count limit: https://gist.github.com/Infocatcher/5387328
 <br>Show download rate: https://gist.github.com/Infocatcher/5787749
+<br>Don't remove finished downloads: https://gist.github.com/Infocatcher/6452231
 
 Additional tweaks can be done using following style (but `[downloadPanelTweaker_paused]` doesn't work without extension):
 ```css
