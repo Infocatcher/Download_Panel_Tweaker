@@ -2,14 +2,18 @@
 <!DOCTYPE vbox SYSTEM "chrome://downloadpaneltweaker/locale/dpt.dtd">
 <vbox xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	<setting pref="browser.download.useToolkitUI" type="bool" title="&dpt.useOldUI;" onpreferencechanged='
-		var useOld = this.value;
-		for(var setting = this.nextSibling; setting; setting = setting.nextSibling) {
-			if(setting.localName == "setting") {
-				if(useOld)
-					setting.setAttribute("disabled", useOld);
-				else
-					setting.removeAttribute("disabled");
+		var setup = this.value
+			? function(node) {
+				node.setAttribute("disabled", "true");
 			}
+			: function(node) {
+				node.removeAttribute("disabled");
+			};
+		for(var setting = this.nextSibling; setting; setting = setting.nextSibling) {
+			if(setting.localName != "setting")
+				continue;
+			setup(setting);
+			Array.forEach(setting.getElementsByTagName("radio"), setup);
 		}' />
 	<setting pref="extensions.downloadPanelTweaker.itemCountLimit" type="integer" title="&dpt.itemCountLimit;" />
 	<setting pref="extensions.downloadPanelTweaker.panelWidth" type="integer" title="&dpt.panelWidth;" />
