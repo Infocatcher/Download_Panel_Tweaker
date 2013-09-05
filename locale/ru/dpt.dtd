@@ -3,7 +3,10 @@
 <!ENTITY dpt.panelWidth "Ширина панели загрузок">
 <!ENTITY dpt.progressBarHeight "Высота полосы прогресса">
 <!ENTITY dpt.showDownloadRate "Показывать скорость загрузки">
-<!ENTITY dpt.compactDownloads "Использовать компактный список загрузок">
+<!ENTITY dpt.compactDownloads "Список загрузок">
+<!ENTITY dpt.compactDownloads.default "По умолчанию">
+<!ENTITY dpt.compactDownloads.compact "Компактный">
+<!ENTITY dpt.compactDownloads.veryCompact "Очень компактный">
 <!ENTITY dpt.decolorizePausedProgress "Обесцвечивать полосу прогресса приостановленных загрузок">
 <!ENTITY dpt.dontRemoveFinishedDownloads "Не удалять завершенные загрузки">
 <!ENTITY dpt.useDownloadsHotkeyToTogglePanel "Сочетание клавиш для загрузок (Ctrl+J) переключает панель загрузок">

@@ -15,7 +15,13 @@
 	<setting pref="extensions.downloadPanelTweaker.panelWidth" type="integer" title="&dpt.panelWidth;" />
 	<setting pref="extensions.downloadPanelTweaker.progressBarHeight" type="integer" title="&dpt.progressBarHeight;" />
 	<setting pref="extensions.downloadPanelTweaker.showDownloadRate" type="bool" title="&dpt.showDownloadRate;" />
-	<setting pref="extensions.downloadPanelTweaker.compactDownloads" type="bool" title="&dpt.compactDownloads;" />
+	<setting pref="extensions.downloadPanelTweaker.compactDownloads" type="radio" title="&dpt.compactDownloads;">
+		<radiogroup>
+			<radio label="&dpt.compactDownloads.default;" value="0" />
+			<radio label="&dpt.compactDownloads.compact;" value="1" />
+			<radio label="&dpt.compactDownloads.veryCompact;" value="2" />
+		</radiogroup>
+	</setting>
 	<setting pref="extensions.downloadPanelTweaker.decolorizePausedProgress" type="bool" title="&dpt.decolorizePausedProgress;" />
 	<setting pref="extensions.downloadPanelTweaker.dontRemoveFinishedDownloads" type="bool" title="&dpt.dontRemoveFinishedDownloads;" />
 	<setting pref="extensions.downloadPanelTweaker.useDownloadsHotkeyToTogglePanel" type="bool" title="&dpt.useDownloadsHotkeyToTogglePanel;" />
