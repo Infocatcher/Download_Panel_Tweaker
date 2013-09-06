@@ -404,31 +404,60 @@ var dpTweaker = {
 
 	dontRemoveFinishedDownloads: function(patch) {
 		const bakKey = "_downloadPanelTweaker_downloads";
+		const newKey = "_downloadPanelTweaker_downloadsWrapper";
 		if(!patch ^ bakKey in Services)
 			return;
+		var logPrefix = "dontRemoveFinishedDownloads(" + patch + "): ";
 		if(patch) {
-			var downloads = Services[bakKey] = Services.downloads;
-			Services.downloads = {
-				__proto__: Services.downloads,
-				cleanUp: function downloadPanelTweakerWrapper() {
-					var stack = new Error().stack;
-					_log("Services.downloads.cleanUp()\n" + stack);
-					if(
-						stack.indexOf("@resource://app/components/DownloadsStartup.js:") != -1
-						|| stack.indexOf("@resource://gre/components/DownloadsStartup.js:") != -1 // Firefox 20 and older
-					) {
-						_log("Prevent Services.downloads.cleanUp()");
-						return undefined;
-					}
-					return downloads.cleanUp.apply(downloads, arguments);
+			var cleanUp = function downloadPanelTweakerWrapper() {
+				var stack = new Error().stack;
+				_log("Services.downloads.cleanUp()\n" + stack);
+				if(
+					stack.indexOf("@resource://app/components/DownloadsStartup.js:") != -1
+					|| stack.indexOf("@resource://gre/components/DownloadsStartup.js:") != -1 // Firefox 20 and older
+				) {
+					_log("Prevent Services.downloads.cleanUp()");
+					return undefined;
 				}
+				return downloads.cleanUp.apply(downloads, arguments);
 			};
+			if(newKey in Services) {
+				var downloads = Services[newKey].__proto__;
+				Services[bakKey] = null;
+				this.setProperty(Services[newKey], "cleanUp", cleanUp);
+				_log(logPrefix + "Will use old wrapper for Services.downloads");
+			}
+			else {
+				var downloads = Services[bakKey] = Services.downloads;
+				var downloadsWrapper = Services[newKey] = {
+					__proto__: downloads,
+					cleanUp: cleanUp
+				};
+				this.setProperty(Services, "downloads", downloadsWrapper);
+				_log(logPrefix + "Create wrapper for Services.downloads");
+			}
 		}
 		else {
-			Services.downloads = Services[bakKey];
+			if(Services.downloads == Services[newKey] && Services[bakKey]) {
+				this.setProperty(Services, "downloads", Services[bakKey]);
+				delete Services[newKey];
+				_log(logPrefix + "Restore Services.downloads");
+			}
+			else {
+				// Yes, we create some memory leaks here, but it's better than break other extensions
+				delete Services[newKey].cleanUp;
+				_log(logPrefix + "Can't completely restore Services.downloads: detected third-party wrapper");
+			}
 			delete Services[bakKey];
 		}
-		_log("dontRemoveFinishedDownloads(" + patch + ")");
+	},
+	setProperty: function(o, p, v) {
+		Object.defineProperty(o, p, {
+			value: v,
+			configurable: true,
+			writable: true,
+			enumerable: true
+		});
 	},
 
 	overrideDownloadsCommand: function(e) {
