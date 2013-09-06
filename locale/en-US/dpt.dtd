@@ -2,11 +2,11 @@
 <!ENTITY dpt.itemCountLimit "Visible downloads count limit">
 <!ENTITY dpt.panelWidth "Download panel width">
 <!ENTITY dpt.progressBarHeight "Progress bar height">
-<!ENTITY dpt.showDownloadRate "Show download rate">
 <!ENTITY dpt.compactDownloads "Downloads list">
 <!ENTITY dpt.compactDownloads.default "Default">
 <!ENTITY dpt.compactDownloads.compact "Compact">
 <!ENTITY dpt.compactDownloads.veryCompact "Very compact">
+<!ENTITY dpt.showDownloadRate "Show download rate">
 <!ENTITY dpt.decolorizePausedProgress "Decolorize progress bar of paused downloads">
 <!ENTITY dpt.dontRemoveFinishedDownloads "Don't remove finished downloads">
 <!ENTITY dpt.useDownloadsHotkeyToTogglePanel "Hotkey for downloads (Ctrl+J) toggles download panel">

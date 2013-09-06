@@ -2,11 +2,11 @@
 <!ENTITY dpt.itemCountLimit "Αριθμός ορατών λήψεων">
 <!ENTITY dpt.panelWidth "Πλάτος πλαισίου λήψεων">
 <!ENTITY dpt.progressBarHeight "Ύψος γραμμής προόδου">
-<!ENTITY dpt.showDownloadRate "Εμφάνιση ρυθμού λήψης">
 <!ENTITY dpt.compactDownloads "Downloads list">
 <!ENTITY dpt.compactDownloads.default "Default">
 <!ENTITY dpt.compactDownloads.compact "Compact">
 <!ENTITY dpt.compactDownloads.veryCompact "Very compact">
+<!ENTITY dpt.showDownloadRate "Εμφάνιση ρυθμού λήψης">
 <!ENTITY dpt.decolorizePausedProgress "Αποχρωμάτιση γραμμής προόδου λήψεων σε παύση">
 <!ENTITY dpt.dontRemoveFinishedDownloads "Don't remove finished downloads">
 <!ENTITY dpt.useDownloadsHotkeyToTogglePanel "Εναλλαγή σε πλαίσιο λήψεων με το πλήκτρο συντόμευσης λήψεων αρχείων (Ctrl+J)">
