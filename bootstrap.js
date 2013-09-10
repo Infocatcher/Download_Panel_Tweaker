@@ -84,7 +84,7 @@ var dpTweaker = {
 				this.initWindow(window, WINDOW_LOADED);
 			break;
 			case "command":      this.handleCommand(e); break;
-			case "popupshowing": this.initMenu(e);
+			case "popupshowing": this.initContextMenus(e);
 		}
 	},
 
@@ -128,12 +128,9 @@ var dpTweaker = {
 		if(prefs.get("useDownloadsHotkeyToTogglePanel"))
 			window.removeEventListener("command", this, true);
 		window.removeEventListener("popupshowing", this, false);
-		var clearDownloads = document.getElementById(this.clearDownloadsId);
-		if(clearDownloads) {
-			clearDownloads.removeEventListener("command", this, false);
-			clearDownloads.parentNode.removeChild(clearDownloads);
-		}
-		if(reason != WINDOW_CLOSED && reason != APP_SHUTDOWN) {
+		var force = reason != WINDOW_CLOSED && reason != APP_SHUTDOWN;
+		this.destroyContextMenus(document, force);
+		if(force) {
 			this.setItemCountLimit(window, false);
 			if(prefs.get("showDownloadRate"))
 				this.udateDownloadRate(document, false);
@@ -469,7 +466,7 @@ var dpTweaker = {
 	},
 
 	handleCommand: function(e) {
-		if(e.target.id == this.clearDownloadsId)
+		if(e.target.getAttribute("downloadPanelTweaker-command") == "clearDownloads")
 			this.clearDownloads();
 		else
 			this.overrideDownloadsCommand(e);
@@ -493,22 +490,66 @@ var dpTweaker = {
 			DownloadsPanel.showPanel();
 	},
 	clearDownloadsId: "downloadPanelTweaker-menuItem-clearDownloads",
-	initMenu: function(e) {
+	clearDownloads2Id: "downloadPanelTweaker-menuItem-clearDownloads2",
+	panelFooterContextId: "downloadPanelTweaker-popup-panelFooterContext",
+	initContextMenus: function(e) {
 		var popup = e.target;
-		if(popup.id != "downloadsContextMenu")
+		if(popup.id != "downloadsPanel")
 			return;
-		_log("Init context menu of download panel");
+		_log("Opened #downloadsPanel, will initialize context menus");
 		var window = e.currentTarget;
-		window.removeEventListener("popupshowing", this, false);
 		var document = window.document;
+		window.removeEventListener("popupshowing", this, false);
+
 		var clearDownloads = document.createElement("menuitem");
 		clearDownloads.id = this.clearDownloadsId;
+		clearDownloads.setAttribute("downloadPanelTweaker-command", "clearDownloads");
 		var [label, accesskey] = this.getClearDownloadsLabel(window);
 		clearDownloads.setAttribute("label", label);
 		clearDownloads.setAttribute("accesskey", accesskey);
-		var insPos = popup.getElementsByAttribute("command", "downloadsCmd_clearList")[0];
-		popup.insertBefore(clearDownloads, insPos.nextSibling);
-		clearDownloads.addEventListener("command", this, false);
+
+		var footer = document.getElementById("downloadsFooter");
+		if(footer) {
+			var footerContext = document.createElement("menupopup");
+			footerContext.id = this.panelFooterContextId;
+			var clearDownloads2 = clearDownloads.cloneNode(true);
+			clearDownloads2.id = this.clearDownloads2Id;
+			clearDownloads2.addEventListener("command", this, false);
+			footerContext.appendChild(clearDownloads2);
+			document.documentElement.appendChild(footerContext);
+			if(footer.hasAttribute("context"))
+				footer.setAttribute("downloadPanelTweaker-origContext", footer.getAttribute("context"));
+			footer.setAttribute("context", this.panelFooterContextId);
+			_log("Add context menu for download panel footer");
+		}
+
+		var contextMenu = document.getElementById("downloadsContextMenu");
+		if(contextMenu) {
+			clearDownloads.addEventListener("command", this, false);
+			var insPos = contextMenu.getElementsByAttribute("command", "downloadsCmd_clearList")[0];
+			contextMenu.insertBefore(clearDownloads, insPos.nextSibling);
+			_log('Add "Clear Downloads" to panel context menu');
+		}
+	},
+	destroyContextMenus: function(document, force) {
+		var clearDownloads = document.getElementById(this.clearDownloadsId);
+		if(clearDownloads) {
+			clearDownloads.removeEventListener("command", this, false);
+			force && clearDownloads.parentNode.removeChild(clearDownloads);
+		}
+		var footer = document.getElementById("downloadsFooter");
+		if(footer) {
+			if(footer.hasAttribute("downloadPanelTweaker-origContext"))
+				footer.setAttribute("context", footer.getAttribute("downloadPanelTweaker-origContext"));
+			else
+				footer.removeAttribute("context");
+			var clearDownloads2 = document.getElementById(this.clearDownloads2Id);
+			if(clearDownloads2)
+				clearDownloads2.removeEventListener("command", this, false);
+			var footerContext = document.getElementById(this.panelFooterContextId);
+			if(footerContext && force)
+				footerContext.parentNode.removeChild(footerContext);
+		}
 	},
 	getClearDownloadsLabel: function(window) {
 		try {
@@ -534,7 +575,7 @@ var dpTweaker = {
 			Services.downloads.cleanUpPrivate();
 		}
 		catch(e) { // Firefox 26.0a1
-			_log("clearDownloads(): Services.downloads.* failed:\n" + e);
+			_log("clearDownloads(): Services.downloads.cleanUp/cleanUpPrivate() failed:\n" + e);
 			try {
 				var global = Components.utils.import("resource:///modules/DownloadsCommon.jsm");
 				if(global.DownloadsData && global.DownloadsData.removeFinished)
