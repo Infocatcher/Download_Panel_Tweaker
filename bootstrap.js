@@ -77,13 +77,14 @@ var dpTweaker = {
 			this.destroyWindow(subject, WINDOW_CLOSED);
 	},
 	handleEvent: function(e) {
-		if(e.type == "load") {
-			var window = e.originalTarget.defaultView;
-			window.removeEventListener("load", this, false);
-			this.initWindow(window, WINDOW_LOADED);
-		}
-		else if(e.type == "command") {
-			this.overrideDownloadsCommand(e);
+		switch(e.type) {
+			case "load":
+				var window = e.originalTarget.defaultView;
+				window.removeEventListener("load", this, false);
+				this.initWindow(window, WINDOW_LOADED);
+			break;
+			case "command":      this.handleCommand(e); break;
+			case "popupshowing": this.initMenu(e);
 		}
 	},
 
@@ -96,6 +97,7 @@ var dpTweaker = {
 			return;
 		if(prefs.get("useDownloadsHotkeyToTogglePanel"))
 			window.addEventListener("command", this, true);
+		window.addEventListener("popupshowing", this, false);
 		window.setTimeout(function() {
 			this.setItemCountLimit(window, true);
 			var needUpdate = reason != WINDOW_LOADED;
@@ -119,14 +121,20 @@ var dpTweaker = {
 		}.bind(this), 50);
 	},
 	destroyWindow: function(window, reason) {
+		var document = window.document;
 		window.removeEventListener("load", this, false); // Window can be closed before "load"
 		if(reason == WINDOW_CLOSED && !this.isTargetWindow(window))
 			return;
 		if(prefs.get("useDownloadsHotkeyToTogglePanel"))
 			window.removeEventListener("command", this, true);
+		window.removeEventListener("popupshowing", this, false);
+		var clearDownloads = document.getElementById(this.clearDownloadsId);
+		if(clearDownloads) {
+			clearDownloads.removeEventListener("command", this, false);
+			clearDownloads.parentNode.removeChild(clearDownloads);
+		}
 		if(reason != WINDOW_CLOSED && reason != APP_SHUTDOWN) {
 			this.setItemCountLimit(window, false);
-			var document = window.document;
 			if(prefs.get("showDownloadRate"))
 				this.udateDownloadRate(document, false);
 			if(prefs.get("decolorizePausedProgress"))
@@ -460,6 +468,12 @@ var dpTweaker = {
 		});
 	},
 
+	handleCommand: function(e) {
+		if(e.target.id == this.clearDownloadsId)
+			this.clearDownloads();
+		else
+			this.overrideDownloadsCommand(e);
+	},
 	overrideDownloadsCommand: function(e) {
 		if(e.target.id != "Tools:Downloads")
 			return;
@@ -477,6 +491,51 @@ var dpTweaker = {
 			DownloadsPanel.hidePanel();
 		else
 			DownloadsPanel.showPanel();
+	},
+	clearDownloadsId: "downloadPanelTweaker-menuItem-clearDownloads",
+	initMenu: function(e) {
+		var popup = e.target;
+		if(popup.id != "downloadsContextMenu")
+			return;
+		_log("Init context menu of download panel");
+		var window = e.currentTarget;
+		window.removeEventListener("popupshowing", this, false);
+		var document = window.document;
+		var clearDownloads = document.createElement("menuitem");
+		clearDownloads.id = this.clearDownloadsId;
+		var [label, accesskey] = this.getClearDownloadsLabel(window);
+		clearDownloads.setAttribute("label", label);
+		clearDownloads.setAttribute("accesskey", accesskey);
+		var insPos = popup.getElementsByAttribute("command", "downloadsCmd_clearList")[0];
+		popup.insertBefore(clearDownloads, insPos.nextSibling);
+		clearDownloads.addEventListener("command", this, false);
+	},
+	getClearDownloadsLabel: function(window) {
+		return ["Clear Downloads", "D"];
+	},
+	clearDownloads: function() {
+		_log("clearDownloads()");
+		try {
+			Services.downloads.cleanUp();
+			Services.downloads.cleanUpPrivate();
+		}
+		catch(e) { // Firefox 26.0a1
+			_log("clearDownloads(): Services.downloads.* failed:\n" + e);
+			try {
+				var global = Components.utils.import("resource:///modules/DownloadsCommon.jsm");
+				if(global.DownloadsData && global.DownloadsData.removeFinished)
+					global.DownloadsData.removeFinished();
+				if(global.PrivateDownloadsData && global.PrivateDownloadsData.removeFinished)
+					global.PrivateDownloadsData.removeFinished();
+			}
+			catch(e2) {
+				Components.utils.reportError(e2);
+			}
+		}
+		Components.classes["@mozilla.org/browser/download-history;1"]
+			.getService(Components.interfaces.nsIDownloadHistory)
+			.removeAllDownloads();
+		_log("clearDownloads(): done");
 	},
 
 	setFixToolbox: function(window, enable) {
