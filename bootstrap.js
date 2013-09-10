@@ -511,6 +511,20 @@ var dpTweaker = {
 		clearDownloads.addEventListener("command", this, false);
 	},
 	getClearDownloadsLabel: function(window) {
+		try {
+			var xul = '<?xml version="1.0"?>\
+				<!DOCTYPE label SYSTEM "chrome://browser/locale/downloads/downloads.dtd">\
+				<label value="&cmd.clearDownloads.label;" accesskey="&cmd.clearDownloads.accesskey;" />';
+			var node = new window.DOMParser().parseFromString(xul, "application/xml").documentElement;
+			if(node.localName == "label")
+				return [node.getAttribute("value"), node.getAttribute("accesskey")];
+			else
+				_log("getClearDownloadsLabel(): can't parse downloads.dtd");
+		}
+		catch(e) {
+			Components.utils.reportError(e);
+		}
+		_log("getClearDownloadsLabel(): will use English strings...");
 		return ["Clear Downloads", "D"];
 	},
 	clearDownloads: function() {
