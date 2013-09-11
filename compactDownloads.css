@@ -34,11 +34,14 @@
 		margin: -1px 6px 1px !important;
 		-moz-margin-end: 5px !important;
 	}
+	.download .downloadDetails {
+		margin-bottom: 3px !important;
+	}
 	.downloadTypeIcon {
 		margin: 1px !important;
 	}
 	.download > .downloadTypeIcon {
-		margin: 2px !important;
+		margin: 3px !important;
 		-moz-margin-start: 5px !important;
 		-moz-margin-end: 1px !important;
 	}

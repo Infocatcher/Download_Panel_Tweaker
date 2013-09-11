@@ -32,6 +32,9 @@
 	.downloadDetails {
 		margin: -1px 3px 0 !important;
 	}
+	.download .downloadDetails {
+		margin-bottom: 2px !important;
+	}
 	.downloadTypeIcon {
 		margin: 0 1px !important;
 	}
