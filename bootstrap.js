@@ -362,6 +362,14 @@ var dpTweaker = {
 		this._downloadsSummaryPatched = patch;
 
 		var {DownloadsSummaryData} = Components.utils.import("resource://app/modules/DownloadsCommon.jsm", {});
+		if(
+			!DownloadsSummaryData
+			|| !DownloadsSummaryData.prototype
+			|| !("_updateView" in DownloadsSummaryData.prototype)
+		) {
+			_log("Can't patch DownloadsSummaryData.prototype._updateView(), method not found");
+			return;
+		}
 		if(patch) {
 			var _this = this;
 			patcher.wrapFunction(DownloadsSummaryData.prototype, "_updateView", "DownloadsSummaryData.prototype._updateView",
