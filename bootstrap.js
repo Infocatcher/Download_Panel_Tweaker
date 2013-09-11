@@ -571,8 +571,9 @@ var dpTweaker = {
 	clearDownloads: function() {
 		_log("clearDownloads()");
 		try {
-			Services.downloads.cleanUp();
-			Services.downloads.cleanUpPrivate();
+			var downloads = Services.downloads;
+			downloads.canCleanUp && downloads.cleanUp();
+			downloads.canCleanUpPrivate && downloads.cleanUpPrivate();
 		}
 		catch(e) { // Firefox 26.0a1
 			_log("clearDownloads(): Services.downloads.cleanUp/cleanUpPrivate() failed:\n" + e);
