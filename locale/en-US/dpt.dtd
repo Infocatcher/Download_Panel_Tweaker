@@ -1,3 +1,4 @@
+<!-- Options -->
 <!ENTITY dpt.useOldUI "Use old downloads interface (not recommended)">
 <!ENTITY dpt.itemCountLimit "Visible downloads count limit">
 <!ENTITY dpt.panelWidth "Download panel width">
@@ -10,3 +11,11 @@
 <!ENTITY dpt.decolorizePausedProgress "Decolorize progress bar of paused downloads">
 <!ENTITY dpt.dontRemoveFinishedDownloads "Don't remove finished downloads">
 <!ENTITY dpt.useDownloadsHotkeyToTogglePanel "Hotkey for downloads (Ctrl+J) toggles download panel">
+
+<!--
+See view-source:chrome://browser/locale/downloads/downloads.dtd
+We use Firefox localization, but accesskey should be corrected for some locales
+(and these strings are missing in Firefox 19 and older)
+-->
+<!ENTITY cmd.clearDownloads.label "Clear Downloads">
+<!ENTITY cmd.clearDownloads.accesskey "D">

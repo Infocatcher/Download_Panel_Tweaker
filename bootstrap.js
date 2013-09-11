@@ -554,7 +554,12 @@ var dpTweaker = {
 	getClearDownloadsLabel: function(window) {
 		try {
 			var xul = '<?xml version="1.0"?>\
-				<!DOCTYPE label SYSTEM "chrome://browser/locale/downloads/downloads.dtd">\
+				<!DOCTYPE label [\
+					<!ENTITY % dptDTD SYSTEM "chrome://downloadpaneltweaker/locale/dpt.dtd">\
+					%dptDTD;\
+					<!ENTITY % downloadsDTD SYSTEM "chrome://browser/locale/downloads/downloads.dtd">\
+					%downloadsDTD;\
+				]>\
 				<label value="&cmd.clearDownloads.label;" accesskey="&cmd.clearDownloads.accesskey;" />';
 			var node = new window.DOMParser().parseFromString(xul, "application/xml").documentElement;
 			if(node.localName == "label")

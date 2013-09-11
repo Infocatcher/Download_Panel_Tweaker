@@ -1,3 +1,4 @@
+<!-- Options -->
 <!ENTITY dpt.useOldUI "Использовать старый интерфейс загрузок (не рекомендуется)">
 <!ENTITY dpt.itemCountLimit "Ограничение видимого количества загрузок">
 <!ENTITY dpt.panelWidth "Ширина панели загрузок">
@@ -10,3 +11,11 @@
 <!ENTITY dpt.decolorizePausedProgress "Обесцвечивать полосу прогресса приостановленных загрузок">
 <!ENTITY dpt.dontRemoveFinishedDownloads "Не удалять завершенные загрузки">
 <!ENTITY dpt.useDownloadsHotkeyToTogglePanel "Сочетание клавиш для загрузок (Ctrl+J) переключает панель загрузок">
+
+<!--
+See view-source:chrome://browser/locale/downloads/downloads.dtd
+We use Firefox localization, but accesskey should be corrected for some locales
+(and these strings are missing in Firefox 19 and older)
+-->
+<!ENTITY cmd.clearDownloads.label "Очистить загрузки">
+<!ENTITY cmd.clearDownloads.accesskey "и">
