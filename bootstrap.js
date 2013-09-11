@@ -516,7 +516,8 @@ var dpTweaker = {
 		clearDownloads.setAttribute("label", label);
 		clearDownloads.setAttribute("accesskey", accesskey);
 
-		var footer = document.getElementById("downloadsFooter");
+		var footer = document.getElementById("downloadsFooter")
+			|| document.getElementById("downloadsHistory"); // Firefox < 20
 		if(footer) {
 			var footerContext = document.createElement("menupopup");
 			footerContext.id = this.panelFooterContextId;
@@ -545,7 +546,8 @@ var dpTweaker = {
 			clearDownloads.removeEventListener("command", this, false);
 			force && clearDownloads.parentNode.removeChild(clearDownloads);
 		}
-		var footer = document.getElementById("downloadsFooter");
+		var footer = document.getElementById("downloadsFooter")
+			|| document.getElementById("downloadsHistory"); // Firefox < 20
 		if(footer) {
 			if(footer.hasAttribute("downloadPanelTweaker-origContext"))
 				footer.setAttribute("context", footer.getAttribute("downloadPanelTweaker-origContext"));
