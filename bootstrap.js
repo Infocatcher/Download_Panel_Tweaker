@@ -466,20 +466,20 @@ var dpTweaker = {
 	},
 
 	handleCommand: function(e) {
-		if(e.target.getAttribute("downloadPanelTweaker-command") == "clearDownloads")
+		var curTrg = e.currentTarget;
+		if(curTrg.getAttribute && curTrg.getAttribute("downloadPanelTweaker-command") == "clearDownloads")
 			this.clearDownloads();
-		else
+		else if(e.target.id == "Tools:Downloads")
 			this.overrideDownloadsCommand(e);
 	},
 	overrideDownloadsCommand: function(e) {
-		if(e.target.id != "Tools:Downloads")
-			return;
 		if(e.sourceEvent && e.sourceEvent.target.nodeName != "key")
 			return;
 		e.preventDefault();
 		e.stopPropagation();
 		e.stopImmediatePropagation();
 		var window = e.currentTarget;
+		_log("overrideDownloadsCommand() => toggleDownloadPanel()");
 		this.toggleDownloadPanel(window);
 	},
 	toggleDownloadPanel: function(window) {
