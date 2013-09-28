@@ -3,13 +3,13 @@
 <!ENTITY dpt.itemCountLimit "Αριθμός ορατών λήψεων">
 <!ENTITY dpt.panelWidth "Πλάτος πλαισίου λήψεων">
 <!ENTITY dpt.progressBarHeight "Ύψος γραμμής προόδου">
-<!ENTITY dpt.compactDownloads "Downloads list">
-<!ENTITY dpt.compactDownloads.default "Default">
-<!ENTITY dpt.compactDownloads.compact "Compact">
-<!ENTITY dpt.compactDownloads.veryCompact "Very compact">
+<!ENTITY dpt.compactDownloads "Λίστα λήψεων">
+<!ENTITY dpt.compactDownloads.default "Προεπιλεγμένη">
+<!ENTITY dpt.compactDownloads.compact "Συμπαγής">
+<!ENTITY dpt.compactDownloads.veryCompact "Πολύ συμπαγής">
 <!ENTITY dpt.showDownloadRate "Εμφάνιση ρυθμού λήψης">
 <!ENTITY dpt.decolorizePausedProgress "Αποχρωμάτιση γραμμής προόδου λήψεων σε παύση">
-<!ENTITY dpt.dontRemoveFinishedDownloads "Don't remove finished downloads">
+<!ENTITY dpt.dontRemoveFinishedDownloads "Μη απομάκρυνση ολοκληρωμένων λήψεων">
 <!ENTITY dpt.useDownloadsHotkeyToTogglePanel "Εναλλαγή σε πλαίσιο λήψεων με το πλήκτρο συντόμευσης λήψεων αρχείων (Ctrl+J)">
 
 <!--
@@ -18,4 +18,4 @@ We use Firefox localization, but accesskey should be corrected for some locales
 (and these strings are missing in Firefox 19 and older)
 -->
 <!ENTITY cmd.clearDownloads.label "Εκκαθάριση λήψεων">
-<!ENTITY cmd.clearDownloads.accesskey "ρ">
+<!ENTITY cmd.clearDownloads.accesskey "σ">
