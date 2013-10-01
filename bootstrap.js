@@ -95,7 +95,7 @@ var dpTweaker = {
 		}
 		if(reason == WINDOW_LOADED && !this.isTargetWindow(window))
 			return;
-		if(prefs.get("useDownloadsHotkeyToTogglePanel"))
+		if(this.handleCommandEvent)
 			window.addEventListener("command", this, true);
 		window.addEventListener("popupshowing", this, false);
 		window.setTimeout(function() {
@@ -125,7 +125,7 @@ var dpTweaker = {
 		window.removeEventListener("load", this, false); // Window can be closed before "load"
 		if(reason == WINDOW_CLOSED && !this.isTargetWindow(window))
 			return;
-		if(prefs.get("useDownloadsHotkeyToTogglePanel"))
+		if(this.handleCommandEvent)
 			window.removeEventListener("command", this, true);
 		window.removeEventListener("popupshowing", this, false);
 		var force = reason != WINDOW_CLOSED && reason != APP_SHUTDOWN;
@@ -473,29 +473,72 @@ var dpTweaker = {
 		});
 	},
 
+	get handleCommandEvent() {
+		return !!(
+			prefs.get("overrideDownloadsCommand")
+			|| prefs.get("overrideDownloadsHotkey")
+			|| prefs.get("overrideShowAllDownloads")
+		);
+	},
 	handleCommand: function(e) {
 		var curTrg = e.currentTarget;
 		if(curTrg.getAttribute && curTrg.getAttribute("downloadPanelTweaker-command") == "clearDownloads")
 			this.clearDownloads();
-		else if(e.target.id == "Tools:Downloads")
-			this.overrideDownloadsCommand(e);
+		else if(e.target.id == "Tools:Downloads") {
+			if(e.sourceEvent && e.sourceEvent.target.nodeName != "key")
+				this.downloadCommand(e,"overrideDownloadsCommand");
+			else
+				this.downloadCommand(e, "overrideDownloadsHotkey");
+		}
+		else if(e.target.id == "downloadsHistory")
+			this.downloadCommand(e, "overrideShowAllDownloads");
 	},
-	overrideDownloadsCommand: function(e) {
-		if(e.sourceEvent && e.sourceEvent.target.nodeName != "key")
+	downloadCommand: function(e, prefName) {
+		var cmd = prefs.get(prefName);
+		if(!cmd)
 			return;
+		var window = e.currentTarget;
+		var ok;
+		switch(cmd) {
+			case 1: ok = this.toggleDownloadPanel(window); break;
+			case 2: ok = this.showDownloadWindow(window);  break;
+			default: return;
+		}
+		if(ok == false)
+			return;
+		_log("downloadCommand(): " + prefName + " = " + cmd);
 		e.preventDefault();
 		e.stopPropagation();
 		e.stopImmediatePropagation();
-		var window = e.currentTarget;
-		_log("overrideDownloadsCommand() => toggleDownloadPanel()");
-		this.toggleDownloadPanel(window);
 	},
-	toggleDownloadPanel: function(window) {
+	showDownloadWindow: function(window) {
+		if(
+			"PrivateBrowsingUtils" in window
+			&& window.PrivateBrowsingUtils.isWindowPrivate(window.content)
+		) {
+			_log("showDownloadWindow(): private downloads aren't supported");
+			return false;
+		}
+		// See resource://app/components/DownloadsUI.js
+		// DownloadsUI.prototype.show()
+		_log("showDownloadWindow()");
+		this.toggleDownloadPanel(window, false);
+		var toolkitUI = Components.classesByID["{7dfdf0d1-aff6-4a34-bad1-d0fe74601642}"]
+			.getService(Components.interfaces.nsIDownloadManagerUI);
+		toolkitUI.show(window/*, aDownload, aReason, aUsePrivateUI*/);
+		return true;
+	},
+	toggleDownloadPanel: function(window, show) {
+		_log("toggleDownloadPanel(" + show + ")");
 		var DownloadsPanel = window.DownloadsPanel;
-		if(DownloadsPanel.isPanelShowing)
-			DownloadsPanel.hidePanel();
-		else
+		if(show === undefined)
+			show = !DownloadsPanel.isPanelShowing;
+		else if(show == DownloadsPanel.isPanelShowing)
+			return;
+		if(show)
 			DownloadsPanel.showPanel();
+		else
+			DownloadsPanel.hidePanel();
 	},
 	clearDownloadsId: "downloadPanelTweaker-menuItem-clearDownloads",
 	clearDownloads2Id: "downloadPanelTweaker-menuItem-clearDownloads2",
@@ -693,11 +736,17 @@ var dpTweaker = {
 			}
 			this.reloadTweakStyleProxy();
 		}
-		else if(pName == "useDownloadsHotkeyToTogglePanel") {
+		else if(
+			pName == "overrideDownloadsCommand"
+			|| pName == "overrideDownloadsHotkey"
+			|| pName == "overrideShowAllDownloads"
+		) {
+			var addListener = this.handleCommandEvent;
+			_log('Changed "' + pName + '" pref, handleCommandEvent = ' + addListener);
 			var ws = Services.wm.getEnumerator("navigator:browser");
 			while(ws.hasMoreElements()) {
 				var window = ws.getNext();
-				if(pVal)
+				if(addListener)
 					window.addEventListener("command", this, true);
 				else
 					window.removeEventListener("command", this, true);
