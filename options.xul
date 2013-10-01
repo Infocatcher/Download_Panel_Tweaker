@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <!DOCTYPE vbox SYSTEM "chrome://downloadpaneltweaker/locale/dpt.dtd">
 <vbox xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-	<setting pref="browser.download.useToolkitUI" type="bool" title="&dpt.useOldUI;" onpreferencechanged='
+	<setting pref="browser.download.useToolkitUI" type="bool" title="&dpt.useOldUI;"
+		onpreferencechanged='
 		setTimeout(function(_this) {
 			var setup = _this.value
 				? function(node) {
@@ -42,5 +43,53 @@
 	<setting pref="extensions.downloadPanelTweaker.showDownloadRate" type="bool" title="&dpt.showDownloadRate;" />
 	<setting pref="extensions.downloadPanelTweaker.decolorizePausedProgress" type="bool" title="&dpt.decolorizePausedProgress;" />
 	<setting pref="extensions.downloadPanelTweaker.dontRemoveFinishedDownloads" type="bool" title="&dpt.dontRemoveFinishedDownloads;" />
-	<setting pref="extensions.downloadPanelTweaker.useDownloadsHotkeyToTogglePanel" type="bool" title="&dpt.useDownloadsHotkeyToTogglePanel;" />
+
+	<setting pref="extensions.downloadPanelTweaker.overrideDownloadsCommand" type="menulist" title="&dpt.override.downloadsMenuItem;"
+		onpreferencechanged='
+			this.removeAttribute("onpreferencechanged");
+			setTimeout(function(_this) {
+				var mp = _this.getElementsByTagName("menupopup")[0];
+				for(var setting = _this.nextSibling; setting; setting = setting.nextSibling) {
+					if(setting.localName != "setting" || setting.getAttribute("type") != "menulist")
+						continue;
+					var pref = setting.getAttribute("pref") || "";
+					if(!pref.startsWith("extensions.downloadPanelTweaker.override"))
+						continue;
+					var ml = setting.getElementsByTagName("menulist")[0];
+					ml.appendChild(mp.cloneNode(true));
+					setting.valueFromPreference();
+					if(pref.endsWith(".private")) {
+						var label = setting.ownerDocument.getAnonymousElementByAttribute(setting, "class", "preferences-title");
+						if(label)
+							label.style.marginStart = label.style.MozMarginStart = "4ch";
+						ml.getElementsByAttribute("value", "2")[0].setAttribute("disabled", "true");
+					}
+				}
+			}, 0, this);
+		'>
+		<menulist>
+			<menupopup>
+				<menuitem label="&dpt.override.default;" value="0" />
+				<menuitem label="&dpt.override.togglePanel;" value="1" />
+				<menuitem label="&dpt.override.openOldWindow;" value="2" />
+				<menuitem label="&dpt.override.openInTab;" value="3" />
+				<menuitem label="&dpt.override.openLibraryWindow;" value="4" />
+			</menupopup>
+		</menulist>
+	</setting>
+	<setting pref="extensions.downloadPanelTweaker.overrideDownloadsCommand.private" type="menulist" title="&dpt.override.inPrivateWindow;">
+		<menulist />
+	</setting>
+	<setting pref="extensions.downloadPanelTweaker.overrideShowAllDownloads" type="menulist" title="&dpt.override.showAllDownloads;">
+		<menulist />
+	</setting>
+	<setting pref="extensions.downloadPanelTweaker.overrideShowAllDownloads.private" type="menulist" title="&dpt.override.inPrivateWindow;">
+		<menulist />
+	</setting>
+	<setting pref="extensions.downloadPanelTweaker.overrideDownloadsHotkey" type="menulist" title="&dpt.override.downloadsHotkey;">
+		<menulist />
+	</setting>
+	<setting pref="extensions.downloadPanelTweaker.overrideDownloadsHotkey.private" type="menulist" title="&dpt.override.inPrivateWindow;">
+		<menulist />
+	</setting>
 </vbox>

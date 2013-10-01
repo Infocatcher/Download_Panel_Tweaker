@@ -10,7 +10,16 @@
 <!ENTITY dpt.showDownloadRate "Показывать скорость загрузки">
 <!ENTITY dpt.decolorizePausedProgress "Обесцвечивать полосу прогресса приостановленных загрузок">
 <!ENTITY dpt.dontRemoveFinishedDownloads "Не удалять завершенные загрузки">
-<!ENTITY dpt.useDownloadsHotkeyToTogglePanel "Сочетание клавиш для загрузок (Ctrl+J) переключает панель загрузок">
+
+<!ENTITY dpt.override.downloadsMenuItem "Пункт меню «Загрузки»">
+<!ENTITY dpt.override.showAllDownloads "Кнопка «Показать все загрузки»">
+<!ENTITY dpt.override.downloadsHotkey "Сочетание клавиш для загрузок (Ctrl+J)">
+<!ENTITY dpt.override.inPrivateWindow "В приватном окне">
+<!ENTITY dpt.override.default "По умолчанию">
+<!ENTITY dpt.override.togglePanel "Переключить панель">
+<!ENTITY dpt.override.openOldWindow "Открыть старое окно">
+<!ENTITY dpt.override.openInTab "Открыть во вкладке">
+<!ENTITY dpt.override.openLibraryWindow "Открыть окно библиотеки">
 
 <!--
 See view-source:chrome://browser/locale/downloads/downloads.dtd
