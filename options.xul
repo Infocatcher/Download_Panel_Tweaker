@@ -6,9 +6,13 @@
 			var setup = _this.value
 				? function(node) {
 					node.setAttribute("disabled", "true");
+					if(arguments.length == 1)
+						node.style.opacity = "0.55";
 				}
 				: function(node) {
 					node.removeAttribute("disabled");
+					if(arguments.length == 1)
+						node.style.opacity = "";
 				};
 			for(var setting = _this.nextSibling; setting; setting = setting.nextSibling) {
 				if(setting.localName != "setting")
