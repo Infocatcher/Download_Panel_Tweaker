@@ -14,6 +14,8 @@ pref("extensions.downloadPanelTweaker.overrideShowAllDownloads.private", 0);
 // 0 - perform default action (don't override)
 // 1 - toggle download panel
 // 2 - open old downloads window
+// 3 - open "about:downloads" tab
+// 4 - open downloads library
 
 pref("extensions.downloadPanelTweaker.dontRemoveFinishedDownloads", true);
 pref("extensions.downloadPanelTweaker.fixWrongTabsOnTopAttribute", true);

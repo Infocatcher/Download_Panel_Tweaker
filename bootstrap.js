@@ -507,8 +507,10 @@ var dpTweaker = {
 			return;
 		var ok;
 		switch(cmd) {
-			case 1: ok = this.toggleDownloadPanel(window); break;
-			case 2: ok = this.showDownloadWindow(window);  break;
+			case 1: ok = this.toggleDownloadPanel(window);  break;
+			case 2: ok = this.showDownloadWindow(window);   break;
+			case 3: ok = this.openDownloadsTab(window);     break;
+			case 4: ok = this.openDownloadsLibrary(window); break;
 			default: return;
 		}
 		if(ok == false)
@@ -546,6 +548,47 @@ var dpTweaker = {
 			DownloadsPanel.showPanel();
 		else
 			DownloadsPanel.hidePanel();
+	},
+	openDownloadsTab: function(window) {
+		const downloadsURI = "about:downloads";
+		var gBrowser = window.gBrowser;
+		// We need to check private state for Private Tab extension
+		var pbu = "PrivateBrowsingUtils" in window && window.PrivateBrowsingUtils;
+		var isPrivate = pbu && pbu.isWindowPrivate(window.content);
+		if(!Array.some(gBrowser.visibleTabs || gBrowser.tabs, function(tab) {
+			var browser = tab.linkedBrowser;
+			if(
+				browser
+				&& browser.currentURI
+				&& browser.currentURI.spec == downloadsURI
+				&& isPrivate == (pbu && pbu.isWindowPrivate(browser.contentWindow))
+			) {
+				gBrowser.selectedTab = tab;
+				return true;
+			}
+			return false;
+		})) {
+			//gBrowser.selectedTab = gBrowser.addTab(downloadsURI);
+			// See resource://app/components/DownloadsUI.js
+			window.openUILinkIn(downloadsURI, "tab");
+		}
+	},
+	openDownloadsLibrary: function(window) {
+		// See resource://app/components/DownloadsUI.js
+		var organizer = Services.wm.getMostRecentWindow("Places:Organizer");
+		if(!organizer) {
+			return window.openDialog(
+				"chrome://browser/content/places/places.xul",
+				"",
+				"chrome,toolbar=yes,dialog=no,resizable",
+				"Downloads"
+			);
+		}
+		else {
+			organizer.PlacesOrganizer.selectLeftPaneQuery("Downloads");
+			organizer.focus();
+			return organizer;
+		}
 	},
 	clearDownloadsId: "downloadPanelTweaker-menuItem-clearDownloads",
 	clearDownloads2Id: "downloadPanelTweaker-menuItem-clearDownloads2",
