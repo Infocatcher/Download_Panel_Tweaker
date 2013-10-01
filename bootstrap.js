@@ -474,11 +474,14 @@ var dpTweaker = {
 	},
 
 	get handleCommandEvent() {
-		return !!(
-			prefs.get("overrideDownloadsCommand")
-			|| prefs.get("overrideDownloadsHotkey")
-			|| prefs.get("overrideShowAllDownloads")
-		);
+		return [
+			"overrideDownloadsCommand",
+			"overrideDownloadsHotkey",
+			"overrideShowAllDownloads"
+		].some(function(pName) {
+			return prefs.get(pName)
+				|| prefs.get(pName + ".private");
+		});
 	},
 	handleCommand: function(e) {
 		var curTrg = e.currentTarget;
@@ -494,10 +497,14 @@ var dpTweaker = {
 			this.downloadCommand(e, "overrideShowAllDownloads");
 	},
 	downloadCommand: function(e, prefName) {
+		var window = e.currentTarget;
+		var isPrivate = "PrivateBrowsingUtils" in window
+			&& window.PrivateBrowsingUtils.isWindowPrivate(window.content);
+		if(isPrivate)
+			prefName += ".private";
 		var cmd = prefs.get(prefName);
 		if(!cmd)
 			return;
-		var window = e.currentTarget;
 		var ok;
 		switch(cmd) {
 			case 1: ok = this.toggleDownloadPanel(window); break;
@@ -736,11 +743,7 @@ var dpTweaker = {
 			}
 			this.reloadTweakStyleProxy();
 		}
-		else if(
-			pName == "overrideDownloadsCommand"
-			|| pName == "overrideDownloadsHotkey"
-			|| pName == "overrideShowAllDownloads"
-		) {
+		else if(pName.startsWith("override")) {
 			var addListener = this.handleCommandEvent;
 			_log('Changed "' + pName + '" pref, handleCommandEvent = ' + addListener);
 			var ws = Services.wm.getEnumerator("navigator:browser");
