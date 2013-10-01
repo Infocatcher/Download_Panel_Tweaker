@@ -13,8 +13,15 @@
 			for(var setting = _this.nextSibling; setting; setting = setting.nextSibling) {
 				if(setting.localName != "setting")
 					continue;
-				setup(setting);
-				Array.forEach(setting.getElementsByTagName("radio"), setup);
+				var pref = setting.getAttribute("pref") || "";
+				if(
+					pref.endsWith(".itemCountLimit")
+					|| pref.endsWith(".panelWidth")
+					|| pref.endsWith(".dontRemoveFinishedDownloads")
+				) {
+					setup(setting);
+					Array.forEach(setting.getElementsByTagName("*"), setup);
+				}
 			}
 		}, 0, this);
 	' />
