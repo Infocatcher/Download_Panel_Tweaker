@@ -550,6 +550,7 @@ var dpTweaker = {
 			DownloadsPanel.hidePanel();
 	},
 	openDownloadsTab: function(window) {
+		this.toggleDownloadPanel(window, false);
 		const downloadsURI = "about:downloads";
 		var gBrowser = window.gBrowser;
 		// We need to check private state for Private Tab extension
@@ -574,6 +575,7 @@ var dpTweaker = {
 		}
 	},
 	openDownloadsLibrary: function(window) {
+		this.toggleDownloadPanel(window, false);
 		// See resource://app/components/DownloadsUI.js
 		var organizer = Services.wm.getMostRecentWindow("Places:Organizer");
 		if(!organizer) {
