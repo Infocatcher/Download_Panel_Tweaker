@@ -48,6 +48,8 @@
 		onpreferencechanged='
 			this.removeAttribute("onpreferencechanged");
 			setTimeout(function(_this) {
+				var {Services} = Components.utils.import("resource://gre/modules/Services.jsm", {});
+				var hasPrivateWindows = parseFloat(Services.appinfo.version) >= 20;
 				var mp = _this.getElementsByTagName("menupopup")[0];
 				for(var setting = _this.nextSibling; setting; setting = setting.nextSibling) {
 					if(setting.localName != "setting" || setting.getAttribute("type") != "menulist")
@@ -62,7 +64,15 @@
 						var label = setting.ownerDocument.getAnonymousElementByAttribute(setting, "class", "preferences-title");
 						if(label)
 							label.style.marginStart = label.style.MozMarginStart = "4ch";
-						ml.getElementsByAttribute("value", "2")[0].setAttribute("disabled", "true");
+						if(hasPrivateWindows)
+							ml.getElementsByAttribute("value", "2")[0].setAttribute("disabled", "true");
+						else {
+							setting.setAttribute("disabled", "true");
+							Array.forEach(setting.getElementsByTagName("*"), function(node) {
+								node.setAttribute("disabled", "true");
+							});
+							setting.style.opacity = "0.55";
+						}
 					}
 				}
 			}, 0, this);
