@@ -84,6 +84,7 @@ var dpTweaker = {
 				this.initWindow(window, WINDOW_LOADED);
 			break;
 			case "command":      this.handleCommand(e); break;
+			case "click":        this.handleClick(e);   break;
 			case "popupshowing": this.initContextMenus(e);
 		}
 	},
@@ -97,6 +98,8 @@ var dpTweaker = {
 			return;
 		if(this.handleCommandEvent)
 			window.addEventListener("command", this, true);
+		if(this.handleClickEvent)
+			window.addEventListener("click", this, true);
 		window.addEventListener("popupshowing", this, false);
 		window.setTimeout(function() {
 			this.setItemCountLimit(window, true);
@@ -127,6 +130,8 @@ var dpTweaker = {
 			return;
 		if(this.handleCommandEvent)
 			window.removeEventListener("command", this, true);
+		if(this.handleClickEvent)
+			window.removeEventListener("click", this, true);
 		window.removeEventListener("popupshowing", this, false);
 		var force = reason != WINDOW_CLOSED && reason != APP_SHUTDOWN;
 		this.destroyContextMenus(document, force);
@@ -483,18 +488,33 @@ var dpTweaker = {
 				|| prefs.get(pName + ".private");
 		});
 	},
+	get handleClickEvent() {
+		return !!(
+			prefs.get("overrideDownloadsCommand")
+			|| prefs.get("overrideDownloadsCommand.private")
+		);
+	},
 	handleCommand: function(e) {
 		var curTrg = e.currentTarget;
 		if(curTrg.getAttribute && curTrg.getAttribute("downloadPanelTweaker-command") == "clearDownloads")
 			this.clearDownloads();
 		else if(e.target.id == "Tools:Downloads") {
 			if(e.sourceEvent && e.sourceEvent.target.nodeName != "key")
-				this.downloadCommand(e,"overrideDownloadsCommand");
+				this.downloadCommand(e, "overrideDownloadsCommand");
 			else
 				this.downloadCommand(e, "overrideDownloadsHotkey");
 		}
 		else if(e.target.id == "downloadsHistory")
 			this.downloadCommand(e, "overrideShowAllDownloads");
+	},
+	handleClick: function(e) {
+		var trg = e.target;
+		if(
+			trg.ownerDocument
+			&& trg.ownerDocument.documentURI == "about:home"
+			&& trg.id == "downloads"
+		)
+			this.downloadCommand(e, "overrideDownloadsCommand");
 	},
 	downloadCommand: function(e, prefName) {
 		var window = e.currentTarget;
@@ -789,15 +809,24 @@ var dpTweaker = {
 			this.reloadTweakStyleProxy();
 		}
 		else if(pName.startsWith("override")) {
-			var addListener = this.handleCommandEvent;
-			_log('Changed "' + pName + '" pref, handleCommandEvent = ' + addListener);
+			var handleCommand = this.handleCommandEvent;
+			var handleClick = this.handleClickEvent;
+			_log(
+				'Changed "' + pName + '" pref'
+				+ ", handleCommandEvent = " + handleCommand
+				+ ", handleClickEvent = " + handleClick
+			);
 			var ws = Services.wm.getEnumerator("navigator:browser");
 			while(ws.hasMoreElements()) {
 				var window = ws.getNext();
-				if(addListener)
+				if(handleCommand)
 					window.addEventListener("command", this, true);
 				else
 					window.removeEventListener("command", this, true);
+				if(handleClick)
+					window.addEventListener("click", this, true);
+				else
+					window.removeEventListener("click", this, true);
 			}
 		}
 		else if(pName == "dontRemoveFinishedDownloads")
