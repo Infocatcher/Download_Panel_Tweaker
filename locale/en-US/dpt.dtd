@@ -11,9 +11,9 @@
 <!ENTITY dpt.decolorizePausedProgress "Decolorize progress bar of paused downloads">
 <!ENTITY dpt.dontRemoveFinishedDownloads "Don't remove finished downloads">
 
-<!ENTITY dpt.override.downloadsMenuItem "“Downloads” menu item">
-<!ENTITY dpt.override.showAllDownloads "“Show All Downloads” button">
+<!ENTITY dpt.override.downloadsCommand "Command for downloads">
 <!ENTITY dpt.override.downloadsHotkey "Hotkey for downloads (Ctrl+J)">
+<!ENTITY dpt.override.showAllDownloads "“Show All Downloads” button">
 <!ENTITY dpt.override.inPrivateWindow "In private window">
 <!ENTITY dpt.override.default "Default">
 <!ENTITY dpt.override.togglePanel "Toggle panel">

@@ -44,7 +44,7 @@
 	<setting pref="extensions.downloadPanelTweaker.decolorizePausedProgress" type="bool" title="&dpt.decolorizePausedProgress;" />
 	<setting pref="extensions.downloadPanelTweaker.dontRemoveFinishedDownloads" type="bool" title="&dpt.dontRemoveFinishedDownloads;" />
 
-	<setting pref="extensions.downloadPanelTweaker.overrideDownloadsCommand" type="menulist" title="&dpt.override.downloadsMenuItem;"
+	<setting pref="extensions.downloadPanelTweaker.overrideDownloadsCommand" type="menulist" title="&dpt.override.downloadsCommand;"
 		onpreferencechanged='
 			this.removeAttribute("onpreferencechanged");
 			setTimeout(function(_this) {
@@ -90,16 +90,16 @@
 	<setting pref="extensions.downloadPanelTweaker.overrideDownloadsCommand.private" type="menulist" title="&dpt.override.inPrivateWindow;">
 		<menulist />
 	</setting>
-	<setting pref="extensions.downloadPanelTweaker.overrideShowAllDownloads" type="menulist" title="&dpt.override.showAllDownloads;">
-		<menulist />
-	</setting>
-	<setting pref="extensions.downloadPanelTweaker.overrideShowAllDownloads.private" type="menulist" title="&dpt.override.inPrivateWindow;">
-		<menulist />
-	</setting>
 	<setting pref="extensions.downloadPanelTweaker.overrideDownloadsHotkey" type="menulist" title="&dpt.override.downloadsHotkey;">
 		<menulist />
 	</setting>
 	<setting pref="extensions.downloadPanelTweaker.overrideDownloadsHotkey.private" type="menulist" title="&dpt.override.inPrivateWindow;">
+		<menulist />
+	</setting>
+	<setting pref="extensions.downloadPanelTweaker.overrideShowAllDownloads" type="menulist" title="&dpt.override.showAllDownloads;">
+		<menulist />
+	</setting>
+	<setting pref="extensions.downloadPanelTweaker.overrideShowAllDownloads.private" type="menulist" title="&dpt.override.inPrivateWindow;">
 		<menulist />
 	</setting>
 </vbox>
