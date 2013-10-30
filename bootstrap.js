@@ -157,6 +157,14 @@ var dpTweaker = {
 		return this.sss = Components.classes["@mozilla.org/content/style-sheet-service;1"]
 			.getService(Components.interfaces.nsIStyleSheetService);
 	},
+	newCssURI: function(cssStr) {
+		cssStr = this.trimCSSString(cssStr);
+		return Services.io.newURI("data:text/css," + encodeURIComponent(cssStr), null, null);
+	},
+	trimCSSString: function(s) {
+		var spaces = s.match(/^[ \t]*/)[0];
+		return s.replace(new RegExp("^" + spaces, "mg"), "");
+	},
 	loadStyles: function(add) {
 		this.loadCompactStyle(add ? prefs.get("compactDownloads") : 0);
 		this.loadTweakStyle(add);
@@ -252,9 +260,7 @@ var dpTweaker = {
 						: ""
 					) + '\n\
 				}';
-			cssURI = this.tweakCssURI = Services.io.newURI(
-				"data:text/css," + encodeURIComponent(cssStr), null, null
-			);
+			cssURI = this.tweakCssURI = this.newCssURI(cssStr);
 		}
 		else {
 			cssURI = this.tweakCssURI;
