@@ -57,6 +57,26 @@
 					var pref = setting.getAttribute("pref") || "";
 					if(!pref.startsWith("extensions.downloadPanelTweaker.override"))
 						continue;
+					if(pref == "extensions.downloadPanelTweaker.overrideDownloadsHotkey") try {
+						var keyText = "$1";
+						var win = Services.wm.getMostRecentWindow("navigator:browser");
+						if(win) {
+							var doc = win.document;
+							var mi = doc.getElementById("menu_openDownloads");
+							var menu = mi.parentNode.parentNode;
+							menu.open = true;
+							menu.open = false;
+							var key = mi.getAttribute("acceltext");
+							if(key)
+								keyText = key;
+						}
+					}
+					catch(e) {
+						Components.utils.reportError(e);
+					}
+					finally {
+						setting.setAttribute("title", setting.getAttribute("title").replace(/\{(.+?)\}/, keyText));
+					}
 					var ml = setting.getElementsByTagName("menulist")[0];
 					ml.appendChild(mp.cloneNode(true));
 					setting.valueFromPreference();

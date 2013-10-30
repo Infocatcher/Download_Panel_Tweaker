@@ -12,7 +12,8 @@
 <!ENTITY dpt.dontRemoveFinishedDownloads "Не удалять завершенные загрузки">
 
 <!ENTITY dpt.override.downloadsCommand "Команда для загрузок">
-<!ENTITY dpt.override.downloadsHotkey "Сочетание клавиш для загрузок (Ctrl+J)">
+<!-- We tries to replace {fallback value for hotkey} with real value -->
+<!ENTITY dpt.override.downloadsHotkey "Сочетание клавиш для загрузок ({Ctrl+J})">
 <!ENTITY dpt.override.showAllDownloads "Кнопка «Показать все загрузки»">
 <!ENTITY dpt.override.inPrivateWindow "В приватном окне">
 <!ENTITY dpt.override.default "По умолчанию">
