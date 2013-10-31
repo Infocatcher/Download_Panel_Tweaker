@@ -9,7 +9,7 @@
 <!ENTITY dpt.compactDownloads.veryCompact "Очень компактный">
 <!ENTITY dpt.showDownloadRate "Показывать скорость загрузки">
 <!ENTITY dpt.decolorizePausedProgress "Обесцвечивать полосу прогресса приостановленных загрузок">
-<!ENTITY dpt.dontRemoveFinishedDownloads "Не удалять завершенные загрузки">
+<!ENTITY dpt.dontRemoveFinishedDownloads "Не удалять завершённые загрузки">
 
 <!ENTITY dpt.override.downloadsCommand "Команда для загрузок">
 <!-- We tries to replace {fallback value for hotkey} with real value -->
