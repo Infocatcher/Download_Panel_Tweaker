@@ -319,7 +319,16 @@ var dpTweaker = {
 		// chrome://browser/content/downloads/downloads.js
 		DownloadsView.kItemCountLimit = itemCountLimit;
 		if(DownloadsPanel._state != DownloadsPanel.kStateUninitialized) {
-			DownloadsView.onDataInvalidated(); // This calls DownloadsPanel.terminate();
+			if("onDataInvalidated" in DownloadsView)
+				DownloadsView.onDataInvalidated(); // This calls DownloadsPanel.terminate();
+			else { // Firefox 28.0a1+
+				// Based on code from chrome://browser/content/downloads/downloads.js in Firefox 25.0
+				DownloadsPanel.terminate();
+				DownloadsView.richListBox.textContent = "";
+				// We can't use {} and [] here because of memory leaks!
+				DownloadsView._viewItems = new window.Object();
+				DownloadsView._dataItems = new window.Array();
+			}
 			DownloadsPanel.initialize(function() {});
 		}
 		_log("setItemCountLimit(): " + itemCountLimit);
