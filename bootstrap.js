@@ -419,7 +419,7 @@ var dpTweaker = {
 			// Round off "value", but don't dispatch "ValueChange" event, for styles like
 			// https://github.com/Infocatcher/UserStyles/blob/master/Download_percentage
 			var val = progress.value;
-			if(val.indexOf(".") != -1)
+			if(val && val.indexOf(".") != -1)
 				progress.setAttribute("value", Math.round(val));
 		}
 		var details = summaryNode.getElementsByAttribute("id", "downloadsSummaryDetails")[0];
