@@ -436,11 +436,43 @@ var dpTweaker = {
 	},
 
 	dontRemoveFinishedDownloads: function(patch) {
+		// See https://github.com/Infocatcher/Download_Panel_Tweaker/issues/5 for details
+		try { // Firefox 26+
+			// http://mxr.mozilla.org/mozilla-central/source/toolkit/components/jsdownloads/src/DownloadIntegration.jsm
+			var {DownloadIntegration} = Components.utils.import("resource://gre/modules/DownloadIntegration.jsm", {});
+		}
+		catch(e) {
+		}
+		if(DownloadIntegration && "shouldPersistDownload" in DownloadIntegration) {
+			const bakKey = "_downloadPanelTweaker_shouldPersistDownload";
+			if(!patch ^ bakKey in DownloadIntegration)
+				return;
+			_log("dontRemoveFinishedDownloads(" + patch + ")");
+			if(patch) {
+				DownloadIntegration[bakKey] = DownloadIntegration.shouldPersistDownload;
+				DownloadIntegration.shouldPersistDownload = function downloadPanelTweakerWrapper(download) {
+					if(download.hasPartialData || !download.stopped)
+						return true;
+					var retentionDays = prefs.get("downloadsMaxRetentionDays");
+					return retentionDays > 0
+						&& download.startTime > (Date.now() - retentionDays*24*60*60*1000);
+				};
+			}
+			else {
+				DownloadIntegration.shouldPersistDownload = DownloadIntegration[bakKey];
+				delete DownloadIntegration[bakKey];
+			}
+		}
+		else {
+			this.dontRemoveFinishedDownloadsLegacy(patch);
+		}
+	},
+	dontRemoveFinishedDownloadsLegacy: function(patch) {
 		const bakKey = "_downloadPanelTweaker_downloads";
 		const newKey = "_downloadPanelTweaker_downloadsWrapper";
 		if(!patch ^ bakKey in Services)
 			return;
-		var logPrefix = "dontRemoveFinishedDownloads(" + patch + "): ";
+		var logPrefix = "dontRemoveFinishedDownloadsLegacy(" + patch + "): ";
 		if(patch) {
 			var cleanUp = function downloadPanelTweakerWrapper() {
 				var stack = new Error().stack;
