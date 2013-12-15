@@ -653,20 +653,16 @@ var dpTweaker = {
 	openDownloadsLibrary: function(window) {
 		this.toggleDownloadPanel(window, false);
 		// See resource://app/components/DownloadsUI.js
-		var organizer = Services.wm.getMostRecentWindow("Places:Organizer");
-		if(!organizer) {
-			return window.openDialog(
-				"chrome://browser/content/places/places.xul",
-				"",
-				"chrome,toolbar=yes,dialog=no,resizable",
-				"Downloads"
-			);
-		}
-		else {
-			organizer.PlacesOrganizer.selectLeftPaneQuery("Downloads");
-			organizer.focus();
-			return organizer;
-		}
+		return this.openWindow(window, {
+			uri: "chrome://browser/content/places/places.xul",
+			type: "Places:Organizer",
+			features: "chrome,toolbar=yes,dialog=no,resizable",
+			args: ["Downloads"],
+			callback: function(win, alreadyOpened) {
+				if(alreadyOpened)
+					win.PlacesOrganizer.selectLeftPaneQuery("Downloads");
+			}
+		});
 	},
 	clearDownloadsId: "downloadPanelTweaker-menuItem-clearDownloads",
 	clearDownloads2Id: "downloadPanelTweaker-menuItem-clearDownloads2",
@@ -853,12 +849,21 @@ var dpTweaker = {
 				}
 				return null;
 			})();
-		if(win)
+		if(win) {
+			_log("openWindow(): already opened " + options.uri);
+			options.callback && options.callback(win, true);
 			win.focus();
+		}
 		else {
 			var openArgs = [options.uri, options.name || "", options.features || "chrome,all,dialog=0"];
 			options.args && openArgs.push.apply(openArgs, options.args);
 			win = parentWindow.openDialog.apply(parentWindow, openArgs);
+			_log("openWindow(): open " + options.uri);
+			options.callback && win.addEventListener("load", function load(e) {
+				win.removeEventListener(e.type, load, false);
+				_log("openWindow(): loaded " + options.uri);
+				options.callback(win, false);
+			}, false);
 		}
 		return win;
 	},
