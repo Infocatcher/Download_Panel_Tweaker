@@ -588,6 +588,15 @@ var dpTweaker = {
 		e.stopImmediatePropagation();
 	},
 	showDownloadWindow: function(window) {
+		// https://addons.mozilla.org/firefox/addon/downloads-window/
+		if(this.packageAvailable("downloads_window")) {
+			_log("Found Downloads Window extension, will open its window");
+			return this.openWindow(window, {
+				uri: "chrome://downloads_window/content/downloadsWindow.xul",
+				name: "downloads window",
+				features: "chrome,dialog=no,resizable,centerscreen"
+			});
+		}
 		if(
 			"PrivateBrowsingUtils" in window
 			&& window.PrivateBrowsingUtils.isWindowPrivate(window.content)
@@ -817,6 +826,41 @@ var dpTweaker = {
 			tb.setAttribute("tabsontop", ttRoot);
 			_log("fixToolbox(): override \"tabsontop\" on #navigator-toolbox: " + tt + " => " + ttRoot);
 		}
+	},
+
+	get xcr() {
+		delete this.xcr;
+		return this.xcr = Components.classes["@mozilla.org/chrome/chrome-registry;1"]
+			.getService(Components.interfaces.nsIXULChromeRegistry);
+	},
+	packageAvailable: function(packageName) {
+		try {
+			return /^[a-z]/.test(this.xcr.getSelectedLocale(packageName));
+		}
+		catch(e) {
+		}
+		return false;
+	},
+	openWindow: function(parentWindow, options) {
+		var win = options.type && Services.wm.getMostRecentWindow(options.type)
+			|| options.name && Services.ww.getWindowByName(options.name, null)
+			|| (function() {
+				var ws = Services.wm.getEnumerator(null);
+				while(ws.hasMoreElements()) {
+					var win = ws.getNext();
+					if(win.location.href == options.uri)
+						return win;
+				}
+				return null;
+			})();
+		if(win)
+			win.focus();
+		else {
+			var openArgs = [options.uri, options.name || "", options.features || "chrome,all,dialog=0"];
+			options.args && openArgs.push.apply(openArgs, options.args);
+			win = parentWindow.openDialog.apply(parentWindow, openArgs);
+		}
+		return win;
 	},
 
 	prefChanged: function(pName, pVal) {
