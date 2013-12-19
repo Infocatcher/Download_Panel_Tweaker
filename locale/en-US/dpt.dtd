@@ -19,6 +19,7 @@
 <!ENTITY dpt.override.default "Default">
 <!ENTITY dpt.override.togglePanel "Toggle panel">
 <!ENTITY dpt.override.openOldWindow "Open old window">
+<!ENTITY dpt.override.openOldWindowNote "May not work in private windows">
 <!ENTITY dpt.override.openInTab "Open in tab">
 <!ENTITY dpt.override.openLibraryWindow "Open Library window">
 

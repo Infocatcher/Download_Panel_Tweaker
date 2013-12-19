@@ -89,8 +89,13 @@
 						var label = setting.ownerDocument.getAnonymousElementByAttribute(setting, "class", "preferences-title");
 						if(label)
 							label.style.marginStart = label.style.MozMarginStart = "4ch";
-						if(hasPrivateWindows)
-							ml.getElementsByAttribute("value", "2")[0].setAttribute("disabled", "true");
+						if(hasPrivateWindows) {
+							var openWnd = ml.getElementsByAttribute("value", "2")[0];
+							openWnd.tooltipText = "&dpt.override.openOldWindowNote;";
+							var s = openWnd.style;
+							s.textDecoration = "underline";
+							s["textDecorationStyle" in s ? "textDecorationStyle" : "MozTextDecorationStyle"] = "dotted";
+						}
 						else {
 							setting.setAttribute("disabled", "true");
 							Array.forEach(setting.getElementsByTagName("*"), function(node) {
