@@ -91,10 +91,7 @@
 							label.style.marginStart = label.style.MozMarginStart = "4ch";
 						if(hasPrivateWindows) {
 							var openWnd = ml.getElementsByAttribute("value", "2")[0];
-							openWnd.tooltipText = "&dpt.override.openOldWindowNote;";
-							var s = openWnd.style;
-							s.textDecoration = "underline";
-							s["textDecorationStyle" in s ? "textDecorationStyle" : "MozTextDecorationStyle"] = "dotted";
+							openWnd.tooltipText += "\n&dpt.override.openOldWindowNotePrivate;";
 						}
 						else {
 							setting.setAttribute("disabled", "true");
@@ -105,13 +102,18 @@
 						}
 					}
 				}
+				Array.slice(_this.parentNode.getElementsByAttribute("style", "*")).forEach(function(node) {
+					node.setAttribute("style", node.getAttribute("style") + " "); /* Strange things happens */
+				});
 			}, 0, this);
 		'>
 		<menulist>
 			<menupopup>
 				<menuitem label="&dpt.override.default;" value="0" />
 				<menuitem label="&dpt.override.togglePanel;" value="1" />
-				<menuitem label="&dpt.override.openOldWindow;" value="2" />
+				<menuitem label="&dpt.override.openOldWindow;" value="2"
+					tooltiptext="&dpt.override.openOldWindowNote;"
+					style="text-decoration: underline; -moz-text-decoration-style: dotted; text-decoration-style: dotted;" />
 				<menuitem label="&dpt.override.openInTab;" value="3" />
 				<menuitem label="&dpt.override.openLibraryWindow;" value="4" />
 			</menupopup>

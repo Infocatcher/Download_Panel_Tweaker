@@ -19,7 +19,8 @@
 <!ENTITY dpt.override.default "По умолчанию">
 <!ENTITY dpt.override.togglePanel "Переключить панель">
 <!ENTITY dpt.override.openOldWindow "Открыть старое окно">
-<!ENTITY dpt.override.openOldWindowNote "Может не работать в приватных окнах">
+<!ENTITY dpt.override.openOldWindowNote "Не работает в Firefox 26+ без сторонних расширений">
+<!ENTITY dpt.override.openOldWindowNotePrivate "Может не работать в приватных окнах">
 <!ENTITY dpt.override.openInTab "Открыть во вкладке">
 <!ENTITY dpt.override.openLibraryWindow "Открыть окно библиотеки">
 
