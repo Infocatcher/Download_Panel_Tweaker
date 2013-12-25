@@ -448,19 +448,30 @@ var dpTweaker = {
 			if(!patch ^ bakKey in DownloadIntegration)
 				return;
 			_log("dontRemoveFinishedDownloads(" + patch + ")");
+			var store = "_store" in DownloadIntegration && DownloadIntegration._store;
 			if(patch) {
 				DownloadIntegration[bakKey] = DownloadIntegration.shouldPersistDownload;
-				DownloadIntegration.shouldPersistDownload = function downloadPanelTweakerWrapper(download) {
+				var wrapped = DownloadIntegration.shouldPersistDownload = function downloadPanelTweakerWrapper(download) {
 					if(download.hasPartialData || !download.stopped)
 						return true;
 					var retentionDays = prefs.get("downloadsMaxRetentionDays");
 					return retentionDays > 0
 						&& download.startTime > (Date.now() - retentionDays*24*60*60*1000);
 				};
+				if(store) {
+					_log("dontRemoveFinishedDownloads(" + patch + "): override DownloadStore.onsaveitem");
+					store[bakKey] = store.onsaveitem;
+					store.onsaveitem = wrapped;
+				}
 			}
 			else {
 				DownloadIntegration.shouldPersistDownload = DownloadIntegration[bakKey];
 				delete DownloadIntegration[bakKey];
+				if(store && bakKey in store) {
+					_log("dontRemoveFinishedDownloads(" + patch + "): restore DownloadStore.onsaveitem");
+					store.onsaveitem = store[bakKey];
+					delete store[bakKey];
+				}
 			}
 		}
 		else {
