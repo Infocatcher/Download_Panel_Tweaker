@@ -3,11 +3,6 @@
 <vbox xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	<setting pref="browser.download.useToolkitUI" type="bool" title="&dpt.useOldUI;"
 		onpreferencechanged='
-		var {Services} = Components.utils.import("resource://gre/modules/Services.jsm", {});
-		if(parseFloat(Services.appinfo.version) >= 26) {
-			this.style.display = "none";
-			return;
-		}
 		setTimeout(function(_this) {
 			var setup = _this.value
 				? function(node) {
