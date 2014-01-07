@@ -505,11 +505,12 @@ var dpTweaker = {
 				}
 			}
 			else {
-				DownloadIntegration.shouldPersistDownload = DownloadIntegration[bakKey];
+				var orig = DownloadIntegration[bakKey];
+				DownloadIntegration.shouldPersistDownload = orig;
 				delete DownloadIntegration[bakKey];
-				if(store && bakKey in store) {
+				if(store) {
 					_log("dontRemoveFinishedDownloads(" + patch + "): restore DownloadStore.onsaveitem");
-					store.onsaveitem = store[bakKey];
+					store.onsaveitem = store[bakKey] || orig;
 					delete store[bakKey];
 				}
 				if(updateFromDownloadKey) {
