@@ -441,10 +441,13 @@ var dpTweaker = {
 			// http://mxr.mozilla.org/mozilla-central/source/toolkit/components/jsdownloads/src/DownloadIntegration.jsm
 			var {DownloadIntegration} = Components.utils.import("resource://gre/modules/DownloadIntegration.jsm", {});
 			var {DownloadsDataItem} = Components.utils.import("resource://app/modules/DownloadsCommon.jsm", {});
-			var updateFromDownloadKey = DownloadsDataItem
-				&& DownloadsDataItem.prototype
-				&& "updateFromDownload" in DownloadsDataItem.prototype
-				&& "DownloadsDataItem.prototype.updateFromDownload";
+			if(DownloadsDataItem && DownloadsDataItem.prototype) {
+				var ddiPrototype = DownloadsDataItem.prototype;
+				var updateFromDownloadProp = "updateFromDownload" in ddiPrototype && "updateFromDownload" // Firefox 28+
+					|| "updateFromJSDownload" in ddiPrototype && "updateFromJSDownload";
+				var updateFromDownloadKey = updateFromDownloadProp
+					&& "DownloadsDataItem.prototype." + updateFromDownloadProp;
+			}
 		}
 		catch(e) {
 		}
@@ -470,7 +473,7 @@ var dpTweaker = {
 				}
 				if(updateFromDownloadKey) {
 					_log("dontRemoveFinishedDownloads(" + patch + "): patch " + updateFromDownloadKey);
-					patcher.wrapFunction(DownloadsDataItem.prototype, "updateFromDownload", updateFromDownloadKey,
+					patcher.wrapFunction(ddiPrototype, updateFromDownloadProp, updateFromDownloadKey,
 						function before() {},
 						function after(ret) {
 							if(
@@ -515,7 +518,7 @@ var dpTweaker = {
 				}
 				if(updateFromDownloadKey) {
 					_log("dontRemoveFinishedDownloads(" + patch + "): restore " + updateFromDownloadKey);
-					patcher.unwrapFunction(DownloadsDataItem.prototype, "updateFromDownload", updateFromDownloadKey);
+					patcher.unwrapFunction(ddiPrototype, updateFromDownloadProp, updateFromDownloadKey);
 				}
 			}
 		}
