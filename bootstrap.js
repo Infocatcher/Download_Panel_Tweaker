@@ -440,6 +440,11 @@ var dpTweaker = {
 		try { // Firefox 26+
 			// http://mxr.mozilla.org/mozilla-central/source/toolkit/components/jsdownloads/src/DownloadIntegration.jsm
 			var {DownloadIntegration} = Components.utils.import("resource://gre/modules/DownloadIntegration.jsm", {});
+			var {DownloadsDataItem} = Components.utils.import("resource://app/modules/DownloadsCommon.jsm", {});
+			var updateFromDownloadKey = DownloadsDataItem
+				&& DownloadsDataItem.prototype
+				&& "updateFromDownload" in DownloadsDataItem.prototype
+				&& "DownloadsDataItem.prototype.updateFromDownload";
 		}
 		catch(e) {
 		}
@@ -463,6 +468,41 @@ var dpTweaker = {
 					store[bakKey] = store.onsaveitem;
 					store.onsaveitem = wrapped;
 				}
+				if(updateFromDownloadKey) {
+					_log("dontRemoveFinishedDownloads(" + patch + "): patch " + updateFromDownloadKey);
+					patcher.wrapFunction(DownloadsDataItem.prototype, "updateFromDownload", updateFromDownloadKey,
+						function before() {},
+						function after(ret) {
+							if(
+								this._download
+								&& this._download.succeeded
+							) {
+								var dl = this._download;
+								var path = dl.target && dl.target.path || dl.target;
+								if(!(this.maxBytes > 0)) { // Also detects NaN
+									var maxBytes = Math.max(dl.totalBytes || 0, dl.currentBytes || 0);
+									if(maxBytes > 0) {
+										_log("updateFromDownload(): fix size for " + path + ": " + maxBytes);
+										this.maxBytes = maxBytes;
+									}
+								}
+								if(
+									this.endTime
+									&& Date.now() - this.endTime < 300
+									&& dl.startTime
+								) {
+									var time = dl.endTime // Missing for now in Firefox 29.0a1 (2014-01-06)
+										|| dl.startTime;
+									var ts = new Date(time).getTime();
+									if(ts > 0) {
+										_log("updateFromDownload(): fix time for " + path + ": " + time);
+										this.endTime = ts;
+									}
+								}
+							}
+						}
+					);
+				}
 			}
 			else {
 				DownloadIntegration.shouldPersistDownload = DownloadIntegration[bakKey];
@@ -471,6 +511,10 @@ var dpTweaker = {
 					_log("dontRemoveFinishedDownloads(" + patch + "): restore DownloadStore.onsaveitem");
 					store.onsaveitem = store[bakKey];
 					delete store[bakKey];
+				}
+				if(updateFromDownloadKey) {
+					_log("dontRemoveFinishedDownloads(" + patch + "): restore " + updateFromDownloadKey);
+					patcher.unwrapFunction(DownloadsDataItem.prototype, "updateFromDownload", updateFromDownloadKey);
 				}
 			}
 		}
