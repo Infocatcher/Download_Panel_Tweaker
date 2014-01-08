@@ -838,6 +838,7 @@ var dpTweaker = {
 	setFixToolbox: function(window, enable) {
 		var document = window.document;
 		var tb = document.getElementById("navigator-toolbox");
+		_log("setFixToolbox(" + enable + ")");
 		if(enable) {
 			if(
 				!tb.hasAttribute("tabsontop")
