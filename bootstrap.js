@@ -819,7 +819,7 @@ var dpTweaker = {
 		catch(e) { // Firefox 26.0a1
 			_log("clearDownloads(): Services.downloads.cleanUp/cleanUpPrivate() failed:\n" + e);
 			try {
-				var global = Components.utils.import("resource:///modules/DownloadsCommon.jsm");
+				var global = Components.utils.import("resource:///modules/DownloadsCommon.jsm", {});
 				if(global.DownloadsData && global.DownloadsData.removeFinished)
 					global.DownloadsData.removeFinished();
 				if(global.PrivateDownloadsData && global.PrivateDownloadsData.removeFinished)
