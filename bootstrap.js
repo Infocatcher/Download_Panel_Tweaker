@@ -820,10 +820,14 @@ var dpTweaker = {
 			_log("clearDownloads(): Services.downloads.cleanUp/cleanUpPrivate() failed:\n" + e);
 			try {
 				var global = Components.utils.import("resource:///modules/DownloadsCommon.jsm", {});
-				if(global.DownloadsData && global.DownloadsData.removeFinished)
+				if(global.DownloadsData && global.DownloadsData.removeFinished) {
 					global.DownloadsData.removeFinished();
-				if(global.PrivateDownloadsData && global.PrivateDownloadsData.removeFinished)
+					_log("clearDownloads(): cleanup DownloadsData");
+				}
+				if(global.PrivateDownloadsData && global.PrivateDownloadsData.removeFinished) {
 					global.PrivateDownloadsData.removeFinished();
+					_log("clearDownloads(): cleanup PrivateDownloadsData");
+				}
 			}
 			catch(e2) {
 				Components.utils.reportError(e2);
