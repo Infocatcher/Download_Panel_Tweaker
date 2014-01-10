@@ -647,6 +647,12 @@ var dpTweaker = {
 		e.stopImmediatePropagation();
 	},
 	showDownloadWindow: function(window) {
+		var evt = window.document.createEvent("Events");
+		evt.initEvent("DownloadPanelTweaker:OpenDownloadWindow", true, true);
+		if(!window.dispatchEvent(evt)) {
+			_log("showDownloadWindow(): someone handle API event, do nothing");
+			return true;
+		}
 		// https://addons.mozilla.org/firefox/addon/downloads-window/
 		if(this.packageAvailable("downloads_window")) {
 			_log("Found Downloads Window extension, will open its window");
