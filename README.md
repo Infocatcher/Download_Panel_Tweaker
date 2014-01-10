@@ -1,3 +1,12 @@
+#### API
+You can use "DownloadPanelTweaker:OpenDownloadWindow" event to override “open old window” command, example:
+```js
+window.addEventListener("DownloadPanelTweaker:OpenDownloadWindow", function(e) {
+	e.preventDefault();
+	// Put here some code to open alternative download window
+}, false);
+```
+
 #### Internals
 Compact downloads list style: https://github.com/Infocatcher/UserStyles/tree/master/Compact_downloads
 <br>Visible downloads count limit: https://gist.github.com/Infocatcher/5387328
