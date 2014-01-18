@@ -18,8 +18,8 @@ pref("extensions.downloadPanelTweaker.overrideShowAllDownloads.private", 0);
 // 4 - open downloads library
 
 pref("extensions.downloadPanelTweaker.dontRemoveFinishedDownloads", true);
-pref("extensions.downloadPanelTweaker.downloadsMaxRetentionDays", 7);
-// Only for Firefox 26+, store finished downloads at least this time (in days)
+pref("extensions.downloadPanelTweaker.downloadsMaxRetentionHours", 72); // 3*24
+// Only for Firefox 26+, store finished downloads at least this time (in hours)
 pref("extensions.downloadPanelTweaker.fixWrongTabsOnTopAttribute", true);
 
 pref("extensions.downloadPanelTweaker.debug", false);

@@ -462,9 +462,9 @@ var dpTweaker = {
 				var wrapped = DownloadIntegration.shouldPersistDownload = function downloadPanelTweakerWrapper(download) {
 					if(download.hasPartialData || !download.stopped)
 						return true;
-					var retentionDays = prefs.get("downloadsMaxRetentionDays");
-					return retentionDays > 0
-						&& download.startTime > (Date.now() - retentionDays*24*60*60*1000);
+					var retentionHours = prefs.get("downloadsMaxRetentionHours");
+					return retentionHours > 0
+						&& download.startTime > (Date.now() - retentionHours*60*60*1000);
 				};
 				if(store) {
 					_log("dontRemoveFinishedDownloads(" + patch + "): override DownloadStore.onsaveitem");
