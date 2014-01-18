@@ -460,7 +460,8 @@ var dpTweaker = {
 			if(patch) {
 				DownloadIntegration[bakKey] = DownloadIntegration.shouldPersistDownload;
 				var wrapped = DownloadIntegration.shouldPersistDownload = function downloadPanelTweakerWrapper(download) {
-					if(download.hasPartialData || !download.stopped)
+					//if(download.hasPartialData || !download.stopped)
+					if(download.hasPartialData || !download.succeeded)
 						return true;
 					var retentionHours = prefs.get("downloadsMaxRetentionHours");
 					return retentionHours > 0
