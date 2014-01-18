@@ -507,6 +507,14 @@ var dpTweaker = {
 						}
 					);
 				}
+				if(store && "_cleanupDownloads" in this) try { // See migratePrefs()
+					delete this._cleanupDownloads;
+					_log("Try cleanup downloads.json");
+					store.save();
+				}
+				catch(e) {
+					Components.utils.reportError(e);
+				}
 			}
 			else {
 				var orig = DownloadIntegration[bakKey];
@@ -1031,13 +1039,19 @@ var dpTweaker = {
 
 var prefs = {
 	ns: "extensions.downloadPanelTweaker.",
+	version: 1,
 	initialized: false,
 	init: function() {
 		if(this.initialized)
 			return;
 		this.initialized = true;
 
-		this.migratePrefs();
+		var version = this.getPref(this.ns + "prefsVersion", 0);
+		if(version < this.version) {
+			this.migratePrefs(version);
+			_log("Prefs updated: " + version + " => " + this.version);
+			this.setPref(this.ns + "prefsVersion", this.version);
+		}
 		//~ todo: add condition when https://bugzilla.mozilla.org/show_bug.cgi?id=564675 will be fixed
 		this.loadDefaultPrefs();
 		Services.prefs.addObserver(this.ns, this, false);
@@ -1058,13 +1072,24 @@ var prefs = {
 		dpTweaker.prefChanged(shortName, val);
 	},
 
-	migratePrefs: function() {
-		var compactPref = this.ns + "compactDownloads";
-		var compact = this.getPref(compactPref);
-		if(typeof compact == "boolean") {
-			Services.prefs.deleteBranch(compactPref);
-			if(compact === false)
-				this.setPref(compactPref, 0);
+	migratePrefs: function(version) {
+		switch(version) {
+			case 0:
+				var compactPref = this.ns + "compactDownloads";
+				var compact = this.getPref(compactPref);
+				if(typeof compact == "boolean") {
+					Services.prefs.deleteBranch(compactPref);
+					if(compact === false)
+						this.setPref(compactPref, 0);
+				}
+				var maxRetentionPref = this.ns + "downloadsMaxRetentionDays";
+				var maxRetention = this.getPref(maxRetentionPref);
+				if(typeof maxRetention == "number") {
+					// Note: no migration, we may have bugs with too long limit
+					Services.prefs.deleteBranch(maxRetentionPref);
+					if(maxRetention > 0)
+						dpTweaker._cleanupDownloads = true; // See dontRemoveFinishedDownloads()
+				}
 		}
 	},
 	loadDefaultPrefs: function() {
