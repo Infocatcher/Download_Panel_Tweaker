@@ -18,8 +18,14 @@ pref("extensions.downloadPanelTweaker.overrideShowAllDownloads.private", 0);
 // 4 - open downloads library
 
 pref("extensions.downloadPanelTweaker.dontRemoveFinishedDownloads", true);
-pref("extensions.downloadPanelTweaker.downloadsMaxRetentionHours", 72); // 3*24
-// Only for Firefox 26+, store finished downloads at least this time (in hours)
+// Additional tweaks for dontRemoveFinishedDownloads = true:
+pref("extensions.downloadPanelTweaker.downloadsMaxRetentionHours", 72); // 3*24, only Firefox 26+
+// Store finished downloads at least this time (in hours)
+pref("extensions.downloadPanelTweaker.cleanupDownloadsOnShutdown", true); // only Firefox 26+
+// Save current "session" downloads into %profile%/downloads.json on browser shutdown to perform cleanup
+// and correctly remove deleted (from UI) downloads, but this may break save process, if someone will
+// call it at the same time.
+
 pref("extensions.downloadPanelTweaker.fixWrongTabsOnTopAttribute", true);
 
 pref("extensions.downloadPanelTweaker.prefsVersion", 0);

@@ -56,7 +56,10 @@ var dpTweaker = {
 			if(prefs.get("dontRemoveFinishedDownloads"))
 				this.dontRemoveFinishedDownloads(false);
 		}
-		else if(prefs.get("dontRemoveFinishedDownloads")) {
+		else if(
+			prefs.get("dontRemoveFinishedDownloads")
+			&& prefs.get("cleanupDownloadsOnShutdown")
+		) {
 			// Force save downloads.json to perform cleanup: due to optimizations (or bugs?)
 			// this may not happens after removing of "session" downloads
 			this.saveDownloads();
