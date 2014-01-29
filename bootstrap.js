@@ -56,6 +56,11 @@ var dpTweaker = {
 			if(prefs.get("dontRemoveFinishedDownloads"))
 				this.dontRemoveFinishedDownloads(false);
 		}
+		else if(prefs.get("dontRemoveFinishedDownloads")) {
+			// Force save downloads.json to perform cleanup: due to optimizations (or bugs?)
+			// this may not happens after removing of "session" downloads
+			this.saveDownloads();
+		}
 
 		var ws = Services.wm.getEnumerator("navigator:browser");
 		while(ws.hasMoreElements())
@@ -591,6 +596,17 @@ var dpTweaker = {
 			writable: true,
 			enumerable: true
 		});
+	},
+
+	saveDownloads: function() {
+		try { // Firefox 26+
+			var {DownloadIntegration} = Components.utils.import("resource://gre/modules/DownloadIntegration.jsm", {});
+			DownloadIntegration._store && DownloadIntegration._store.save();
+		}
+		catch(e) {
+			if(!DownloadIntegration)
+				Components.utils.reportError(e);
+		}
 	},
 
 	get handleCommandEvent() {
