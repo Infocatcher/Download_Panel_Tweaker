@@ -511,6 +511,9 @@ var dpTweaker = {
 										this.endTime = ts;
 									}
 								}
+								// Suppress notifications, see _updateDataItemState() in
+								// resource:///modules/DownloadsCommon.jsm
+								this.newDownloadNotified = true;
 							}
 						}
 					);
