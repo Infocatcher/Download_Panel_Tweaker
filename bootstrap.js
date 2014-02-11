@@ -485,11 +485,10 @@ var dpTweaker = {
 					patcher.wrapFunction(ddiPrototype, updateFromDownloadProp, updateFromDownloadKey,
 						function before() {},
 						function after(ret) {
-							if(
-								this._download
-								&& this._download.succeeded
-							) {
-								var dl = this._download;
+							var dl = this._download;
+							if(!dl)
+								return;
+							if(dl.succeeded) {
 								var path = dl.target && dl.target.path || dl.target;
 								if(!(this.maxBytes > 0)) { // Also detects NaN
 									var maxBytes = Math.max(dl.totalBytes || 0, dl.currentBytes || 0);
