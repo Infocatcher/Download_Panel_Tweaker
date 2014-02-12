@@ -8,7 +8,7 @@
 ##### master/HEAD
 `+` Added ability to configure actions for downloads command, hotkey (Ctrl+J) and “Show All Downloads” button (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/10">#10</a>).<br> 
 `+` Added workaround for line between Navigation and Bookmarks toolbars (<em>extensions.downloadPanelTweaker.fixWrongTabsOnTopAttribute</em> preference) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/3">#3</a>).<br>
-`x` Fixed: download panel width option doesn't works with <a href="https://addons.mozilla.org/firefox/addon/nasa-night-launch/">NASA Night Launch</a> theme (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/4">#4</a>).<br>
+`x` Fixed: download panel width option doesn't work with <a href="https://addons.mozilla.org/firefox/addon/nasa-night-launch/">NASA Night Launch</a> theme (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/4">#4</a>).<br>
 `*` Improved startup performance.<br>
 `x` Correctly set small progress bar height.<br>
 `+` Added ability to not remove finished downloads from panel (+ hidden <em>extensions.downloadPanelTweaker.downloadsMaxRetentionHours</em> preference) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/5">#5</a>).<br>
