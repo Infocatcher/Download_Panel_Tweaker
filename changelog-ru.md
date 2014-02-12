@@ -17,6 +17,7 @@
 `+` В контекстное меню панели загрузок добавлен пункт «Очистить загрузки» (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/8">#8</a>).<br>
 `x` Исправлено обновление панели загрузок в Firefox 28+ (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/13">#13</a>).<br>
 `+` Настройка <em>browser.download.useToolkitUI</em> теперь скрывается в Firefox 26+ (больше не работает, см. <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=845403">bug 845403</a>).<br>
+`+` Добавлена возможность ограничить высоту панели загрузок (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/20">#20</a>).<br>
 `+` Добавлена греческая (el) локаль, спасибо <a href="http://forums.mozillazine.org/memberlist.php?mode=viewprofile&u=1595963">Grg68</a>.<br>
 
 ##### 0.1.0 (2013-05-29)
