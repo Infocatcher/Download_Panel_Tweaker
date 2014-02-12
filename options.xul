@@ -32,6 +32,7 @@
 	' />
 	<setting pref="extensions.downloadPanelTweaker.itemCountLimit" type="integer" title="&dpt.itemCountLimit;" />
 	<setting pref="extensions.downloadPanelTweaker.panelWidth" type="integer" title="&dpt.panelWidth;" />
+	<setting pref="extensions.downloadPanelTweaker.panelMaxHeight" type="integer" title="&dpt.panelMaxHeight;" />
 	<setting pref="extensions.downloadPanelTweaker.progressBarHeight" type="integer" title="&dpt.progressBarHeight;" />
 	<setting pref="extensions.downloadPanelTweaker.compactDownloads" type="radio" title="&dpt.compactDownloads;">
 		<radiogroup>

@@ -2,6 +2,7 @@
 <!ENTITY dpt.useOldUI "Χρήση κλασικού παραθύρου λήψεων (δεν συνιστάται)">
 <!ENTITY dpt.itemCountLimit "Αριθμός ορατών λήψεων">
 <!ENTITY dpt.panelWidth "Πλάτος πλαισίου λήψεων">
+<!ENTITY dpt.panelMaxHeight "Download panel height limit">
 <!ENTITY dpt.progressBarHeight "Ύψος γραμμής προόδου">
 <!ENTITY dpt.compactDownloads "Λίστα λήψεων">
 <!ENTITY dpt.compactDownloads.default "Προεπιλεγμένη">

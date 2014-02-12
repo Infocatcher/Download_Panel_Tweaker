@@ -2,6 +2,7 @@
 <!ENTITY dpt.useOldUI "Использовать старый интерфейс загрузок (не рекомендуется)">
 <!ENTITY dpt.itemCountLimit "Ограничение видимого количества загрузок">
 <!ENTITY dpt.panelWidth "Ширина панели загрузок">
+<!ENTITY dpt.panelMaxHeight "Ограничение высоты панели загрузок">
 <!ENTITY dpt.progressBarHeight "Высота полосы прогресса">
 <!ENTITY dpt.compactDownloads "Список загрузок">
 <!ENTITY dpt.compactDownloads.default "По умолчанию">
