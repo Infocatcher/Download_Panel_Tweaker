@@ -11,7 +11,7 @@
 `x` Исправлено: настройка ширины панели загрузок не работала с темой <a href="https://addons.mozilla.org/firefox/addon/nasa-night-launch/">NASA Night Launch</a> (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/4">#4</a>).<br>
 `*` Улучшена производительность при запуске.<br>
 `x` Исправлена установка маленькой высоты полосы прогресса.<br>
-`+` Добавлена возможность не удалять завершенные загрузки из панели (+ скрытая настройка <em>extensions.downloadPanelTweaker.downloadsMaxRetentionDays</em>) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/5">#5</a>).<br>
+`+` Добавлена возможность не удалять завершенные загрузки из панели (+ скрытая настройка <em>extensions.downloadPanelTweaker.downloadsMaxRetentionHours</em>) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/5">#5</a>).<br>
 `+` Добавлен очень компактный стиль для списка загрузок (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/7">#7</a>).<br>
 `*` Улучшены стили для списка загрузок.<br>
 `+` В контекстное меню панели загрузок добавлен пункт «Очистить загрузки» (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/8">#8</a>).<br>

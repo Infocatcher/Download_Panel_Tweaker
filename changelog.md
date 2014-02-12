@@ -11,7 +11,7 @@
 `x` Fixed: download panel width option doesn't works with <a href="https://addons.mozilla.org/firefox/addon/nasa-night-launch/">NASA Night Launch</a> theme (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/4">#4</a>).<br>
 `*` Improved startup performance.<br>
 `x` Correctly set small progress bar height.<br>
-`+` Added ability to not remove finished downloads from panel (+ hidden <em>extensions.downloadPanelTweaker.downloadsMaxRetentionDays</em> preference) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/5">#5</a>).<br>
+`+` Added ability to not remove finished downloads from panel (+ hidden <em>extensions.downloadPanelTweaker.downloadsMaxRetentionHours</em> preference) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/5">#5</a>).<br>
 `+` Added very compact style for downloads list (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/7">#7</a>).<br>
 `*` Improved styles for downloads list.<br>
 `+` Added “Clear Downloads” menu item to panel context menu (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/8">#8</a>).<br>
