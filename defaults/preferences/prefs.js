@@ -1,5 +1,6 @@
 pref("extensions.downloadPanelTweaker.itemCountLimit", 7);
 pref("extensions.downloadPanelTweaker.panelWidth", 58);
+pref("extensions.downloadPanelTweaker.panelMaxHeight", 0);
 pref("extensions.downloadPanelTweaker.progressBarHeight", 10);
 pref("extensions.downloadPanelTweaker.showDownloadRate", true);
 pref("extensions.downloadPanelTweaker.compactDownloads", 1);

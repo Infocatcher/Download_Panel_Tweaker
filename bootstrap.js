@@ -202,6 +202,7 @@ var dpTweaker = {
 	_tweakStyleLoaded: false,
 	tweakCssURI: null,
 	minPanelWidth: 5,
+	minPanelHeight: 30,
 	minProgressBarHeight: 6,
 	maxProgressBarHeight: 50,
 	pausedAttr: "downloadPanelTweaker_paused",
@@ -212,6 +213,10 @@ var dpTweaker = {
 		var cssURI;
 		if(add) {
 			var panelWidth = Math.max(this.minPanelWidth, prefs.get("panelWidth", 60));
+			var panelMinHeight = prefs.get("panelMaxHeight", -1);
+			var panelMinHeightVal = panelMinHeight <= 0
+				? "none"
+				: Math.max(this.minPanelHeight, panelMinHeight) + "px";
 			var pbHeight = Math.max(this.minProgressBarHeight, Math.min(this.maxProgressBarHeight,
 				prefs.get("progressBarHeight", 10)
 			));
@@ -225,10 +230,12 @@ var dpTweaker = {
 					url("chrome://browser/content/places/places.xul"),\n\
 					url("about:downloads"),\n\
 					url("chrome://browser/content/downloads/contentAreaDownloadsView.xul") {\n\
-					#downloadsListBox { /* Firefox < 20 or NASA Night Launch theme */\n\
+					#downloadsListBox {\n\
+						/* Set width for Firefox < 20 and NASA Night Launch theme */\n\
 						width: auto !important;\n\
 						min-width: 0 !important;\n\
 						max-width: none !important;\n\
+						max-height: ' + panelMinHeightVal + ' !important;\n\
 					}\n\
 					' + containerSelector + ' {\n\
 						width: ' + panelWidth + 'ch !important;\n\
@@ -988,12 +995,15 @@ var dpTweaker = {
 			pName == "panelWidth"
 			|| pName == "progressBarHeight"
 			|| pName == "decolorizePausedProgress"
+			|| pName == "panelMaxHeight"
 		) {
 			if(
 				pName == "panelWidth"
 					&& this.wrongPref(pName, pVal, this.minPanelWidth, 10e3)
 				|| pName == "progressBarHeight"
 					&& this.wrongPref(pName, pVal, this.minProgressBarHeight, this.maxProgressBarHeight)
+				|| pName == "panelMaxHeight"
+					&& this.wrongPref(pName, pVal, this.minPanelHeight, 100e3, true)
 			)
 				return;
 			if(pName == "decolorizePausedProgress") {
@@ -1034,9 +1044,12 @@ var dpTweaker = {
 		}
 	},
 	_wrongPrefTimer: null,
-	wrongPref: function(pName, pVal, min, max) {
+	wrongPref: function(pName, pVal, min, max, allowZero) {
 		var timer = this._wrongPrefTimer;
 		timer && timer.cancel();
+
+		if(allowZero && pVal <= 0)
+			return false;
 
 		var corrected;
 		if(pVal > max)
