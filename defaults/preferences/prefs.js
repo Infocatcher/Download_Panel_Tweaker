@@ -17,6 +17,7 @@ pref("extensions.downloadPanelTweaker.overrideShowAllDownloads.private", 0);
 // 2 - open old downloads window
 // 3 - open "about:downloads" tab
 // 4 - open downloads library
+// 5 - toggle sidebar with "about:downloads"
 
 pref("extensions.downloadPanelTweaker.dontRemoveFinishedDownloads", true);
 // Additional tweaks for dontRemoveFinishedDownloads = true:

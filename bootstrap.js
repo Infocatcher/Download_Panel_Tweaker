@@ -674,6 +674,7 @@ var dpTweaker = {
 			case 2: ok = this.showDownloadWindow(window);   break;
 			case 3: ok = this.openDownloadsTab(window);     break;
 			case 4: ok = this.openDownloadsLibrary(window); break;
+			case 5: ok = this.toggleDownloadsSidebar(window); break;
 			default: return;
 		}
 		if(ok == false)
@@ -766,6 +767,22 @@ var dpTweaker = {
 			}
 		});
 	},
+	toggleDownloadsSidebar: function(window) {
+		var document = window.document;
+		var sbBrowser = document.getElementById("sidebar");
+		var wpBrowser = sbBrowser && sbBrowser.boxObject.width > 0
+			&& sbBrowser.contentDocument.getElementById("web-panels-browser");
+		if(wpBrowser && wpBrowser.currentURI.spec == "about:downloads") {
+			window.toggleSidebar();
+			return;
+		}
+		var downloadsTitle = this.getEntity(
+			["chrome://browser/locale/downloads/downloads.dtd"],
+			"downloads.title",
+			"Downloads"
+		);
+		window.openWebPanel(downloadsTitle, "about:downloads");
+	},
 	clearDownloadsId: "downloadPanelTweaker-menuItem-clearDownloads",
 	clearDownloads2Id: "downloadPanelTweaker-menuItem-clearDownloads2",
 	panelFooterContextId: "downloadPanelTweaker-popup-panelFooterContext",
@@ -781,9 +798,16 @@ var dpTweaker = {
 		var clearDownloads = document.createElement("menuitem");
 		clearDownloads.id = this.clearDownloadsId;
 		clearDownloads.setAttribute("downloadPanelTweaker-command", "clearDownloads");
-		var [label, accesskey] = this.getClearDownloadsLabel(window);
-		clearDownloads.setAttribute("label", label);
-		clearDownloads.setAttribute("accesskey", accesskey);
+		var labels = {
+			"cmd.clearDownloads.label": "Clear Downloads",
+			"cmd.clearDownloads.accesskey": "D"
+		};
+		this.getEntities([
+			"chrome://downloadpaneltweaker/locale/dpt.dtd",
+			"chrome://browser/locale/downloads/downloads.dtd"
+		], labels);
+		clearDownloads.setAttribute("label", labels["cmd.clearDownloads.label"]);
+		clearDownloads.setAttribute("accesskey", labels["cmd.clearDownloads.accesskey"]);
 
 		var footer = document.getElementById("downloadsFooter")
 			|| document.getElementById("downloadsHistory"); // Firefox < 20
@@ -829,28 +853,6 @@ var dpTweaker = {
 			if(footerContext && force)
 				footerContext.parentNode.removeChild(footerContext);
 		}
-	},
-	getClearDownloadsLabel: function(window) {
-		try {
-			var xul = '<?xml version="1.0"?>\
-				<!DOCTYPE label [\
-					<!ENTITY % dptDTD SYSTEM "chrome://downloadpaneltweaker/locale/dpt.dtd">\
-					%dptDTD;\
-					<!ENTITY % downloadsDTD SYSTEM "chrome://browser/locale/downloads/downloads.dtd">\
-					%downloadsDTD;\
-				]>\
-				<label value="&cmd.clearDownloads.label;" accesskey="&cmd.clearDownloads.accesskey;" />';
-			var node = new window.DOMParser().parseFromString(xul, "application/xml").documentElement;
-			if(node.localName == "label")
-				return [node.getAttribute("value"), node.getAttribute("accesskey")];
-			else
-				_log("getClearDownloadsLabel(): can't parse downloads.dtd");
-		}
-		catch(e) {
-			Components.utils.reportError(e);
-		}
-		_log("getClearDownloadsLabel(): will use English strings...");
-		return ["Clear Downloads", "D"];
 	},
 	clearDownloads: function() {
 		_log("clearDownloads()");
@@ -973,6 +975,42 @@ var dpTweaker = {
 			}, false);
 		}
 		return win;
+	},
+
+	getEntity: function(dtds, name, dafaultVal) {
+		var out = {};
+		out[name] = dafaultVal;
+		this.getEntities(dtds, out);
+		return out[name];
+	},
+	getEntities: function(dtds, names) {
+		var dtdData = dtds.map(function(dtd, i) {
+			return '<!ENTITY % dtd' + i + ' SYSTEM "' + dtd + '"> %dtd' + i + ';';
+		}).join("\n");
+		var attrs = [];
+		for(var name in names) if(names.hasOwnProperty(name))
+			attrs.push(name + '="&' + name + ';"');
+		var attrsData = attrs.join(" ");
+		try {
+			var xul = '<?xml version="1.0"?>\n\
+				<!DOCTYPE label [\n' + dtdData + '\n\
+				]>\n\
+				<label ' + attrsData + ' />';
+			var node = Components.classes["@mozilla.org/xmlextras/domparser;1"]
+				.createInstance(Components.interfaces.nsIDOMParser)
+				.parseFromString(xul, "application/xml")
+				.documentElement;
+			if(node.localName == "label") {
+				for(var name in names) if(names.hasOwnProperty(name))
+					names[name] = node.getAttribute(name) || names[name];
+				return true;
+			}
+		}
+		catch(e) {
+			Components.utils.reportError(e);
+		}
+		_log("getEntities(): will use English strings: " + JSON.stringify(names));
+		return false;
 	},
 
 	prefChanged: function(pName, pVal) {
