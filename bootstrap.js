@@ -223,6 +223,10 @@ var dpTweaker = {
 			var containerSelector = parseFloat(Services.appinfo.version) >= 20
 				? ".downloadContainer"
 				: ".download-state > vbox";
+			var tdsPrefix = "-moz-";
+			var window = Services.wm.getMostRecentWindow(null);
+			if(window && "textDecorationStyle" in window.document.documentElement.style)
+				tdsPrefix = "";
 			var cssStr = '\
 				/* Download Panel Tweaker */\n\
 				@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");\n\
@@ -274,6 +278,13 @@ var dpTweaker = {
 					}'
 						: ""
 					) + '\n\
+				}\n\
+				@-moz-document url("about:addons"),\n\
+					url("chrome://mozapps/content/extensions/extensions.xul") {\n\
+					.downloadPanelTweaker-item[tooltiptext] {\n\
+						text-decoration: underline;\n\
+						' + tdsPrefix + 'text-decoration-style: dotted;\n\
+					}\n\
 				}';
 			cssURI = this.tweakCssURI = this.newCssURI(cssStr);
 		}

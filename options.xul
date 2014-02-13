@@ -93,6 +93,9 @@
 						if(hasPrivateWindows) {
 							var openWnd = ml.getElementsByAttribute("value", "2")[0];
 							openWnd.tooltipText += "\n&dpt.override.openOldWindowNotePrivate;";
+							var tooggleSb = ml.getElementsByAttribute("value", "5")[0];
+							tooggleSb.tooltipText = "&dpt.override.toggleSidebarNotePrivate;";
+							tooggleSb.className = "downloadPanelTweaker-item";
 						}
 						else {
 							setting.setAttribute("disabled", "true");
@@ -114,9 +117,10 @@
 				<menuitem label="&dpt.override.togglePanel;" value="1" />
 				<menuitem label="&dpt.override.openOldWindow;" value="2"
 					tooltiptext="&dpt.override.openOldWindowNote;"
-					style="text-decoration: underline; -moz-text-decoration-style: dotted; text-decoration-style: dotted;" />
+					class="downloadPanelTweaker-item" />
 				<menuitem label="&dpt.override.openInTab;" value="3" />
 				<menuitem label="&dpt.override.openLibraryWindow;" value="4" />
+				<menuitem label="&dpt.override.toggleSidebar;" value="5" />
 			</menupopup>
 		</menulist>
 	</setting>

@@ -24,6 +24,8 @@
 <!ENTITY dpt.override.openOldWindowNotePrivate "Может не работать в приватных окнах">
 <!ENTITY dpt.override.openInTab "Открыть во вкладке">
 <!ENTITY dpt.override.openLibraryWindow "Открыть окно библиотеки">
+<!ENTITY dpt.override.toggleSidebar "Переключить боковую панель">
+<!ENTITY dpt.override.toggleSidebarNotePrivate "Не работает в приватных окнах">
 
 <!--
 See view-source:chrome://browser/locale/downloads/downloads.dtd
