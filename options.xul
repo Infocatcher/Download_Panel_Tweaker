@@ -106,9 +106,6 @@
 						}
 					}
 				}
-				Array.slice(_this.parentNode.getElementsByAttribute("style", "*")).forEach(function(node) {
-					node.setAttribute("style", node.getAttribute("style") + " "); /* Strange things happens */
-				});
 			}, 0, this);
 		'>
 		<menulist>
