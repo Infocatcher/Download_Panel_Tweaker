@@ -22,6 +22,7 @@
 				if(
 					pref.endsWith(".itemCountLimit")
 					|| pref.endsWith(".panelWidth")
+					|| pref.endsWith(".panelMaxHeight")
 					|| pref.endsWith(".dontRemoveFinishedDownloads")
 				) {
 					setup(setting);
