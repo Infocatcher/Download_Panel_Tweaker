@@ -696,9 +696,7 @@ var dpTweaker = {
 		e.stopImmediatePropagation();
 	},
 	showDownloadWindow: function(window) {
-		var evt = window.document.createEvent("Events");
-		evt.initEvent("DownloadPanelTweaker:OpenDownloadWindow", true, true);
-		if(!window.dispatchEvent(evt)) {
+		if(!this.dispatchAPIEvent(window, "OpenDownloadWindow")) {
 			_log("showDownloadWindow(): someone handle API event, do nothing");
 			return true;
 		}
@@ -779,6 +777,10 @@ var dpTweaker = {
 		});
 	},
 	toggleDownloadsSidebar: function(window) {
+		if(!this.dispatchAPIEvent(window, "ToggleDownloadSidebar")) {
+			_log("toggleDownloadsSidebar(): someone handle API event, do nothing");
+			return true;
+		}
 		var document = window.document;
 		var sbBrowser = document.getElementById("sidebar");
 		var wpBrowser = sbBrowser && sbBrowser.boxObject.width > 0
@@ -794,6 +796,13 @@ var dpTweaker = {
 		);
 		window.openWebPanel(downloadsTitle, "about:downloads");
 	},
+
+	dispatchAPIEvent: function(window, type) {
+		var evt = window.document.createEvent("Events");
+		evt.initEvent("DownloadPanelTweaker:" + type, true, true);
+		return window.dispatchEvent(evt);
+	},
+
 	clearDownloadsId: "downloadPanelTweaker-menuItem-clearDownloads",
 	clearDownloads2Id: "downloadPanelTweaker-menuItem-clearDownloads2",
 	panelFooterContextId: "downloadPanelTweaker-popup-panelFooterContext",

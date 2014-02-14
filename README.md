@@ -1,5 +1,5 @@
 #### API
-You can use "DownloadPanelTweaker:OpenDownloadWindow" event to override “open old window” command, example:
+You can use "DownloadPanelTweaker:OpenDownloadWindow" and "DownloadPanelTweaker:ToggleDownloadSidebar" events to override “open old window” and “toggle sidebar” commands, example:
 ```js
 window.addEventListener("DownloadPanelTweaker:OpenDownloadWindow", function(e) {
 	e.preventDefault();
