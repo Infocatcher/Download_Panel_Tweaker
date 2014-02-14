@@ -782,6 +782,13 @@ var dpTweaker = {
 			return true;
 		}
 		var document = window.document;
+		var sbItem = document.getElementById("menu_dmSidebar") // OmniSidebar
+			|| document.getElementById("downloads-mitem"); // All-in-One Sidebar
+		if(sbItem) {
+			_log("toggleDownloadsSidebar(): found #" + sbItem.id);
+			sbItem.doCommand();
+			return;
+		}
 		var sbBrowser = document.getElementById("sidebar");
 		var wpBrowser = sbBrowser && sbBrowser.boxObject.width > 0
 			&& sbBrowser.contentDocument.getElementById("web-panels-browser");
