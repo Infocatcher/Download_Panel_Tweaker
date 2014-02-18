@@ -58,7 +58,7 @@
 			if(parseFloat(Services.appinfo.version) >= 26) {
 				var oldUI = this.ownerDocument.getElementsByAttribute("pref", "browser.download.useToolkitUI")[0];
 				if(oldUI)
-					oldUI.style.display = "none";
+					oldUI.style.visibility = "collapse";
 			}
 			setTimeout(function(_this) {
 				var hasPrivateWindows = parseFloat(Services.appinfo.version) >= 20;
