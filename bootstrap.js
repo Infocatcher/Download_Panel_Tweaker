@@ -510,37 +510,7 @@ var dpTweaker = {
 				_log("dontRemoveFinishedDownloads(" + patch + "): patch " + updateFromDownloadKey);
 				patcher.wrapFunction(ddiPrototype, updateFromDownloadProp, updateFromDownloadKey,
 					function before() {},
-					function after(ret) {
-						var dl = this._download;
-						if(!dl)
-							return;
-						if(dl.succeeded) {
-							var path = dl.target && dl.target.path || dl.target;
-							if(!(this.maxBytes > 0)) { // Also detects NaN
-								var maxBytes = Math.max(dl.totalBytes || 0, dl.currentBytes || 0);
-								if(maxBytes > 0) {
-									_log("updateFromDownload(): fix size for " + path + ": " + maxBytes);
-									this.maxBytes = maxBytes;
-								}
-							}
-							if(
-								this.endTime
-								&& Date.now() - this.endTime < 300
-								&& dl.startTime
-							) {
-								var time = dl.endTime // Missing for now in Firefox 29.0a1 (2014-01-06)
-									|| dl.startTime;
-								var ts = new Date(time).getTime();
-								if(ts > 0) {
-									_log("updateFromDownload(): fix time for " + path + ": " + time);
-									this.endTime = ts;
-								}
-							}
-							// Suppress notifications, see _updateDataItemState() in
-							// resource:///modules/DownloadsCommon.jsm
-							this.newDownloadNotified = true;
-						}
-					}
+					this.fixUpdateFromDownload
 				);
 			}
 			if(store && "_cleanupDownloads" in this) try { // See migratePrefs()
@@ -565,6 +535,38 @@ var dpTweaker = {
 				_log("dontRemoveFinishedDownloads(" + patch + "): restore " + updateFromDownloadKey);
 				patcher.unwrapFunction(ddiPrototype, updateFromDownloadProp, updateFromDownloadKey);
 			}
+		}
+	},
+	fixUpdateFromDownload: function() {
+		// this == DownloadsDataItem instance
+		var dl = this._download;
+		if(!dl)
+			return;
+		if(dl.succeeded) {
+			var path = dl.target && dl.target.path || dl.target;
+			if(!(this.maxBytes > 0)) { // Also detects NaN
+				var maxBytes = Math.max(dl.totalBytes || 0, dl.currentBytes || 0);
+				if(maxBytes > 0) {
+					_log("updateFromDownload(): fix size for " + path + ": " + maxBytes);
+					this.maxBytes = maxBytes;
+				}
+			}
+			if(
+				this.endTime
+				&& Date.now() - this.endTime < 300
+				&& dl.startTime
+			) {
+				var time = dl.endTime // Missing for now in Firefox 29.0a1 (2014-01-06)
+					|| dl.startTime;
+				var ts = new Date(time).getTime();
+				if(ts > 0) {
+					_log("updateFromDownload(): fix time for " + path + ": " + time);
+					this.endTime = ts;
+				}
+			}
+			// Suppress notifications, see _updateDataItemState() in
+			// resource:///modules/DownloadsCommon.jsm
+			this.newDownloadNotified = true;
 		}
 	},
 	dontRemoveFinishedDownloadsLegacy: function(patch) {
