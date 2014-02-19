@@ -40,6 +40,9 @@ var dpTweaker = {
 			this.loadStyles(true);
 		Services.ww.registerNotification(this);
 
+		if(prefs.get("dontRemoveFinishedDownloads"))
+			this.fixLoadDownloads(true); // Run ASAP at least for Firefox 27
+
 		_log("Successfully started");
 	},
 	destroy: function(reason) {
@@ -53,8 +56,10 @@ var dpTweaker = {
 				this.showDownloadRate(false);
 			if(prefs.get("decolorizePausedProgress"))
 				this.showPausedDownloadsSummary(false);
-			if(prefs.get("dontRemoveFinishedDownloads"))
+			if(prefs.get("dontRemoveFinishedDownloads")) {
 				this.dontRemoveFinishedDownloads(false);
+				this.fixLoadDownloads(false);
+			}
 		}
 		else if(
 			prefs.get("dontRemoveFinishedDownloads")
@@ -612,6 +617,32 @@ var dpTweaker = {
 			delete Services[bakKey];
 		}
 	},
+	fixLoadDownloads: function(fix) {
+		try { // Firefox 26+
+			var {DownloadStore} = Components.utils.import("resource://gre/modules/DownloadStore.jsm", {});
+		}
+		catch(e) {
+		}
+		if(
+			DownloadStore
+			&& "prototype" in DownloadStore
+			&& "load" in DownloadStore.prototype
+		) {
+			var dsp = DownloadStore.prototype;
+			var bakKey = "_downloadPanelTweaker_load";
+			if(fix == (bakKey in dsp))
+				return;
+			_log("fixLoadDownloads(" + fix + ")");
+			if(fix) {
+				dsp[bakKey] = dsp.load;
+				dsp.load = this.loadDownloads;
+			}
+			else {
+				dsp.load = dsp[bakKey];
+				delete dsp[bakKey];
+			}
+		}
+	},
 	setProperty: function(o, p, v) {
 		Object.defineProperty(o, p, {
 			value: v,
@@ -621,6 +652,66 @@ var dpTweaker = {
 		});
 	},
 
+	loadDownloads: function() {
+		// Based on code from resource://gre/modules/DownloadStore.jsm, Firefox 30.0a1 (2014-02-16)
+		// Correctly load large data, see
+		// https://github.com/Infocatcher/Download_Panel_Tweaker/issues/5#issuecomment-35358879
+		_log("loadDownloads()");
+		return {then: function(onSuccess, onFailure) {
+			_log("loadDownloads() task");
+			var startTime = Date.now();
+			function onReadFailure(ex) {
+				if(ex instanceof OS.File.Error && ex.becauseNoSuchFile)
+					onSuccess && onSuccess();
+				else
+					onFailure && onFailure(ex);
+			}
+			var list = this.list;
+			var path = this.path;
+			var {OS} = Components.utils.import("resource://gre/modules/osfile.jsm", {});
+			OS.File.read(path).then(
+				function onReadSuccess(bytes) {
+					if(!bytes) {
+						onSuccess && onSuccess();
+						return;
+					}
+					// We don't have TextDecoder in our global object...
+					var TextDecoder = Components.utils.getGlobalForObject(OS).TextDecoder;
+					var json = new TextDecoder().decode(bytes);
+					_log("loadDownloads(): read downloads.json in " + (Date.now() - startTime) + " ms");
+					startTime = Date.now();
+					var storeData = JSON.parse(json);
+					_log("loadDownloads(): parse data from downloads.json in " + (Date.now() - startTime) + " ms");
+					startTime = Date.now();
+					var data = storeData.list;
+					var {Download} = Components.utils.import("resource://gre/modules/DownloadCore.jsm", {});
+					var maxIndex = data.length - 1;
+					data.forEach(function(downloadData, i) {
+						delay(function() {
+							var download = Download.fromSerializable(downloadData);
+							try {
+								if(!download.succeeded && !download.canceled && !download.error)
+									download.start();
+								else
+									download.refresh();
+							}
+							finally {
+								delay(function() {
+									list.add(download);
+									if(i == maxIndex) {
+										_log("loadDownloads(): delayed part done in " + (Date.now() - startTime) + " ms");
+										onSuccess && onSuccess();
+									}
+								}, this);
+							}
+						}, this);
+					});
+					_log("loadDownloads(): main part done in " + (Date.now() - startTime) + " ms, count: " + data.length);
+				},
+				onReadFailure
+			).then(null, onReadFailure);
+		}.bind(this)};
+	},
 	saveDownloads: function() {
 		try { // Firefox 26+
 			var {DownloadIntegration} = Components.utils.import("resource://gre/modules/DownloadIntegration.jsm", {});
@@ -1254,6 +1345,17 @@ var prefs = {
 		return Services.prefs.PREF_STRING;
 	}
 };
+
+function delay(callback, context) {
+	var tm = Services.tm;
+	var DISPATCH_NORMAL = Components.interfaces.nsIThread.DISPATCH_NORMAL;
+	delay = function(callback, context) {
+		tm.mainThread.dispatch(function() {
+			callback.call(context);
+		}, DISPATCH_NORMAL);
+	}
+	delay.apply(this, arguments);
+}
 
 // Be careful, loggers always works until prefs aren't initialized
 // (and if "debug" preference has default value)
