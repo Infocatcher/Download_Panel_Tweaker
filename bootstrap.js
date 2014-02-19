@@ -40,7 +40,7 @@ var dpTweaker = {
 			this.loadStyles(true);
 		Services.ww.registerNotification(this);
 
-		if(prefs.get("dontRemoveFinishedDownloads"))
+		if(prefs.get("dontRemoveFinishedDownloads") && prefs.get("fixDownloadsLoading"))
 			this.fixLoadDownloads(true); // Run ASAP at least for Firefox 27
 
 		_log("Successfully started");
@@ -58,7 +58,8 @@ var dpTweaker = {
 				this.showPausedDownloadsSummary(false);
 			if(prefs.get("dontRemoveFinishedDownloads")) {
 				this.dontRemoveFinishedDownloads(false);
-				this.fixLoadDownloads(false);
+				if(prefs.get("fixDownloadsLoading"))
+					this.fixLoadDownloads(false);
 			}
 		}
 		else if(
