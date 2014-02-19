@@ -1193,8 +1193,12 @@ var dpTweaker = {
 					window.removeEventListener("click", this, true);
 			}
 		}
-		else if(pName == "dontRemoveFinishedDownloads")
+		else if(pName == "dontRemoveFinishedDownloads") {
 			this.dontRemoveFinishedDownloads(pVal);
+			this.fixLoadDownloads(pVal && prefs.get("fixDownloadsLoading"));
+		}
+		else if(pName == "fixDownloadsLoading")
+			this.fixLoadDownloads(pVal && prefs.get("dontRemoveFinishedDownloads"));
 		else if(pName == "fixWrongTabsOnTopAttribute") {
 			var ws = Services.wm.getEnumerator("navigator:browser");
 			while(ws.hasMoreElements())
