@@ -482,90 +482,89 @@ var dpTweaker = {
 		}
 		catch(e) {
 		}
-		if(DownloadIntegration && "shouldPersistDownload" in DownloadIntegration) {
-			const bakKey = "_downloadPanelTweaker_shouldPersistDownload";
-			if(!patch ^ bakKey in DownloadIntegration)
-				return;
-			_log("dontRemoveFinishedDownloads(" + patch + ")");
-			var store = "_store" in DownloadIntegration && DownloadIntegration._store;
-			if(patch) {
-				DownloadIntegration[bakKey] = DownloadIntegration.shouldPersistDownload;
-				var wrapped = DownloadIntegration.shouldPersistDownload = function downloadPanelTweakerWrapper(download) {
-					//if(download.hasPartialData || !download.stopped)
-					if(download.hasPartialData || !download.succeeded)
-						return true;
-					var retentionHours = prefs.get("downloadsMaxRetentionHours");
-					return retentionHours > 0
-						&& download.startTime > (Date.now() - retentionHours*60*60*1000);
-				};
-				if(store) {
-					_log("dontRemoveFinishedDownloads(" + patch + "): override DownloadStore.onsaveitem");
-					store[bakKey] = store.onsaveitem;
-					store.onsaveitem = wrapped;
-				}
-				if(updateFromDownloadKey) {
-					_log("dontRemoveFinishedDownloads(" + patch + "): patch " + updateFromDownloadKey);
-					patcher.wrapFunction(ddiPrototype, updateFromDownloadProp, updateFromDownloadKey,
-						function before() {},
-						function after(ret) {
-							var dl = this._download;
-							if(!dl)
-								return;
-							if(dl.succeeded) {
-								var path = dl.target && dl.target.path || dl.target;
-								if(!(this.maxBytes > 0)) { // Also detects NaN
-									var maxBytes = Math.max(dl.totalBytes || 0, dl.currentBytes || 0);
-									if(maxBytes > 0) {
-										_log("updateFromDownload(): fix size for " + path + ": " + maxBytes);
-										this.maxBytes = maxBytes;
-									}
-								}
-								if(
-									this.endTime
-									&& Date.now() - this.endTime < 300
-									&& dl.startTime
-								) {
-									var time = dl.endTime // Missing for now in Firefox 29.0a1 (2014-01-06)
-										|| dl.startTime;
-									var ts = new Date(time).getTime();
-									if(ts > 0) {
-										_log("updateFromDownload(): fix time for " + path + ": " + time);
-										this.endTime = ts;
-									}
-								}
-								// Suppress notifications, see _updateDataItemState() in
-								// resource:///modules/DownloadsCommon.jsm
-								this.newDownloadNotified = true;
-							}
-						}
-					);
-				}
-				if(store && "_cleanupDownloads" in this) try { // See migratePrefs()
-					delete this._cleanupDownloads;
-					_log("Try cleanup downloads.json");
-					store.save();
-				}
-				catch(e) {
-					Components.utils.reportError(e);
-				}
+		if(!DownloadIntegration || !("shouldPersistDownload" in DownloadIntegration)) {
+			this.dontRemoveFinishedDownloadsLegacy(patch);
+			return;
+		}
+		const bakKey = "_downloadPanelTweaker_shouldPersistDownload";
+		if(!patch ^ bakKey in DownloadIntegration)
+			return;
+		_log("dontRemoveFinishedDownloads(" + patch + ")");
+		var store = "_store" in DownloadIntegration && DownloadIntegration._store;
+		if(patch) {
+			DownloadIntegration[bakKey] = DownloadIntegration.shouldPersistDownload;
+			var wrapped = DownloadIntegration.shouldPersistDownload = function downloadPanelTweakerWrapper(download) {
+				//if(download.hasPartialData || !download.stopped)
+				if(download.hasPartialData || !download.succeeded)
+					return true;
+				var retentionHours = prefs.get("downloadsMaxRetentionHours");
+				return retentionHours > 0
+					&& download.startTime > (Date.now() - retentionHours*60*60*1000);
+			};
+			if(store) {
+				_log("dontRemoveFinishedDownloads(" + patch + "): override DownloadStore.onsaveitem");
+				store[bakKey] = store.onsaveitem;
+				store.onsaveitem = wrapped;
 			}
-			else {
-				var orig = DownloadIntegration[bakKey];
-				DownloadIntegration.shouldPersistDownload = orig;
-				delete DownloadIntegration[bakKey];
-				if(store) {
-					_log("dontRemoveFinishedDownloads(" + patch + "): restore DownloadStore.onsaveitem");
-					store.onsaveitem = store[bakKey] || orig;
-					delete store[bakKey];
-				}
-				if(updateFromDownloadKey) {
-					_log("dontRemoveFinishedDownloads(" + patch + "): restore " + updateFromDownloadKey);
-					patcher.unwrapFunction(ddiPrototype, updateFromDownloadProp, updateFromDownloadKey);
-				}
+			if(updateFromDownloadKey) {
+				_log("dontRemoveFinishedDownloads(" + patch + "): patch " + updateFromDownloadKey);
+				patcher.wrapFunction(ddiPrototype, updateFromDownloadProp, updateFromDownloadKey,
+					function before() {},
+					function after(ret) {
+						var dl = this._download;
+						if(!dl)
+							return;
+						if(dl.succeeded) {
+							var path = dl.target && dl.target.path || dl.target;
+							if(!(this.maxBytes > 0)) { // Also detects NaN
+								var maxBytes = Math.max(dl.totalBytes || 0, dl.currentBytes || 0);
+								if(maxBytes > 0) {
+									_log("updateFromDownload(): fix size for " + path + ": " + maxBytes);
+									this.maxBytes = maxBytes;
+								}
+							}
+							if(
+								this.endTime
+								&& Date.now() - this.endTime < 300
+								&& dl.startTime
+							) {
+								var time = dl.endTime // Missing for now in Firefox 29.0a1 (2014-01-06)
+									|| dl.startTime;
+								var ts = new Date(time).getTime();
+								if(ts > 0) {
+									_log("updateFromDownload(): fix time for " + path + ": " + time);
+									this.endTime = ts;
+								}
+							}
+							// Suppress notifications, see _updateDataItemState() in
+							// resource:///modules/DownloadsCommon.jsm
+							this.newDownloadNotified = true;
+						}
+					}
+				);
+			}
+			if(store && "_cleanupDownloads" in this) try { // See migratePrefs()
+				delete this._cleanupDownloads;
+				_log("Try cleanup downloads.json");
+				store.save();
+			}
+			catch(e) {
+				Components.utils.reportError(e);
 			}
 		}
 		else {
-			this.dontRemoveFinishedDownloadsLegacy(patch);
+			var orig = DownloadIntegration[bakKey];
+			DownloadIntegration.shouldPersistDownload = orig;
+			delete DownloadIntegration[bakKey];
+			if(store) {
+				_log("dontRemoveFinishedDownloads(" + patch + "): restore DownloadStore.onsaveitem");
+				store.onsaveitem = store[bakKey] || orig;
+				delete store[bakKey];
+			}
+			if(updateFromDownloadKey) {
+				_log("dontRemoveFinishedDownloads(" + patch + "): restore " + updateFromDownloadKey);
+				patcher.unwrapFunction(ddiPrototype, updateFromDownloadProp, updateFromDownloadKey);
+			}
 		}
 	},
 	dontRemoveFinishedDownloadsLegacy: function(patch) {
