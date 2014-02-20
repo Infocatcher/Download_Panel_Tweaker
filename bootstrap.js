@@ -566,10 +566,16 @@ var dpTweaker = {
 					this.endTime = ts;
 				}
 			}
-			// Suppress notifications, see _updateDataItemState() in
-			// resource:///modules/DownloadsCommon.jsm
-			this.newDownloadNotified = true;
 		}
+		// Suppress notifications, see _updateDataItemState() in
+		// resource:///modules/DownloadsCommon.jsm
+		if(
+			!this.newDownloadNotified && (
+				dl.succeeded
+				|| dl.canceled && !dl.hasPartialData // Exclude paused downloads
+			)
+		)
+			this.newDownloadNotified = true;
 	},
 	dontRemoveFinishedDownloadsLegacy: function(patch) {
 		const bakKey = "_downloadPanelTweaker_downloads";
