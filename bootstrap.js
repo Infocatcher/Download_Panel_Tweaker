@@ -469,6 +469,7 @@ var dpTweaker = {
 
 	dontRemoveFinishedDownloads: function(patch) {
 		// See https://github.com/Infocatcher/Download_Panel_Tweaker/issues/5 for details
+		var logPrefix = "dontRemoveFinishedDownloads(" + patch + "): ";
 		try { // Firefox 26+
 			// http://mxr.mozilla.org/mozilla-central/source/toolkit/components/jsdownloads/src/DownloadIntegration.jsm
 			var {DownloadIntegration} = Components.utils.import("resource://gre/modules/DownloadIntegration.jsm", {});
@@ -490,7 +491,7 @@ var dpTweaker = {
 		const bakKey = "_downloadPanelTweaker_shouldPersistDownload";
 		if(!patch ^ bakKey in DownloadIntegration)
 			return;
-		_log("dontRemoveFinishedDownloads(" + patch + ")");
+		_log(logPrefix + "Will fix DownloadIntegration");
 		var store = "_store" in DownloadIntegration && DownloadIntegration._store;
 		if(patch) {
 			DownloadIntegration[bakKey] = DownloadIntegration.shouldPersistDownload;
@@ -503,12 +504,12 @@ var dpTweaker = {
 					&& download.startTime > (Date.now() - retentionHours*60*60*1000);
 			};
 			if(store) {
-				_log("dontRemoveFinishedDownloads(" + patch + "): override DownloadStore.onsaveitem");
+				_log(logPrefix + "Override DownloadStore.onsaveitem()");
 				store[bakKey] = store.onsaveitem;
 				store.onsaveitem = wrapped;
 			}
 			if(updateFromDownloadKey) {
-				_log("dontRemoveFinishedDownloads(" + patch + "): patch " + updateFromDownloadKey);
+				_log(logPrefix + "Patch " + updateFromDownloadKey + "()");
 				patcher.wrapFunction(ddiPrototype, updateFromDownloadProp, updateFromDownloadKey,
 					function before() {},
 					this.fixUpdateFromDownload
@@ -516,7 +517,7 @@ var dpTweaker = {
 			}
 			if(store && "_cleanupDownloads" in this) try { // See migratePrefs()
 				delete this._cleanupDownloads;
-				_log("Try cleanup downloads.json");
+				_log(logPrefix + "Try cleanup downloads.json");
 				store.save();
 			}
 			catch(e) {
@@ -528,12 +529,12 @@ var dpTweaker = {
 			DownloadIntegration.shouldPersistDownload = orig;
 			delete DownloadIntegration[bakKey];
 			if(store) {
-				_log("dontRemoveFinishedDownloads(" + patch + "): restore DownloadStore.onsaveitem");
+				_log(logPrefix + "Restore DownloadStore.onsaveitem()");
 				store.onsaveitem = store[bakKey] || orig;
 				delete store[bakKey];
 			}
 			if(updateFromDownloadKey) {
-				_log("dontRemoveFinishedDownloads(" + patch + "): restore " + updateFromDownloadKey);
+				_log(logPrefix + "Restore " + updateFromDownloadKey + "()");
 				patcher.unwrapFunction(ddiPrototype, updateFromDownloadProp, updateFromDownloadKey);
 			}
 		}
