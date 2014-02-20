@@ -572,7 +572,10 @@ var dpTweaker = {
 		if(
 			!this.newDownloadNotified && (
 				dl.succeeded
-				|| dl.canceled && !dl.hasPartialData // Exclude paused downloads
+				|| dl.canceled && ( // Paused downloads also have hasPartialData == true
+					!dl.hasPartialData
+					|| prefs.get("suppressPausedDownloadsNotifications")
+				)
 			)
 		)
 			this.newDownloadNotified = true;

@@ -20,15 +20,17 @@ pref("extensions.downloadPanelTweaker.overrideShowAllDownloads.private", 0);
 // 5 - toggle sidebar with "about:downloads"
 
 pref("extensions.downloadPanelTweaker.dontRemoveFinishedDownloads", true);
-// Additional tweaks for dontRemoveFinishedDownloads = true:
-pref("extensions.downloadPanelTweaker.downloadsMaxRetentionHours", 72); // 3*24, only Firefox 26+
+// Additional tweaks for dontRemoveFinishedDownloads = true, only Firefox 26+
+pref("extensions.downloadPanelTweaker.downloadsMaxRetentionHours", 72); // 3*24
 // Store finished downloads at least this time (in hours)
-pref("extensions.downloadPanelTweaker.cleanupDownloadsOnShutdown", true); // only Firefox 26+
+pref("extensions.downloadPanelTweaker.cleanupDownloadsOnShutdown", true);
 // Save current "session" downloads into %profile%/downloads.json on browser shutdown to perform cleanup
 // and correctly remove deleted (from UI) downloads, but this may break save process, if someone will
 // call it at the same time.
 pref("extensions.downloadPanelTweaker.fixDownloadsLoading", true);
 // Override DownloadStore.prototype.load() to correctly load large data
+pref("extensions.downloadPanelTweaker.suppressPausedDownloadsNotifications", true);
+// Suppress notifications about all "canceled" downloads (include paused)
 
 pref("extensions.downloadPanelTweaker.fixWrongTabsOnTopAttribute", true);
 
