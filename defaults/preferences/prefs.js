@@ -27,6 +27,8 @@ pref("extensions.downloadPanelTweaker.cleanupDownloadsOnShutdown", true); // onl
 // Save current "session" downloads into %profile%/downloads.json on browser shutdown to perform cleanup
 // and correctly remove deleted (from UI) downloads, but this may break save process, if someone will
 // call it at the same time.
+pref("extensions.downloadPanelTweaker.fixDownloadsLoading", true);
+// Override DownloadStore.prototype.load() to correctly load large data
 
 pref("extensions.downloadPanelTweaker.fixWrongTabsOnTopAttribute", true);
 
