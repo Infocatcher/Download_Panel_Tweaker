@@ -633,7 +633,7 @@ var dpTweaker = {
 		) {
 			var dsp = DownloadStore.prototype;
 			var bakKey = "_downloadPanelTweaker_load";
-			if(fix == (bakKey in dsp))
+			if(!fix ^ bakKey in dsp)
 				return;
 			_log("fixLoadDownloads(" + fix + ")");
 			if(fix) {
