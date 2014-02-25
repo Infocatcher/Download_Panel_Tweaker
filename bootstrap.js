@@ -40,8 +40,11 @@ var dpTweaker = {
 			this.loadStyles(true);
 		Services.ww.registerNotification(this);
 
-		if(prefs.get("dontRemoveFinishedDownloads") && prefs.get("fixDownloadsLoading"))
-			this.fixLoadDownloads(true); // Run ASAP at least for Firefox 27
+		delay(function() {
+			// We can't apply this patch after "domwindowopened" + delay at least in Firefox 27
+			if(prefs.get("dontRemoveFinishedDownloads") && prefs.get("fixDownloadsLoading"))
+				this.fixLoadDownloads(true);
+		}, this);
 
 		_log("Successfully started");
 	},
@@ -710,6 +713,7 @@ var dpTweaker = {
 							finally {
 								delay(function() {
 									list.add(download);
+									//_log("list.add() " + i);
 									if(i == maxIndex) {
 										_log("loadDownloads(): delayed part done in " + (Date.now() - startTime) + " ms");
 										onSuccess && onSuccess();
