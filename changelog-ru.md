@@ -6,12 +6,12 @@
 `*` - улучшено<br>
 
 ##### master/HEAD
-`+` Добавлена возможность настроить действия для команды загрузок, сочетания клавиш (Ctrl+J) и кнопки «Показать все загрузки» (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/10">#10</a>).<br> 
+`+` Добавлена возможность настроить действия для команды загрузок, сочетания клавиш (Ctrl+J) и кнопки «Показать все загрузки» (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/10">#10</a>).<br>
 `+` Добавлен workaround для исправления полоски между панелями навигации и закладок (настройка <em>extensions.downloadPanelTweaker.fixWrongTabsOnTopAttribute</em>) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/3">#3</a>).<br>
 `x` Исправлено: настройка ширины панели загрузок не работала с темой <a href="https://addons.mozilla.org/firefox/addon/nasa-night-launch/">NASA Night Launch</a> (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/4">#4</a>).<br>
 `*` Улучшена производительность при запуске.<br>
 `x` Исправлена установка маленькой высоты полосы прогресса.<br>
-`+` Добавлена возможность не удалять завершенные загрузки из панели (+ скрытая настройка <em>extensions.downloadPanelTweaker.downloadsMaxRetentionHours</em>) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/5">#5</a>).<br>
+`+` Добавлена возможность не удалять завершенные загрузки из панели (настройка <em>extensions.downloadPanelTweaker.dontRemoveFinishedDownloads</em> + см. описание некоторых скрытых настроек в <a href="https://github.com/Infocatcher/Download_Panel_Tweaker/blob/master/defaults/preferences/prefs.js">defaults/preferences/prefs.js</a>) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/5">#5</a>).<br>
 `+` Добавлен очень компактный стиль для списка загрузок (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/7">#7</a>).<br>
 `*` Улучшены стили для списка загрузок.<br>
 `+` В контекстное меню панели загрузок добавлен пункт «Очистить загрузки» (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/8">#8</a>).<br>
