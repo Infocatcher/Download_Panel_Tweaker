@@ -476,7 +476,8 @@ var dpTweaker = {
 		try { // Firefox 26+
 			// http://mxr.mozilla.org/mozilla-central/source/toolkit/components/jsdownloads/src/DownloadIntegration.jsm
 			var {DownloadIntegration} = Components.utils.import("resource://gre/modules/DownloadIntegration.jsm", {});
-			var {DownloadsDataItem} = Components.utils.import("resource://app/modules/DownloadsCommon.jsm", {});
+			var dcg = Components.utils.import("resource://app/modules/DownloadsCommon.jsm", {});
+			var {DownloadsDataItem} = dcg;
 			if(DownloadsDataItem && DownloadsDataItem.prototype) {
 				var ddiPrototype = DownloadsDataItem.prototype;
 				var updateFromDownloadProp = "updateFromDownload" in ddiPrototype && "updateFromDownload" // Firefox 28+
@@ -539,6 +540,14 @@ var dpTweaker = {
 			if(updateFromDownloadKey) {
 				_log(logPrefix + "Restore " + updateFromDownloadKey + "()");
 				patcher.unwrapFunction(ddiPrototype, updateFromDownloadProp, updateFromDownloadKey);
+			}
+		}
+		if(dcg && updateFromDownloadKey) {
+			if(patch) delay(function() {
+				this.fixLoadDownloadsPerformance(dcg, patch);
+			}, this);
+			else { // No delay because patcher will be destroyed
+				this.fixLoadDownloadsPerformance(dcg, patch);
 			}
 		}
 	},
@@ -656,6 +665,62 @@ var dpTweaker = {
 				dsp.load = dsp[bakKey];
 				delete dsp[bakKey];
 			}
+		}
+	},
+	fixLoadDownloadsPerformance: function(dcg, fix) {
+		// See resource://app/modules/DownloadsCommon.jsm
+		_log("fixLoadDownloadsPerformance(" + fix + ")");
+		var DownloadsViewPrototype = "DownloadsViewPrototype" in dcg
+			&& "refreshView" in dcg.DownloadsViewPrototype
+			&& dcg.DownloadsViewPrototype;
+		var didcPrototype = "DownloadsIndicatorDataCtor" in dcg
+			&& "prototype" in dcg.DownloadsIndicatorDataCtor
+			&& "_refreshProperties" in dcg.DownloadsIndicatorDataCtor.prototype
+			&& dcg.DownloadsIndicatorDataCtor.prototype;
+		var dvKey = "DownloadsViewPrototype.refreshView";
+		var diKey = "DownloadsIndicatorDataCtor.prototype._refreshProperties";
+		if(fix) {
+			var pending = "_downloadPanelTweaker_pending";
+			if(DownloadsViewPrototype) {
+				var refreshView = DownloadsViewPrototype.refreshView;
+				patcher.wrapFunction(DownloadsViewPrototype, "refreshView", dvKey,
+					function before(aView) {
+						if(pending in this && this[pending] == aView)
+							return true;
+						this[pending] = aView;
+						var args = arguments;
+						delay(function() {
+							delete this[pending];
+							_log(dvKey + "()");
+							refreshView.apply(this, args);
+						}, this);
+						return true;
+					}
+				);
+			}
+			if(didcPrototype) {
+				var refreshProperties = didcPrototype._refreshProperties;
+				patcher.wrapFunction(didcPrototype, "_refreshProperties", diKey,
+					function before() {
+						if(pending in this)
+							return true;
+						this[pending] = true;
+						var args = arguments;
+						delay(function() {
+							delete this[pending];
+							_log("DownloadsIndicatorDataCtor.prototype._refreshProperties()");
+							refreshProperties.apply(this, args);
+						}, this);
+						return true;
+					}
+				);
+			}
+		}
+		else {
+			if(DownloadsViewPrototype)
+				patcher.unwrapFunction(DownloadsViewPrototype, "refreshView", dvKey);
+			if(didcPrototype)
+				patcher.unwrapFunction(didcPrototype, "_refreshProperties", diKey);
 		}
 	},
 	setProperty: function(o, p, v) {
