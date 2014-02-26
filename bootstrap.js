@@ -669,6 +669,8 @@ var dpTweaker = {
 	},
 	fixLoadDownloadsPerformance: function(dcg, fix) {
 		// See resource://app/modules/DownloadsCommon.jsm
+		if(fix && !prefs.get("fixDownloadsLoadingPerformance"))
+			return;
 		_log("fixLoadDownloadsPerformance(" + fix + ")");
 		var DownloadsViewPrototype = "DownloadsViewPrototype" in dcg
 			&& "refreshView" in dcg.DownloadsViewPrototype

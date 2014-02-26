@@ -29,6 +29,8 @@ pref("extensions.downloadPanelTweaker.cleanupDownloadsOnShutdown", true);
 // call it at the same time.
 pref("extensions.downloadPanelTweaker.fixDownloadsLoading", true);
 // Override DownloadStore.prototype.load() to correctly load large data
+pref("extensions.downloadPanelTweaker.fixDownloadsLoadingPerformance", true);
+// Only for test purposes, reenable extension after change
 pref("extensions.downloadPanelTweaker.suppressPausedDownloadsNotifications", true);
 // Suppress notifications about all "canceled" downloads (include paused)
 
