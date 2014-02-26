@@ -673,58 +673,42 @@ var dpTweaker = {
 		// See resource://app/modules/DownloadsCommon.jsm
 		if(fix && !prefs.get("fixDownloadsLoadingPerformance"))
 			return;
-		_log("fixLoadDownloadsPerformance(" + fix + ")");
-		var DownloadsViewPrototype = "DownloadsViewPrototype" in dcg
-			&& "refreshView" in dcg.DownloadsViewPrototype
-			&& dcg.DownloadsViewPrototype;
 		var didcPrototype = "DownloadsIndicatorDataCtor" in dcg
 			&& "prototype" in dcg.DownloadsIndicatorDataCtor
-			&& "_refreshProperties" in dcg.DownloadsIndicatorDataCtor.prototype
+			&& "_updateViews" in dcg.DownloadsIndicatorDataCtor.prototype
 			&& dcg.DownloadsIndicatorDataCtor.prototype;
-		var dvKey = "DownloadsViewPrototype.refreshView";
-		var diKey = "DownloadsIndicatorDataCtor.prototype._refreshProperties";
+		var key = "DownloadsIndicatorDataCtor.prototype._updateViews";
+		if(!didcPrototype) {
+			_log(key + "() not found!");
+			return;
+		}
+		_log("fixLoadDownloadsPerformance(" + fix + ")");
 		if(fix) {
 			var pending = "_downloadPanelTweaker_pending";
-			if(DownloadsViewPrototype) {
-				var refreshView = DownloadsViewPrototype.refreshView;
-				patcher.wrapFunction(DownloadsViewPrototype, "refreshView", dvKey,
-					function before(aView) {
-						if(pending in this && this[pending] == aView)
-							return true;
-						this[pending] = aView;
-						var args = arguments;
-						delay(function() {
-							delete this[pending];
-							_dbgv && _log(dvKey + "()");
-							refreshView.apply(this, args);
-						}, this);
-						return true;
+			var callOrig = "_downloadPanelTweaker_callOrig";
+			patcher.wrapFunction(didcPrototype, "_updateViews", key,
+				function before() {
+					if(callOrig in this) {
+						delete this[callOrig];
+						return false;
 					}
-				);
-			}
-			if(didcPrototype) {
-				var refreshProperties = didcPrototype._refreshProperties;
-				patcher.wrapFunction(didcPrototype, "_refreshProperties", diKey,
-					function before() {
-						if(pending in this)
-							return true;
-						this[pending] = true;
-						var args = arguments;
-						delay(function() {
-							delete this[pending];
-							_dbgv && _log(diKey + "()");
-							refreshProperties.apply(this, args);
-						}, this);
+					_dbgv && _log(key + "() called");
+					if(pending in this)
 						return true;
-					}
-				);
-			}
+					this[pending] = true;
+					var args = arguments;
+					delay(function() {
+						delete this[pending];
+						_dbgv && _log(key + "()");
+						this[callOrig] = true;
+						this._updateViews.apply(this, args);
+					}, this);
+					return true;
+				}
+			);
 		}
 		else {
-			if(DownloadsViewPrototype)
-				patcher.unwrapFunction(DownloadsViewPrototype, "refreshView", dvKey);
-			if(didcPrototype)
-				patcher.unwrapFunction(didcPrototype, "_refreshProperties", diKey);
+			patcher.unwrapFunction(didcPrototype, "_updateViews", key);
 		}
 	},
 	setProperty: function(o, p, v) {
