@@ -563,7 +563,7 @@ var dpTweaker = {
 			if(!(this.maxBytes > 0)) { // Also detects NaN
 				var maxBytes = Math.max(dl.totalBytes || 0, dl.currentBytes || 0);
 				if(maxBytes > 0) {
-					_log("updateFromDownload(): fix size for " + path + ": " + maxBytes);
+					_dbgv && _log("updateFromDownload(): fix size for " + path + ": " + maxBytes);
 					this.maxBytes = maxBytes;
 				}
 			}
@@ -576,7 +576,7 @@ var dpTweaker = {
 					|| dl.startTime;
 				var ts = new Date(time).getTime();
 				if(ts > 0) {
-					_log("updateFromDownload(): fix time for " + path + ": " + time);
+					_dbgv && _log("updateFromDownload(): fix time for " + path + ": " + time);
 					this.endTime = ts;
 				}
 			}
@@ -695,7 +695,7 @@ var dpTweaker = {
 						var args = arguments;
 						delay(function() {
 							delete this[pending];
-							_log(dvKey + "()");
+							_dbgv && _log(dvKey + "()");
 							refreshView.apply(this, args);
 						}, this);
 						return true;
@@ -712,7 +712,7 @@ var dpTweaker = {
 						var args = arguments;
 						delay(function() {
 							delete this[pending];
-							_log("DownloadsIndicatorDataCtor.prototype._refreshProperties()");
+							_dbgv && _log(diKey + "()");
 							refreshProperties.apply(this, args);
 						}, this);
 						return true;
