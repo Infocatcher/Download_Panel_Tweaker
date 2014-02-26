@@ -39,3 +39,4 @@ pref("extensions.downloadPanelTweaker.fixWrongTabsOnTopAttribute", true);
 pref("extensions.downloadPanelTweaker.prefsVersion", 0);
 
 pref("extensions.downloadPanelTweaker.debug", false);
+pref("extensions.downloadPanelTweaker.debug.verbose", false);
