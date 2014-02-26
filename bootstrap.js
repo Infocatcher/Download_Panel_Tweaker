@@ -670,9 +670,13 @@ var dpTweaker = {
 		}
 	},
 	fixLoadDownloadsPerformance: function(dcg, fix) {
-		// See resource://app/modules/DownloadsCommon.jsm
 		if(fix && !prefs.get("fixDownloadsLoadingPerformance"))
 			return;
+		this.fixUpdateViews(dcg, fix);
+		this.fixOnDownloadAdded(dcg, fix);
+	},
+	fixUpdateViews: function(dcg, fix) {
+		// Create proxy for _updateViews(), see resource://app/modules/DownloadsCommon.jsm
 		var didcPrototype = "DownloadsIndicatorDataCtor" in dcg
 			&& "prototype" in dcg.DownloadsIndicatorDataCtor
 			&& "_updateViews" in dcg.DownloadsIndicatorDataCtor.prototype
@@ -682,16 +686,12 @@ var dpTweaker = {
 			_log(key + "() not found!");
 			return;
 		}
-		_log("fixLoadDownloadsPerformance(" + fix + ")");
+		_log("fixUpdateViews(" + fix + ")");
 		if(fix) {
 			var pending = "_downloadPanelTweaker_pending";
-			var callOrig = "_downloadPanelTweaker_callOrig";
+			var updateViews = didcPrototype._updateViews;
 			patcher.wrapFunction(didcPrototype, "_updateViews", key,
 				function before() {
-					if(callOrig in this) {
-						delete this[callOrig];
-						return false;
-					}
 					_dbgv && _log(key + "() called");
 					if(pending in this)
 						return true;
@@ -700,8 +700,7 @@ var dpTweaker = {
 					delay(function() {
 						delete this[pending];
 						_dbgv && _log(key + "()");
-						this[callOrig] = true;
-						this._updateViews.apply(this, args);
+						updateViews.apply(this, args);
 					}, this);
 					return true;
 				}
@@ -709,6 +708,35 @@ var dpTweaker = {
 		}
 		else {
 			patcher.unwrapFunction(didcPrototype, "_updateViews", key);
+		}
+	},
+	fixOnDownloadAdded: function(dcg, fix) {
+		// Make onDownloadAdded() async, see resource://app/modules/DownloadsCommon.jsm
+		var ddcPrototype = "DownloadsDataCtor" in dcg
+			&& "prototype" in dcg.DownloadsDataCtor
+			&& "onDownloadAdded" in dcg.DownloadsDataCtor.prototype
+			&& dcg.DownloadsDataCtor.prototype;
+		var key = "DownloadsDataCtor.prototype.onDownloadAdded";
+		if(!ddcPrototype) {
+			_log(key + "() not found!");
+			return;
+		}
+		_log("fixOnDownloadAdded(" + fix + ")");
+		if(fix) {
+			var onDownloadAdded = ddcPrototype.onDownloadAdded;
+			patcher.wrapFunction(ddcPrototype, "onDownloadAdded", key,
+				function before() {
+					var args = arguments;
+					delay(function() {
+						_dbgv && _log(key + "()");
+						onDownloadAdded.apply(this, args);
+					}, this);
+					return true;
+				}
+			);
+		}
+		else {
+			patcher.unwrapFunction(ddcPrototype, "onDownloadAdded", key);
 		}
 	},
 	setProperty: function(o, p, v) {
