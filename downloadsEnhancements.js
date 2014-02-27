@@ -340,7 +340,10 @@ var downloadsEnhancements = {
 	saveDownloads: function() {
 		try { // Firefox 26+
 			var {DownloadIntegration} = Components.utils.import("resource://gre/modules/DownloadIntegration.jsm", {});
-			DownloadIntegration._store && DownloadIntegration._store.save();
+			if(DownloadIntegration._store) {
+				DownloadIntegration._store.save();
+				_log("saveDownloads()");
+			}
 		}
 		catch(e) {
 			if(!DownloadIntegration)
