@@ -949,6 +949,9 @@ var dpTweaker = {
 		else if(pName == "dontRemoveFinishedDownloads") {
 			this.de.dontRemoveFinishedDownloads(pVal);
 			this.de.fixLoadDownloads(pVal && prefs.get("fixDownloadsLoading"));
+			if(!pVal) delay(function() {
+				this.de.saveDownloads(); // Force perform cleanup
+			}, this);
 		}
 		else if(pName == "fixDownloadsLoading")
 			this.de.fixLoadDownloads(pVal && prefs.get("dontRemoveFinishedDownloads"));
