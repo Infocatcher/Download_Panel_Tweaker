@@ -282,13 +282,16 @@ var downloadsEnhancements = {
 		// https://github.com/Infocatcher/Download_Panel_Tweaker/issues/5#issuecomment-35358879
 		_log("loadDownloads()");
 		return {then: function(onSuccess, onFailure) {
-			_log("loadDownloads() task");
+			_log("loadDownloads(): start task");
 			var startTime = Date.now();
 			function onReadFailure(ex) {
-				if(ex instanceof OS.File.Error && ex.becauseNoSuchFile)
+				if(ex instanceof OS.File.Error && ex.becauseNoSuchFile) {
+					_log("loadDownloads(): file not found");
 					onSuccess && onSuccess();
-				else
+				}
+				else {
 					onFailure && onFailure(ex);
+				}
 			}
 			var list = this.list;
 			var path = this.path;
@@ -296,6 +299,7 @@ var downloadsEnhancements = {
 			OS.File.read(path).then(
 				function onReadSuccess(bytes) {
 					if(!bytes) {
+						_log("loadDownloads(): empty file");
 						onSuccess && onSuccess();
 						return;
 					}
