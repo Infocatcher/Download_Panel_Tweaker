@@ -6,6 +6,7 @@
 `*` - improved<br>
 
 ##### master/HEAD
+##### 0.2.0 (2014-02-28)
 `+` Added ability to configure actions for downloads command, hotkey (Ctrl+J) and “Show All Downloads” button (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/10">#10</a>).<br>
 `+` Added workaround for line between Navigation and Bookmarks toolbars (<em>extensions.downloadPanelTweaker.fixWrongTabsOnTopAttribute</em> preference) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/3">#3</a>).<br>
 `x` Fixed: download panel width option doesn't work with <a href="https://addons.mozilla.org/firefox/addon/nasa-night-launch/">NASA Night Launch</a> theme (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/4">#4</a>).<br>
@@ -18,7 +19,7 @@
 `x` Correctly update download panel in Firefox 28+ (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/13">#13</a>).<br>
 `+` Hide option for <em>browser.download.useToolkitUI</em> in Firefox 26+ (doesn't work anymore, see <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=845403">bug 845403</a>).<br>
 `+` Added ability to limit download panel height (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/20">#20</a>).<br>
-`+` Added Greek (el) locale, thanks to <a href="http://forums.mozillazine.org/memberlist.php?mode=viewprofile&u=1595963">Grg68</a>.<br>
+`+` Added Greek (el) locale, thanks to <a href="http://forums.mozillazine.org/memberlist.php?mode=viewprofile&u=1595963">Grg68</a> (translation isn't complete, sorry).<br>
 
 ##### 0.1.0 (2013-05-29)
 `*` Published on <a href="https://addons.mozilla.org/">AMO</a>, first stable release.<br>

@@ -6,6 +6,7 @@
 `*` - улучшено<br>
 
 ##### master/HEAD
+##### 0.2.0 (2014-02-28)
 `+` Добавлена возможность настроить действия для команды загрузок, сочетания клавиш (Ctrl+J) и кнопки «Показать все загрузки» (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/10">#10</a>).<br>
 `+` Добавлен workaround для исправления полоски между панелями навигации и закладок (настройка <em>extensions.downloadPanelTweaker.fixWrongTabsOnTopAttribute</em>) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/3">#3</a>).<br>
 `x` Исправлено: настройка ширины панели загрузок не работала с темой <a href="https://addons.mozilla.org/firefox/addon/nasa-night-launch/">NASA Night Launch</a> (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/4">#4</a>).<br>
@@ -18,7 +19,7 @@
 `x` Исправлено обновление панели загрузок в Firefox 28+ (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/13">#13</a>).<br>
 `+` Настройка <em>browser.download.useToolkitUI</em> теперь скрывается в Firefox 26+ (больше не работает, см. <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=845403">bug 845403</a>).<br>
 `+` Добавлена возможность ограничить высоту панели загрузок (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/20">#20</a>).<br>
-`+` Добавлена греческая (el) локаль, спасибо <a href="http://forums.mozillazine.org/memberlist.php?mode=viewprofile&u=1595963">Grg68</a>.<br>
+`+` Добавлена греческая (el) локаль, спасибо <a href="http://forums.mozillazine.org/memberlist.php?mode=viewprofile&u=1595963">Grg68</a> (перевод не полный, извините).<br>
 
 ##### 0.1.0 (2013-05-29)
 `*` Опубликовано на <a href="https://addons.mozilla.org/">AMO</a>, первый стабильный релиз.<br>
