@@ -230,10 +230,10 @@ var dpTweaker = {
 		var cssURI;
 		if(add) {
 			var panelWidth = Math.max(this.minPanelWidth, prefs.get("panelWidth", 60));
-			var panelMinHeight = prefs.get("panelMaxHeight", -1);
-			var panelMinHeightVal = panelMinHeight <= 0
+			var panelMaxHeight = prefs.get("panelMaxHeight", 0);
+			var panelMaxHeightVal = panelMaxHeight <= 0
 				? "none"
-				: Math.max(this.minPanelHeight, panelMinHeight) + "px";
+				: Math.max(this.minPanelHeight, panelMaxHeight) + "px";
 			var pbHeight = Math.max(this.minProgressBarHeight, Math.min(this.maxProgressBarHeight,
 				prefs.get("progressBarHeight", 10)
 			));
@@ -256,7 +256,7 @@ var dpTweaker = {
 						width: auto !important;\n\
 						min-width: 0 !important;\n\
 						max-width: none !important;\n\
-						max-height: ' + panelMinHeightVal + ' !important;\n\
+						max-height: ' + panelMaxHeightVal + ' !important;\n\
 					}\n\
 					' + containerSelector + ' {\n\
 						width: ' + panelWidth + 'ch !important;\n\
