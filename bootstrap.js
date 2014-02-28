@@ -965,10 +965,17 @@ var dpTweaker = {
 		else if(pName == "debug.verbose")
 			_dbgv = pVal;
 	},
+	_wrongPrefDelay: 500,
 	_wrongPrefTimer: null,
+	_wrongPrefLast: "",
 	wrongPref: function(pName, pVal, min, max, allowZero) {
 		var timer = this._wrongPrefTimer;
-		timer && timer.cancel();
+		if(timer) {
+			if(pName == this._wrongPrefLast)
+				timer.cancel();
+			else
+				timer = this._wrongPrefTimer = null;
+		}
 
 		if(allowZero && pVal <= 0)
 			return false;
@@ -981,14 +988,16 @@ var dpTweaker = {
 		else
 			return false;
 
+		this._wrongPrefLast = pName;
 		if(!timer) {
 			timer = this._wrongPrefTimer = Components.classes["@mozilla.org/timer;1"]
 				.createInstance(Components.interfaces.nsITimer);
 		}
 		timer.init(function() {
 			this._wrongPrefTimer = null;
+			this._wrongPrefLast = "";
 			prefs.set(pName, corrected);
-		}.bind(this), 500, timer.TYPE_ONE_SHOT);
+		}.bind(this), this._wrongPrefDelay, timer.TYPE_ONE_SHOT);
 		return true;
 	}
 };
