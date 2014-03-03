@@ -6,6 +6,8 @@
 `*` - улучшено<br>
 
 ##### master/HEAD
+`+` Добавлена возможность удалять загрузки из истории кликом средней кнопкой мыши в панели (по умолчанию отключено) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/9">#9</a>).<br>
+
 ##### 0.2.0 (2014-02-28)
 `+` Добавлена возможность настроить действия для команды загрузок, сочетания клавиш (Ctrl+J) и кнопки «Показать все загрузки» (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/10">#10</a>).<br>
 `+` Добавлен workaround для исправления полоски между панелями навигации и закладок (настройка <em>extensions.downloadPanelTweaker.fixWrongTabsOnTopAttribute</em>) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/3">#3</a>).<br>
