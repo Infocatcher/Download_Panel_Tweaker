@@ -11,7 +11,7 @@
 <!ENTITY dpt.showDownloadRate "Показывать скорость загрузки">
 <!ENTITY dpt.decolorizePausedProgress "Обесцвечивать полосу прогресса приостановленных загрузок">
 <!ENTITY dpt.dontRemoveFinishedDownloads "Не удалять завершённые загрузки">
-<!ENTITY dpt.middleClickToRemoveFromHistory "Удалять загрузки из истории по клику средней кнопкой мыши">
+<!ENTITY dpt.middleClickToRemoveFromPanel "Удалять загрузки из панели по клику средней кнопкой мыши">
 
 <!ENTITY dpt.override.downloadsCommand "Команда для загрузок">
 <!-- We tries to replace {fallback value for hotkey} with real value -->

@@ -11,7 +11,7 @@
 <!ENTITY dpt.showDownloadRate "Show download rate">
 <!ENTITY dpt.decolorizePausedProgress "Decolorize progress bar of paused downloads">
 <!ENTITY dpt.dontRemoveFinishedDownloads "Don't remove finished downloads">
-<!ENTITY dpt.middleClickToRemoveFromHistory "Middle-click to remove downloads from history">
+<!ENTITY dpt.middleClickToRemoveFromPanel "Middle-click to remove downloads from panel">
 
 <!ENTITY dpt.override.downloadsCommand "Command for downloads">
 <!-- We tries to replace {fallback value for hotkey} with real value -->

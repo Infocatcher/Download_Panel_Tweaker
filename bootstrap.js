@@ -542,16 +542,23 @@ var dpTweaker = {
 		this.stopEvent(e);
 	},
 	panelClick: function(e) {
-		if(e.button != 1 || !prefs.get("middleClickToRemoveFromHistory"))
+		if(e.button != 1 || !prefs.get("middleClickToRemoveFromPanel"))
 			return;
 		var dlItem = this.getDlNode(e.target);
 		if(!dlItem)
 			return;
 		var window = dlItem.ownerDocument.defaultView;
 		var controller = new window.DownloadsViewItemController(dlItem);
-		controller.doCommand("cmd_delete");
+		// See chrome://browser/content/downloads/downloads.js
+		if(prefs.get("middleClickToRemoveFromPanel.clearHistory")) {
+			controller.doCommand("cmd_delete");
+			_log('panelClick() -> controller.doCommand("cmd_delete")');
+		}
+		else {
+			controller.dataItem.remove();
+			_log("panelClick() -> controller.dataItem.remove()");
+		}
 		this.stopEvent(e);
-		_log('panelClick() -> controller.doCommand("cmd_delete")');
 	},
 	getDlNode: function(node) {
 		for(; node; node = node.parentNode) {
