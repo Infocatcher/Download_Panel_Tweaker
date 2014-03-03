@@ -515,6 +515,8 @@ var dpTweaker = {
 			&& trg.id == "downloads"
 		)
 			this.downloadCommand(e, "overrideDownloadsCommand");
+		else if(e.currentTarget.id == "downloadsPanel")
+			this.panelClick(e);
 	},
 	downloadCommand: function(e, prefName) {
 		var window = e.currentTarget;
@@ -537,6 +539,35 @@ var dpTweaker = {
 		if(ok == false)
 			return;
 		_log("downloadCommand(): " + prefName + " = " + cmd);
+		this.stopEvent(e);
+	},
+	panelClick: function(e) {
+		if(e.button != 1)
+			return;
+		var dlItem = this.getDlNode(e.target);
+		if(!dlItem)
+			return;
+		var window = dlItem.ownerDocument.defaultView;
+		var controller = new window.DownloadsViewItemController(dlItem);
+		controller.doCommand("cmd_delete");
+		this.stopEvent(e);
+		_log('panelClick() -> controller.doCommand("cmd_delete")');
+	},
+	getDlNode: function(node) {
+		for(; node; node = node.parentNode) {
+			var ln = node.localName;
+			if(ln == "richlistitem") {
+				if(node.getAttribute("type") == "download")
+					return node;
+				break;
+			}
+			else if(ln == "panel") {
+				break;
+			}
+		}
+		return null;
+	},
+	stopEvent: function(e) {
 		e.preventDefault();
 		e.stopPropagation();
 		e.stopImmediatePropagation();
@@ -668,6 +699,8 @@ var dpTweaker = {
 		var document = window.document;
 		window.removeEventListener("popupshowing", this, false);
 
+		popup.addEventListener("click", this, true);
+
 		var clearDownloads = document.createElement("menuitem");
 		clearDownloads.id = this.clearDownloadsId;
 		clearDownloads.setAttribute("downloadPanelTweaker-command", "clearDownloads");
@@ -707,6 +740,9 @@ var dpTweaker = {
 		}
 	},
 	destroyContextMenus: function(document, force) {
+		var popup = document.getElementById("downloadsPanel");
+		if(popup)
+			popup.removeEventListener("click", this, true);
 		var clearDownloads = document.getElementById(this.clearDownloadsId);
 		if(clearDownloads) {
 			clearDownloads.removeEventListener("command", this, false);
