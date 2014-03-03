@@ -542,7 +542,7 @@ var dpTweaker = {
 		this.stopEvent(e);
 	},
 	panelClick: function(e) {
-		if(e.button != 1)
+		if(e.button != 1 || !prefs.get("middleClickToRemoveFromHistory"))
 			return;
 		var dlItem = this.getDlNode(e.target);
 		if(!dlItem)

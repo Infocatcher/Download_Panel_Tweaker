@@ -6,6 +6,8 @@ pref("extensions.downloadPanelTweaker.showDownloadRate", true);
 pref("extensions.downloadPanelTweaker.compactDownloads", 1);
 pref("extensions.downloadPanelTweaker.decolorizePausedProgress", true);
 
+pref("extensions.downloadPanelTweaker.middleClickToRemoveFromHistory", false);
+
 pref("extensions.downloadPanelTweaker.overrideDownloadsCommand", 0);
 pref("extensions.downloadPanelTweaker.overrideDownloadsCommand.private", 0);
 pref("extensions.downloadPanelTweaker.overrideDownloadsHotkey", 1);
