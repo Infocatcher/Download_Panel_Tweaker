@@ -104,7 +104,7 @@ var dpTweaker = {
 			break;
 			case "command":      this.handleCommand(e); break;
 			case "click":        this.handleClick(e);   break;
-			case "popupshowing": this.initContextMenus(e);
+			case "popupshowing": this.initPanel(e);
 		}
 	},
 
@@ -153,7 +153,7 @@ var dpTweaker = {
 			window.removeEventListener("click", this, true);
 		window.removeEventListener("popupshowing", this, false);
 		var force = reason != WINDOW_CLOSED && reason != APP_SHUTDOWN;
-		this.destroyContextMenus(document, force);
+		this.destroyPanel(document, force);
 		if(force) {
 			this.setItemCountLimit(window, false);
 			if(prefs.get("showDownloadRate"))
@@ -690,7 +690,7 @@ var dpTweaker = {
 	clearDownloadsId: "downloadPanelTweaker-menuItem-clearDownloads",
 	clearDownloads2Id: "downloadPanelTweaker-menuItem-clearDownloads2",
 	panelFooterContextId: "downloadPanelTweaker-popup-panelFooterContext",
-	initContextMenus: function(e) {
+	initPanel: function(e) {
 		var popup = e.target;
 		if(popup.id != "downloadsPanel")
 			return;
@@ -739,7 +739,7 @@ var dpTweaker = {
 			_log('Add "Clear Downloads" to panel context menu');
 		}
 	},
-	destroyContextMenus: function(document, force) {
+	destroyPanel: function(document, force) {
 		var popup = document.getElementById("downloadsPanel");
 		if(popup)
 			popup.removeEventListener("click", this, true);
