@@ -11,6 +11,7 @@
 <!ENTITY dpt.showDownloadRate "Εμφάνιση ρυθμού λήψης">
 <!ENTITY dpt.decolorizePausedProgress "Αποχρωμάτιση γραμμής προόδου λήψεων σε παύση">
 <!ENTITY dpt.dontRemoveFinishedDownloads "Μη απομάκρυνση ολοκληρωμένων λήψεων">
+<!ENTITY dpt.middleClickToRemoveFromHistory "Middle-click to remove downloads from history">
 
 <!ENTITY dpt.override.downloadsCommand "Command for downloads">
 <!-- We tries to replace {fallback value for hotkey} with real value -->

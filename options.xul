@@ -50,6 +50,7 @@
 	<setting pref="extensions.downloadPanelTweaker.showDownloadRate" type="bool" title="&dpt.showDownloadRate;" />
 	<setting pref="extensions.downloadPanelTweaker.decolorizePausedProgress" type="bool" title="&dpt.decolorizePausedProgress;" />
 	<setting pref="extensions.downloadPanelTweaker.dontRemoveFinishedDownloads" type="bool" title="&dpt.dontRemoveFinishedDownloads;" />
+	<setting pref="extensions.downloadPanelTweaker.middleClickToRemoveFromHistory" type="bool" title="&dpt.middleClickToRemoveFromHistory;" />
 
 	<setting pref="extensions.downloadPanelTweaker.overrideDownloadsCommand" type="menulist" title="&dpt.override.downloadsCommand;"
 		onpreferencechanged='
