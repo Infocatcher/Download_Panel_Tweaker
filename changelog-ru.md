@@ -7,6 +7,7 @@
 
 ##### master/HEAD
 `+` Добавлена возможность удалять загрузки из панели кликом средней кнопкой мыши (по умолчанию отключено + скрытая настройка <em>extensions.downloadPanelTweaker.middleClickToRemoveFromPanel.clearHistory</em> для удаления из истории) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/9">#9</a>).<br>
+`+` Добавлено подавление оповещений о добавлении неудавшихся загрузок (только если сохраняются завершенные загрузки, настройка <em>extensions.downloadPanelTweaker.suppressFailedDownloadsNotifications</em>).<br>
 
 ##### 0.2.0 (2014-02-28)
 `+` Добавлена возможность настроить действия для команды загрузок, сочетания клавиш (Ctrl+J) и кнопки «Показать все загрузки» (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/10">#10</a>).<br>
