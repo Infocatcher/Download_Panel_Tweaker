@@ -36,6 +36,8 @@ pref("extensions.downloadPanelTweaker.fixDownloadsLoadingPerformance", true);
 // Only for test purposes, reenable extension after change
 pref("extensions.downloadPanelTweaker.suppressPausedDownloadsNotifications", true);
 // Suppress notifications about all "canceled" downloads (include paused)
+pref("extensions.downloadPanelTweaker.suppressFailedDownloadsNotifications", true);
+// Suppress notifications about downloads with not empty "error" property
 
 pref("extensions.downloadPanelTweaker.fixWrongTabsOnTopAttribute", true);
 

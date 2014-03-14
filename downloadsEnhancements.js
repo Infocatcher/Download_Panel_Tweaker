@@ -118,6 +118,7 @@ var downloadsEnhancements = {
 					!dl.hasPartialData
 					|| prefs.get("suppressPausedDownloadsNotifications")
 				)
+				|| dl.error && prefs.get("suppressFailedDownloadsNotifications")
 			)
 		)
 			this.newDownloadNotified = true;
