@@ -710,6 +710,8 @@ var dpTweaker = {
 
 	clearDownloadsId: "downloadPanelTweaker-menuItem-clearDownloads",
 	clearDownloads2Id: "downloadPanelTweaker-menuItem-clearDownloads2",
+	copyReferrerId: "downloadPanelTweaker-menuItem-copyReferrer",
+	removeFileId: "downloadPanelTweaker-menuItem-removeFile",
 	panelFooterContextId: "downloadPanelTweaker-popup-panelFooterContext",
 	initPanel: function(e) {
 		var popup = e.target;
@@ -722,19 +724,37 @@ var dpTweaker = {
 
 		popup.addEventListener("click", this, true);
 
-		var clearDownloads = document.createElement("menuitem");
-		clearDownloads.id = this.clearDownloadsId;
-		clearDownloads.setAttribute("downloadPanelTweaker-command", "clearDownloads");
 		var labels = {
 			"cmd.clearDownloads.label": "Clear Downloads",
-			"cmd.clearDownloads.accesskey": "D"
+			"cmd.clearDownloads.accesskey": "D",
+			"dpt.copyReferrer": "Copy Download Page Link",
+			"dpt.copyReferrer.accesskey": "P",
+			"dpt.removeFile": "Remove File From Disk",
+			"dpt.removeFile.accesskey": "F"
 		};
 		this.getEntities([
 			"chrome://downloadpaneltweaker/locale/dpt.dtd",
 			"chrome://browser/locale/downloads/downloads.dtd"
 		], labels);
-		clearDownloads.setAttribute("label", labels["cmd.clearDownloads.label"]);
-		clearDownloads.setAttribute("accesskey", labels["cmd.clearDownloads.accesskey"]);
+
+		var clearDownloads = this.createMenuItem(document, {
+			id: this.clearDownloadsId,
+			label: labels["cmd.clearDownloads.label"],
+			accesskey: labels["cmd.clearDownloads.accesskey"],
+			"downloadPanelTweaker-command": "clearDownloads"
+		});
+		var copyReferrer = this.createMenuItem(document, {
+			id: this.copyReferrerId,
+			label: labels["dpt.copyReferrer"],
+			accesskey: labels["dpt.copyReferrer.accesskey"],
+			"downloadPanelTweaker-command": "copyReferrer"
+		});
+		var removeFile = this.createMenuItem(document, {
+			id: this.removeFileId,
+			label: labels["dpt.removeFile"],
+			accesskey: labels["dpt.removeFile.accesskey"],
+			"downloadPanelTweaker-command": "removeFile"
+		});
 
 		var footer = document.getElementById("downloadsFooter")
 			|| document.getElementById("downloadsHistory"); // Firefox < 20
@@ -754,11 +774,15 @@ var dpTweaker = {
 
 		var contextMenu = document.getElementById("downloadsContextMenu");
 		if(contextMenu) {
-			clearDownloads.addEventListener("command", this, false);
-			var insPos = contextMenu.getElementsByAttribute("command", "downloadsCmd_clearList")[0];
-			contextMenu.insertBefore(clearDownloads, insPos && insPos.nextSibling);
+			var insert = function(item, insPos) {
+				item.addEventListener("command", this, false);
+				contextMenu.insertBefore(item, insPos && insPos.parentNode == contextMenu && insPos.nextSibling);
+			}.bind(this);
+			insert(clearDownloads, contextMenu.getElementsByAttribute("command", "downloadsCmd_clearList")[0]);
+			insert(copyReferrer, contextMenu.getElementsByAttribute("command", "downloadsCmd_copyLocation")[0]);
+			insert(removeFile, contextMenu.getElementsByAttribute("command", "cmd_delete")[0]);
 			contextMenu.addEventListener("popupshowing", this, false);
-			_log('Add "Clear Downloads" to panel context menu');
+			_log("Add menu items to panel context menu");
 		}
 	},
 	destroyPanel: function(document, force) {
@@ -768,11 +792,6 @@ var dpTweaker = {
 		var contextMenu = document.getElementById("downloadsContextMenu");
 		if(contextMenu)
 			contextMenu.removeEventListener("popupshowing", this, false);
-		var clearDownloads = document.getElementById(this.clearDownloadsId);
-		if(clearDownloads) {
-			clearDownloads.removeEventListener("command", this, false);
-			force && clearDownloads.parentNode.removeChild(clearDownloads);
-		}
 		var footer = document.getElementById("downloadsFooter")
 			|| document.getElementById("downloadsHistory"); // Firefox < 20
 		if(footer) {
@@ -787,6 +806,17 @@ var dpTweaker = {
 			if(footerContext && force)
 				footerContext.parentNode.removeChild(footerContext);
 		}
+		Array.slice(document.getElementsByAttribute("downloadPanelTweaker-command", "*"))
+			.forEach(function(mi) {
+				mi.removeEventListener("command", this, false);
+				force && mi.parentNode.removeChild(mi);
+			}, this);
+	},
+	createMenuItem: function(document, attrs) {
+		var mi = document.createElement("menuitem");
+		for(var attr in attrs)
+			mi.setAttribute(attr, attrs[attr]);
+		return mi;
 	},
 
 	updateDownloadsContextMenu: function(popup) {

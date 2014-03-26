@@ -35,3 +35,8 @@ We use Firefox localization, but accesskey should be corrected for some locales
 -->
 <!ENTITY cmd.clearDownloads.label "Очистить загрузки">
 <!ENTITY cmd.clearDownloads.accesskey "и">
+
+<!ENTITY dpt.copyReferrer "Копировать ссылку на страницу загрузки">
+<!ENTITY dpt.copyReferrer.accesskey "з">
+<!ENTITY dpt.removeFile "Удалить файл с диска">
+<!ENTITY dpt.removeFile.accesskey "ф">
