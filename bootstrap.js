@@ -496,8 +496,15 @@ var dpTweaker = {
 	},
 	handleCommand: function(e) {
 		var curTrg = e.currentTarget;
-		if(curTrg.getAttribute && curTrg.getAttribute("downloadPanelTweaker-command") == "clearDownloads")
-			this.clearDownloads();
+		if(curTrg.getAttribute && curTrg.hasAttribute("downloadPanelTweaker-command")) {
+			var cmd = curTrg.getAttribute("downloadPanelTweaker-command");
+			if(cmd == "clearDownloads")
+				this.clearDownloads();
+			else if(cmd == "copyReferrer")
+				this.copyReferrer(e.target);
+			else if(cmd == "removeFile")
+				this.removeFile(e.target);
+		}
 		else if(e.target.id == "Tools:Downloads") {
 			if(e.sourceEvent && e.sourceEvent.target.nodeName != "key")
 				this.downloadCommand(e, "overrideDownloadsCommand");
@@ -875,6 +882,16 @@ var dpTweaker = {
 			.getService(Components.interfaces.nsIDownloadHistory)
 			.removeAllDownloads();
 		_log("clearDownloads(): done");
+	},
+	copyReferrer: function(mi) {
+		var dlContext = mi.parentNode;
+		var dlController = this.getDlController(dlContext.triggerNode);
+		Components.classes["@mozilla.org/widget/clipboardhelper;1"]
+			.getService(Components.interfaces.nsIClipboardHelper)
+			.copyString(dlController.dataItem.referrer, mi.ownerDocument);
+	},
+	removeFile: function(mi) {
+		var dlContext = mi.parentNode;
 	},
 
 	setFixToolbox: function(window, enable) {
