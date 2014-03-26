@@ -841,8 +841,22 @@ var dpTweaker = {
 				var cmd = mi.getAttribute("downloadPanelTweaker-command");
 				if(cmd == "copyReferrer")
 					this.enableNode(mi, dlController && dlController.dataItem && dlController.dataItem.referrer);
-				else if(cmd == "removeFile")
-					this.enableNode(mi, dlItem && dlItem.getAttribute("exists") == "true");
+				else if(cmd == "removeFile") {
+					var exists = dlItem && dlItem.getAttribute("exists") == "true";
+					var window = popup.ownerDocument.defaultView;
+					if(
+						window.DownloadsViewItem
+						&& window.DownloadsViewItem.prototype
+						&& !("verifyTargetExists" in window.DownloadsViewItem.prototype)
+					) try { // Firefox 20 and older
+						_log("Will use dataItem.localFile.exists()");
+						exists = dlController.dataItem.localFile.exists();
+					}
+					catch(e) {
+						Components.utils.reportError(e);
+					}
+					this.enableNode(mi, exists);
+				}
 			},
 			this
 		);
@@ -894,8 +908,13 @@ var dpTweaker = {
 		var dlContext = mi.parentNode;
 		var dlItem = this.getDlNode(dlContext.triggerNode);
 		var dlController = this.getDlController(dlItem);
+		var dataItem = dlController.dataItem;
+		var path = dataItem.file;
+		if(!path || typeof path != "string" || path.startsWith("file:/")) // Firefox 24 and older
+			path = dataItem.localFile.path;
+		_log("removeFile(): " + path);
 		Components.utils.import("resource://gre/modules/osfile.jsm");
-		OS.File.remove(dlController.dataItem.file).then(
+		OS.File.remove(path).then(
 			function onSuccess() {
 				dlItem.removeAttribute("exists");
 			},
