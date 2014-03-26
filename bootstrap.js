@@ -104,7 +104,7 @@ var dpTweaker = {
 			break;
 			case "command":      this.handleCommand(e); break;
 			case "click":        this.handleClick(e);   break;
-			case "popupshowing": this.initPanel(e);
+			case "popupshowing": this.popupShowingHandler(e);
 		}
 	},
 
@@ -694,6 +694,20 @@ var dpTweaker = {
 		return window.dispatchEvent(evt);
 	},
 
+	popupShowingHandler: function(e) {
+		var curTrg = e.currentTarget;
+		if(curTrg instanceof Components.interfaces.nsIDOMWindow) {
+			this.initPanel(e);
+			return;
+		}
+		var popup = e.target;
+		if(popup != curTrg)
+			return;
+		var id = popup.id;
+		if(id == "downloadsContextMenu")
+			this.updateDownloadsContextMenu(popup);
+	},
+
 	clearDownloadsId: "downloadPanelTweaker-menuItem-clearDownloads",
 	clearDownloads2Id: "downloadPanelTweaker-menuItem-clearDownloads2",
 	panelFooterContextId: "downloadPanelTweaker-popup-panelFooterContext",
@@ -743,6 +757,7 @@ var dpTweaker = {
 			clearDownloads.addEventListener("command", this, false);
 			var insPos = contextMenu.getElementsByAttribute("command", "downloadsCmd_clearList")[0];
 			contextMenu.insertBefore(clearDownloads, insPos.nextSibling);
+			contextMenu.addEventListener("popupshowing", this, false);
 			_log('Add "Clear Downloads" to panel context menu');
 		}
 	},
@@ -750,6 +765,9 @@ var dpTweaker = {
 		var popup = document.getElementById("downloadsPanel");
 		if(popup)
 			popup.removeEventListener("click", this, true);
+		var contextMenu = document.getElementById("downloadsContextMenu");
+		if(contextMenu)
+			contextMenu.removeEventListener("popupshowing", this, false);
 		var clearDownloads = document.getElementById(this.clearDownloadsId);
 		if(clearDownloads) {
 			clearDownloads.removeEventListener("command", this, false);
@@ -770,6 +788,18 @@ var dpTweaker = {
 				footerContext.parentNode.removeChild(footerContext);
 		}
 	},
+
+	updateDownloadsContextMenu: function(popup) {
+		_log("updateDownloadsContextMenu()");
+		Array.forEach(
+			popup.getElementsByAttribute("downloadPanelTweaker-command", "*"),
+			function(mi) {
+				var cmd = mi.getAttribute("downloadPanelTweaker-command");
+			},
+			this
+		);
+	},
+
 	clearDownloads: function() {
 		_log("clearDownloads()");
 		try {
