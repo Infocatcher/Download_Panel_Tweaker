@@ -892,6 +892,15 @@ var dpTweaker = {
 	},
 	removeFile: function(mi) {
 		var dlContext = mi.parentNode;
+		var dlItem = this.getDlNode(dlContext.triggerNode);
+		var dlController = this.getDlController(dlItem);
+		Components.utils.import("resource://gre/modules/osfile.jsm");
+		OS.File.remove(dlController.dataItem.file).then(
+			function onSuccess() {
+				dlItem.removeAttribute("exists");
+			},
+			Components.utils.reportError
+		);
 	},
 
 	setFixToolbox: function(window, enable) {
