@@ -756,7 +756,7 @@ var dpTweaker = {
 		if(contextMenu) {
 			clearDownloads.addEventListener("command", this, false);
 			var insPos = contextMenu.getElementsByAttribute("command", "downloadsCmd_clearList")[0];
-			contextMenu.insertBefore(clearDownloads, insPos.nextSibling);
+			contextMenu.insertBefore(clearDownloads, insPos && insPos.nextSibling);
 			contextMenu.addEventListener("popupshowing", this, false);
 			_log('Add "Clear Downloads" to panel context menu');
 		}
