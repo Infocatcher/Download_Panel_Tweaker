@@ -544,19 +544,17 @@ var dpTweaker = {
 	panelClick: function(e) {
 		if(e.button != 1 || !prefs.get("middleClickToRemoveFromPanel"))
 			return;
-		var dlItem = this.getDlNode(e.target);
-		if(!dlItem)
+		var dlController = this.getDlController(e.target);
+		if(!dlController)
 			return;
-		var window = dlItem.ownerDocument.defaultView;
-		var controller = new window.DownloadsViewItemController(dlItem);
 		// See chrome://browser/content/downloads/downloads.js
 		if(prefs.get("middleClickToRemoveFromPanel.clearHistory")) {
-			controller.doCommand("cmd_delete");
-			_log('panelClick() -> controller.doCommand("cmd_delete")');
+			dlController.doCommand("cmd_delete");
+			_log('panelClick() -> dlController.doCommand("cmd_delete")');
 		}
 		else {
-			controller.dataItem.remove();
-			_log("panelClick() -> controller.dataItem.remove()");
+			dlController.dataItem.remove();
+			_log("panelClick() -> dlController.dataItem.remove()");
 		}
 		this.stopEvent(e);
 	},
@@ -573,6 +571,13 @@ var dpTweaker = {
 			}
 		}
 		return null;
+	},
+	getDlController: function(node) {
+		var dlItem = this.getDlNode(node);
+		if(!dlItem)
+			return null;
+		var window = dlItem.ownerDocument.defaultView;
+		return new window.DownloadsViewItemController(dlItem);
 	},
 	stopEvent: function(e) {
 		e.preventDefault();
@@ -821,13 +826,25 @@ var dpTweaker = {
 
 	updateDownloadsContextMenu: function(popup) {
 		_log("updateDownloadsContextMenu()");
+		var dlItem = this.getDlNode(popup.triggerNode);
+		var dlController = this.getDlController(dlItem);
 		Array.forEach(
 			popup.getElementsByAttribute("downloadPanelTweaker-command", "*"),
 			function(mi) {
 				var cmd = mi.getAttribute("downloadPanelTweaker-command");
+				if(cmd == "copyReferrer")
+					this.enableNode(mi, dlController && dlController.dataItem && dlController.dataItem.referrer);
+				else if(cmd == "removeFile")
+					this.enableNode(mi, dlItem && dlItem.getAttribute("exists") == "true");
 			},
 			this
 		);
+	},
+	enableNode: function(node, enable) {
+		if(enable)
+			node.removeAttribute("disabled");
+		else
+			node.setAttribute("disabled", "true");
 	},
 
 	clearDownloads: function() {
