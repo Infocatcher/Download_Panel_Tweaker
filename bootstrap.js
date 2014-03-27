@@ -912,6 +912,7 @@ var dpTweaker = {
 		if(!path || typeof path != "string" || path.startsWith("file:/")) // Firefox 24 and older
 			path = dataItem.localFile.path;
 		_log("removeFile(): " + path);
+		var htmlPattern = /\.(?:[xs]?html?|xht)$/i;
 		try {
 			Components.utils.import("resource://gre/modules/osfile.jsm");
 			OS.File.remove(path).then(
@@ -920,12 +921,29 @@ var dpTweaker = {
 				},
 				Components.utils.reportError
 			);
+			if(htmlPattern.test(path)) {
+				var filesPath = RegExp.leftContext + "_files";
+				_log("removeFile(): HTML _files directory: " + filesPath);
+				OS.File.removeDir(filesPath, { ignoreAbsent: true }).then(
+					null,
+					Components.utils.reportError
+				);
+			}
 		}
 		catch(e) { // Firefox 17
 			if((e.message || e) != "osfile.jsm cannot be used from the main thread yet")
 				Components.utils.reportError(e);
 			_log("removeFile(): will use dataItem.localFile.remove(false)");
-			dataItem.localFile.remove(false);
+			var localFile = dataItem.localFile;
+			if(htmlPattern.test(localFile.leafName)) {
+				var filesName = RegExp.leftContext + "_files";
+				var filesDir = localFile.parent.clone();
+				filesDir.append(filesName);
+				_log("removeFile(): HTML _files directory: " + filesDir.path);
+			}
+			localFile.remove(false);
+			if(filesDir && filesDir.exists())
+				filesDir.remove(true);
 		}
 	},
 
