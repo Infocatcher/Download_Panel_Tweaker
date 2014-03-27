@@ -13,7 +13,7 @@ pref("extensions.downloadPanelTweaker.removeFile.clearHistory", 0);
 // 0 - only remove file from disk
 // 1 - also remove download item from panel
 // 2 - also remove from panel and from history
-pref("extensions.downloadPanelTweaker.removeFilesDirectoryForHTML", true);
+pref("extensions.downloadPanelTweaker.removeFile.removeFilesDirectoryForHTML", true);
 // Also remove *_files directory for *.html files
 
 pref("extensions.downloadPanelTweaker.overrideDownloadsCommand", 0);

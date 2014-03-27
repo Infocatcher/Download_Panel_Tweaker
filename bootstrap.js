@@ -905,7 +905,7 @@ var dpTweaker = {
 			path = dataItem.localFile.path;
 		_log("removeFile(): " + path);
 		var htmlPattern = /\.(?:[xs]?html?|xht)$/i;
-		var removeFilesDirPref = "removeFilesDirectoryForHTML";
+		var removeFilesDirPref = "removeFile.removeFilesDirectoryForHTML";
 		var clearHistory = prefs.get("removeFile.clearHistory");
 		try {
 			Components.utils.import("resource://gre/modules/osfile.jsm");
