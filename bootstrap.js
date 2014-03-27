@@ -714,7 +714,9 @@ var dpTweaker = {
 			var window = curTrg;
 			if(id == "downloadsPanel") {
 				window.removeEventListener("popupshowing", this, false);
-				this.initPanel(window.document, popup);
+				window.setTimeout(function() {
+					this.initPanel(window.document, popup);
+				}.bind(this), 0);
 			}
 			return;
 		}
