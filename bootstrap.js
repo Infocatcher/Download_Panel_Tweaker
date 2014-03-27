@@ -707,15 +707,19 @@ var dpTweaker = {
 	},
 
 	popupShowingHandler: function(e) {
+		var popup = e.target;
 		var curTrg = e.currentTarget;
+		var id = popup.id;
 		if(curTrg instanceof Components.interfaces.nsIDOMWindow) {
-			this.initPanel(e);
+			var window = curTrg;
+			if(id == "downloadsPanel") {
+				window.removeEventListener("popupshowing", this, false);
+				this.initPanel(window.document, popup);
+			}
 			return;
 		}
-		var popup = e.target;
 		if(popup != curTrg)
 			return;
-		var id = popup.id;
 		if(id == "downloadsContextMenu")
 			this.updateDownloadsContextMenu(popup);
 	},
@@ -725,15 +729,8 @@ var dpTweaker = {
 	copyReferrerId: "downloadPanelTweaker-menuItem-copyReferrer",
 	removeFileId: "downloadPanelTweaker-menuItem-removeFile",
 	panelFooterContextId: "downloadPanelTweaker-popup-panelFooterContext",
-	initPanel: function(e) {
-		var popup = e.target;
-		if(popup.id != "downloadsPanel")
-			return;
-		_log("Opened #downloadsPanel, will initialize context menus");
-		var window = e.currentTarget;
-		var document = window.document;
-		window.removeEventListener("popupshowing", this, false);
-
+	initPanel: function(document, popup) {
+		_log("initPanel()");
 		popup.addEventListener("click", this, true);
 
 		var labels = {
