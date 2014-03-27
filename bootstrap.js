@@ -906,15 +906,18 @@ var dpTweaker = {
 		_log("removeFile(): " + path);
 		var htmlPattern = /\.(?:[xs]?html?|xht)$/i;
 		var removeFilesDirPref = "removeFilesDirectoryForHTML";
+		var clearHistory = prefs.get("removeFile.clearHistory");
 		try {
 			Components.utils.import("resource://gre/modules/osfile.jsm");
 			OS.File.remove(path).then(
 				function onSuccess() {
 					dlItem.removeAttribute("exists");
-				},
+					if(clearHistory)
+						this.removeFromPanel(dlController, clearHistory > 1);
+				}.bind(this),
 				Components.utils.reportError
 			);
-			if(prefs.get(removeFilesDirPref) && htmlPattern.test(path)) {
+			if(htmlPattern.test(path) && prefs.get(removeFilesDirPref)) {
 				var filesPath = RegExp.leftContext + "_files";
 				_log("removeFile(): HTML _files directory: " + filesPath);
 				OS.File.removeDir(filesPath, { ignoreAbsent: true }).then(
@@ -928,13 +931,15 @@ var dpTweaker = {
 				Components.utils.reportError(e);
 			_log("removeFile(): will use dataItem.localFile.remove(false)");
 			var localFile = dataItem.localFile;
-			if(prefs.get(removeFilesDirPref) && htmlPattern.test(localFile.leafName)) {
+			if(htmlPattern.test(localFile.leafName) && prefs.get(removeFilesDirPref)) {
 				var filesName = RegExp.leftContext + "_files";
 				var filesDir = localFile.parent.clone();
 				filesDir.append(filesName);
 				_log("removeFile(): HTML _files directory: " + filesDir.path);
 			}
 			localFile.remove(false);
+			if(clearHistory)
+				this.removeFromPanel(dlController, clearHistory > 1);
 			if(filesDir && filesDir.exists())
 				filesDir.remove(true);
 		}
