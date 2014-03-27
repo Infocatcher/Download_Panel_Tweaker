@@ -1,42 +1,13 @@
-<!-- Options -->
-<!ENTITY dpt.useOldUI "Использовать старый интерфейс загрузок (не рекомендуется)">
-<!ENTITY dpt.itemCountLimit "Ограничение видимого количества загрузок">
-<!ENTITY dpt.panelWidth "Ширина панели загрузок">
-<!ENTITY dpt.panelMaxHeight "Ограничение высоты панели загрузок">
-<!ENTITY dpt.progressBarHeight "Высота полосы прогресса">
-<!ENTITY dpt.compactDownloads "Список загрузок">
-<!ENTITY dpt.compactDownloads.default "По умолчанию">
-<!ENTITY dpt.compactDownloads.compact "Компактный">
-<!ENTITY dpt.compactDownloads.veryCompact "Очень компактный">
-<!ENTITY dpt.showDownloadRate "Показывать скорость загрузки">
-<!ENTITY dpt.decolorizePausedProgress "Обесцвечивать полосу прогресса приостановленных загрузок">
-<!ENTITY dpt.dontRemoveFinishedDownloads "Не удалять завершённые загрузки">
-<!ENTITY dpt.middleClickToRemoveFromPanel "Удалять загрузки из панели по клику средней кнопкой мыши">
-
-<!ENTITY dpt.override.downloadsCommand "Команда для загрузок">
-<!-- We tries to replace {fallback value for hotkey} with real value -->
-<!ENTITY dpt.override.downloadsHotkey "Сочетание клавиш для загрузок ({Ctrl+J})">
-<!ENTITY dpt.override.showAllDownloads "Кнопка «Показать все загрузки»">
-<!ENTITY dpt.override.inPrivateWindow "В приватном окне">
-<!ENTITY dpt.override.default "По умолчанию">
-<!ENTITY dpt.override.togglePanel "Переключить панель">
-<!ENTITY dpt.override.openOldWindow "Открыть старое окно">
-<!ENTITY dpt.override.openOldWindowNote "Не работает в Firefox 26+ без сторонних расширений">
-<!ENTITY dpt.override.openOldWindowNotePrivate "Может не работать в приватных окнах">
-<!ENTITY dpt.override.openInTab "Открыть во вкладке">
-<!ENTITY dpt.override.openLibraryWindow "Открыть окно библиотеки">
-<!ENTITY dpt.override.toggleSidebar "Переключить боковую панель">
-<!ENTITY dpt.override.toggleSidebarNotePrivate "Не работает в приватных вкладках">
-
-<!--
-See view-source:chrome://browser/locale/downloads/downloads.dtd
-We use Firefox localization, but accesskey should be corrected for some locales
-(and these strings are missing in Firefox 19 and older)
--->
-<!ENTITY cmd.clearDownloads.label "Очистить загрузки">
-<!ENTITY cmd.clearDownloads.accesskey "и">
-
+<!-- Items in download panel context menu -->
 <!ENTITY dpt.copyReferrer "Копировать ссылку на страницу загрузки">
 <!ENTITY dpt.copyReferrer.accesskey "з">
 <!ENTITY dpt.removeFile "Удалить файл с диска">
 <!ENTITY dpt.removeFile.accesskey "ф">
+
+<!--
+See view-source:chrome://browser/locale/downloads/downloads.dtd
+We can use Firefox localization, but accesskey should be corrected for some locales
+(and these strings are missing in Firefox 19 and older)
+-->
+<!ENTITY cmd.clearDownloads.label "Очистить загрузки">
+<!ENTITY cmd.clearDownloads.accesskey "и">

@@ -1,0 +1,29 @@
+<!-- Options -->
+<!ENTITY dpt.useOldUI "Χρήση κλασικού παραθύρου λήψεων (δεν συνιστάται)">
+<!ENTITY dpt.itemCountLimit "Αριθμός ορατών λήψεων">
+<!ENTITY dpt.panelWidth "Πλάτος πλαισίου λήψεων">
+<!ENTITY dpt.panelMaxHeight "Download panel height limit">
+<!ENTITY dpt.progressBarHeight "Ύψος γραμμής προόδου">
+<!ENTITY dpt.compactDownloads "Λίστα λήψεων">
+<!ENTITY dpt.compactDownloads.default "Προεπιλεγμένη">
+<!ENTITY dpt.compactDownloads.compact "Συμπαγής">
+<!ENTITY dpt.compactDownloads.veryCompact "Πολύ συμπαγής">
+<!ENTITY dpt.showDownloadRate "Εμφάνιση ρυθμού λήψης">
+<!ENTITY dpt.decolorizePausedProgress "Αποχρωμάτιση γραμμής προόδου λήψεων σε παύση">
+<!ENTITY dpt.dontRemoveFinishedDownloads "Μη απομάκρυνση ολοκληρωμένων λήψεων">
+<!ENTITY dpt.middleClickToRemoveFromPanel "Middle-click to remove downloads from panel">
+
+<!ENTITY dpt.override.downloadsCommand "Command for downloads">
+<!-- We tries to replace {fallback value for hotkey} with real value -->
+<!ENTITY dpt.override.downloadsHotkey "Hotkey for downloads ({Ctrl+J})">
+<!ENTITY dpt.override.showAllDownloads "“Show All Downloads” button">
+<!ENTITY dpt.override.inPrivateWindow "In private window">
+<!ENTITY dpt.override.default "Default">
+<!ENTITY dpt.override.togglePanel "Toggle panel">
+<!ENTITY dpt.override.openOldWindow "Open old window">
+<!ENTITY dpt.override.openOldWindowNote "Doesn't work in Firefox 26+ without third-party extensions">
+<!ENTITY dpt.override.openOldWindowNotePrivate "May not work in private windows">
+<!ENTITY dpt.override.openInTab "Open in tab">
+<!ENTITY dpt.override.openLibraryWindow "Open Library window">
+<!ENTITY dpt.override.toggleSidebar "Toggle sidebar">
+<!ENTITY dpt.override.toggleSidebarNotePrivate "Doesn't work in private tabs">
