@@ -912,13 +912,21 @@ var dpTweaker = {
 		if(!path || typeof path != "string" || path.startsWith("file:/")) // Firefox 24 and older
 			path = dataItem.localFile.path;
 		_log("removeFile(): " + path);
-		Components.utils.import("resource://gre/modules/osfile.jsm");
-		OS.File.remove(path).then(
-			function onSuccess() {
-				dlItem.removeAttribute("exists");
-			},
-			Components.utils.reportError
-		);
+		try {
+			Components.utils.import("resource://gre/modules/osfile.jsm");
+			OS.File.remove(path).then(
+				function onSuccess() {
+					dlItem.removeAttribute("exists");
+				},
+				Components.utils.reportError
+			);
+		}
+		catch(e) { // Firefox 17
+			if((e.message || e) != "osfile.jsm cannot be used from the main thread yet")
+				Components.utils.reportError(e);
+			_log("removeFile(): will use dataItem.localFile.remove(false)");
+			dataItem.localFile.remove(false);
+		}
 	},
 
 	setFixToolbox: function(window, enable) {
