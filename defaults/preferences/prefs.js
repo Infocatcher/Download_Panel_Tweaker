@@ -9,6 +9,9 @@ pref("extensions.downloadPanelTweaker.decolorizePausedProgress", true);
 pref("extensions.downloadPanelTweaker.middleClickToRemoveFromPanel", false);
 pref("extensions.downloadPanelTweaker.middleClickToRemoveFromPanel.clearHistory", false);
 
+pref("extensions.downloadPanelTweaker.removeFilesDirectoryForHTML", true);
+// Also remove *_files directory for *.html files
+
 pref("extensions.downloadPanelTweaker.overrideDownloadsCommand", 0);
 pref("extensions.downloadPanelTweaker.overrideDownloadsCommand.private", 0);
 pref("extensions.downloadPanelTweaker.overrideDownloadsHotkey", 1);

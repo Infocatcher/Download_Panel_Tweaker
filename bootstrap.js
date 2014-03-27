@@ -913,6 +913,7 @@ var dpTweaker = {
 			path = dataItem.localFile.path;
 		_log("removeFile(): " + path);
 		var htmlPattern = /\.(?:[xs]?html?|xht)$/i;
+		var removeFilesDirPref = "removeFilesDirectoryForHTML";
 		try {
 			Components.utils.import("resource://gre/modules/osfile.jsm");
 			OS.File.remove(path).then(
@@ -921,7 +922,7 @@ var dpTweaker = {
 				},
 				Components.utils.reportError
 			);
-			if(htmlPattern.test(path)) {
+			if(prefs.get(removeFilesDirPref) && htmlPattern.test(path)) {
 				var filesPath = RegExp.leftContext + "_files";
 				_log("removeFile(): HTML _files directory: " + filesPath);
 				OS.File.removeDir(filesPath, { ignoreAbsent: true }).then(
@@ -935,7 +936,7 @@ var dpTweaker = {
 				Components.utils.reportError(e);
 			_log("removeFile(): will use dataItem.localFile.remove(false)");
 			var localFile = dataItem.localFile;
-			if(htmlPattern.test(localFile.leafName)) {
+			if(prefs.get(removeFilesDirPref) && htmlPattern.test(localFile.leafName)) {
 				var filesName = RegExp.leftContext + "_files";
 				var filesDir = localFile.parent.clone();
 				filesDir.append(filesName);
