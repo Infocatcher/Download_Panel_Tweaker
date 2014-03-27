@@ -554,15 +554,7 @@ var dpTweaker = {
 		var dlController = this.getDlController(e.target);
 		if(!dlController)
 			return;
-		// See chrome://browser/content/downloads/downloads.js
-		if(prefs.get("middleClickToRemoveFromPanel.clearHistory")) {
-			dlController.doCommand("cmd_delete");
-			_log('panelClick() -> dlController.doCommand("cmd_delete")');
-		}
-		else {
-			dlController.dataItem.remove();
-			_log("panelClick() -> dlController.dataItem.remove()");
-		}
+		this.removeFromPanel(dlController, prefs.get("middleClickToRemoveFromPanel.clearHistory"));
 		this.stopEvent(e);
 	},
 	getDlNode: function(node) {
@@ -945,6 +937,17 @@ var dpTweaker = {
 			localFile.remove(false);
 			if(filesDir && filesDir.exists())
 				filesDir.remove(true);
+		}
+	},
+	removeFromPanel: function(dlController, clearHistory) {
+		// See chrome://browser/content/downloads/downloads.js
+		if(clearHistory) {
+			dlController.doCommand("cmd_delete");
+			_log('removeFromPanel() -> dlController.doCommand("cmd_delete")');
+		}
+		else {
+			dlController.dataItem.remove();
+			_log("removeFromPanel() -> dlController.dataItem.remove()");
 		}
 	},
 
