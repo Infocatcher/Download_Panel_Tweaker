@@ -1,3 +1,8 @@
+#### Styles
+Example styles for <a href="http://kb.mozillazine.org/UserChrome.css">userChrome.css</a>/<a href="https://addons.mozilla.org/addon/stylish/">Stylish</a>:
+* <a href="https://github.com/Infocatcher/UserStyles/blob/master/Download_Panel_Tweaker_hide_items">hide some menu items</a>
+* <a href="https://github.com/Infocatcher/UserStyles/blob/master/Download_percentage">show NN% label after each progress bar</a>
+
 #### API
 You can use "DownloadPanelTweaker:OpenDownloadWindow" and "DownloadPanelTweaker:ToggleDownloadSidebar" events to override “open old window” and “toggle sidebar” commands, example:
 ```js
