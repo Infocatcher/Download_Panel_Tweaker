@@ -673,6 +673,10 @@ var dpTweaker = {
 		var sbItem = document.getElementById("menu_dmSidebar") // OmniSidebar
 			|| document.getElementById("downloads-mitem"); // All-in-One Sidebar
 		if(sbItem) {
+			// Prefer broadcaster, if available (because menuitem may be disabled)
+			// see https://github.com/Infocatcher/Download_Panel_Tweaker/issues/21
+			var observes = sbItem.getAttribute("observes");
+			sbItem = observes && document.getElementById(observes) || sbItem;
 			_log("toggleDownloadsSidebar(): found #" + sbItem.id);
 			sbItem.doCommand();
 			return;
