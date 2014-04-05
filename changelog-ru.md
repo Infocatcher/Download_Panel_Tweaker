@@ -8,6 +8,9 @@
 ##### master/HEAD
 `+` Добавлена возможность удалять загрузки из панели кликом средней кнопкой мыши (по умолчанию отключено + скрытая настройка <em>extensions.downloadPanelTweaker.middleClickToRemoveFromPanel.clearHistory</em> для удаления из истории) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/9">#9</a>).<br>
 `+` Добавлено подавление оповещений о добавлении неудавшихся загрузок (только если сохраняются завершенные загрузки, настройка <em>extensions.downloadPanelTweaker.suppressFailedDownloadsNotifications</em>).<br>
+`+` В контекстное меню панели добавлен пункт «Копировать ссылку на страницу загрузки» (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/14">#14</a>).<br>
+`+` В контекстное меню панели добавлен пункт «Удалить файл с диска» (скрытые настройки: <em>extensions.downloadPanelTweaker.removeFile.clearHistory</em> для дополнительного удаления из панели/истории и <em>extensions.downloadPanelTweaker.removeFile.removeFilesDirectoryForHTML</em> для удаления *_files папок для *.html файлов) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/15">#15</a>).<br>
+`x` Исправлено закрытие боковой панели загрузок от расширения <a href="https://addons.mozilla.org/addon/omnisidebar/">OmniSidebar</a> (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/21">#21</a>).<br>
 
 ##### 0.2.0 (2014-02-28)
 `+` Добавлена возможность настроить действия для команды загрузок, сочетания клавиш (Ctrl+J) и кнопки «Показать все загрузки» (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/10">#10</a>).<br>
