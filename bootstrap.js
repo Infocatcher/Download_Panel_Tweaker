@@ -553,13 +553,19 @@ var dpTweaker = {
 		if(!panel)
 			return;
 		_log("restoreDlItemsTooltips()");
-		Array.slice(
-			panel.getElementsByAttribute(this.origTtAttr, "*")
-		).forEach(function(node) {
-			var tt = node.getAttribute(this.origTtAttr);
-			node.setAttribute("tooltiptext", tt);
-			node.removeAttribute(this.origTtAttr);
-		}, this);
+		Array.forEach(
+			panel.getElementsByTagName("richlistitem"),
+			function(rli) {
+				var trg = document.getAnonymousElementByAttribute(rli, "class", "downloadTarget");
+				if(trg && trg.hasAttribute(this.origTtAttr)) {
+					var tt = trg.getAttribute(this.origTtAttr);
+					_log("Restore tooltiptext: " + trg.getAttribute("tooltiptext") + " => " + tt);
+					trg.setAttribute("tooltiptext", tt);
+					trg.removeAttribute(this.origTtAttr);
+				}
+			},
+			this
+		);
 	},
 	downloadCommand: function(e, prefName) {
 		var window = e.currentTarget;
@@ -841,6 +847,7 @@ var dpTweaker = {
 		if(popup) {
 			popup.removeEventListener("click", this, true);
 			popup.removeEventListener("mouseover", this, false);
+			// Note: following may be not needed, looks like we somehow cause XBL binding reattaching
 			force && this.restoreDlItemsTooltips(document, popup);
 		}
 		var contextMenu = document.getElementById("downloadsContextMenu");
