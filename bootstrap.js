@@ -102,8 +102,9 @@ var dpTweaker = {
 				window.removeEventListener("load", this, false);
 				this.initWindow(window, WINDOW_LOADED);
 			break;
-			case "command":      this.handleCommand(e); break;
-			case "click":        this.handleClick(e);   break;
+			case "command":      this.handleCommand(e);   break;
+			case "click":        this.handleClick(e);     break;
+			case "mouseover":    this.handleMouseOver(e); break;
 			case "popupshowing": this.popupShowingHandler(e);
 		}
 	},
@@ -525,6 +526,41 @@ var dpTweaker = {
 		else if(e.currentTarget.id == "downloadsPanel")
 			this.panelClick(e);
 	},
+	handleMouseOver: function(e) {
+		var trg = e.originalTarget;
+		if(
+			!trg.classList.contains("downloadTarget")
+			|| trg.hasAttribute(this.origTtAttr)
+		)
+			return;
+		var window = trg.ownerDocument.defaultView;
+		window.setTimeout(function() {
+			this.updateDlItemTooltip(trg);
+		}.bind(this), 0);
+	},
+	updateDlItemTooltip: function(trg) {
+		var dlController = this.getDlController(trg);
+		var dataItem = dlController.dataItem;
+		var path = this.getDataItemPath(dataItem);
+		var tt = trg.getAttribute("tooltiptext") || "";
+		trg.setAttribute(this.origTtAttr, tt);
+		trg.setAttribute("tooltiptext", path);
+		_log("Change tooltiptext: " + tt + "\n=> " + path);
+	},
+	restoreDlItemsTooltips: function(document, panel) {
+		if(!panel)
+			panel = document.getElementById("downloadsPanel");
+		if(!panel)
+			return;
+		_log("restoreDlItemsTooltips()");
+		Array.slice(
+			panel.getElementsByAttribute(this.origTtAttr, "*")
+		).forEach(function(node) {
+			var tt = node.getAttribute(this.origTtAttr);
+			node.setAttribute("tooltiptext", tt);
+			node.removeAttribute(this.origTtAttr);
+		}, this);
+	},
 	downloadCommand: function(e, prefName) {
 		var window = e.currentTarget;
 		var isPrivate = "PrivateBrowsingUtils" in window
@@ -577,6 +613,12 @@ var dpTweaker = {
 			return null;
 		var window = dlItem.ownerDocument.defaultView;
 		return new window.DownloadsViewItemController(dlItem);
+	},
+	getDataItemPath: function(dataItem) {
+		var path = dataItem.file;
+		if(!path || typeof path != "string" || path.startsWith("file:/")) // Firefox 24 and older
+			path = dataItem.localFile.path;
+		return path;
 	},
 	stopEvent: function(e) {
 		e.preventDefault();
@@ -727,9 +769,11 @@ var dpTweaker = {
 	copyReferrerId: "downloadPanelTweaker-menuItem-copyReferrer",
 	removeFileId: "downloadPanelTweaker-menuItem-removeFile",
 	panelFooterContextId: "downloadPanelTweaker-popup-panelFooterContext",
+	origTtAttr: "downloadPanelTweaker_origTooltiptext",
 	initPanel: function(document, popup) {
 		_log("initPanel()");
 		popup.addEventListener("click", this, true);
+		popup.addEventListener("mouseover", this, false);
 
 		var labels = {
 			"cmd.clearDownloads.label": "Clear Downloads",
@@ -794,8 +838,11 @@ var dpTweaker = {
 	},
 	destroyPanel: function(document, force) {
 		var popup = document.getElementById("downloadsPanel");
-		if(popup)
+		if(popup) {
 			popup.removeEventListener("click", this, true);
+			popup.removeEventListener("mouseover", this, false);
+			force && this.restoreDlItemsTooltips(document, popup);
+		}
 		var contextMenu = document.getElementById("downloadsContextMenu");
 		if(contextMenu)
 			contextMenu.removeEventListener("popupshowing", this, false);
@@ -904,9 +951,7 @@ var dpTweaker = {
 		var dlItem = this.getDlNode(dlContext.triggerNode);
 		var dlController = this.getDlController(dlItem);
 		var dataItem = dlController.dataItem;
-		var path = dataItem.file;
-		if(!path || typeof path != "string" || path.startsWith("file:/")) // Firefox 24 and older
-			path = dataItem.localFile.path;
+		var path = this.getDataItemPath(dataItem);
 		_log("removeFile(): " + path);
 		var htmlPattern = /\.(?:[xs]?html?|xht)$/i;
 		var removeFilesDirPref = "removeFile.removeFilesDirectoryForHTML";
