@@ -5,6 +5,7 @@ pref("extensions.downloadPanelTweaker.progressBarHeight", 10);
 pref("extensions.downloadPanelTweaker.showDownloadRate", true);
 pref("extensions.downloadPanelTweaker.compactDownloads", 1);
 pref("extensions.downloadPanelTweaker.decolorizePausedProgress", true);
+pref("extensions.downloadPanelTweaker.showFullPathInTooltip", true);
 
 pref("extensions.downloadPanelTweaker.middleClickToRemoveFromPanel", false);
 pref("extensions.downloadPanelTweaker.middleClickToRemoveFromPanel.clearHistory", false);

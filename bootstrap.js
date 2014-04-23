@@ -531,6 +531,7 @@ var dpTweaker = {
 		if(
 			!trg.classList.contains("downloadTarget")
 			|| trg.hasAttribute(this.origTtAttr)
+			|| !prefs.get("showFullPathInTooltip")
 		)
 			return;
 		var window = trg.ownerDocument.defaultView;
@@ -545,7 +546,7 @@ var dpTweaker = {
 		var tt = trg.getAttribute("tooltiptext") || "";
 		trg.setAttribute(this.origTtAttr, tt);
 		trg.setAttribute("tooltiptext", path);
-		_log("Change tooltiptext: " + tt + "\n=> " + path);
+		_log("Change tooltiptext: " + tt + " => " + path);
 	},
 	restoreDlItemsTooltips: function(document, panel) {
 		if(!panel)
@@ -566,6 +567,14 @@ var dpTweaker = {
 			},
 			this
 		);
+	},
+	restoreAllDlItemsTooltips: function() {
+		_log("restoreAllDlItemsTooltips()");
+		var ws = Services.wm.getEnumerator("navigator:browser");
+		while(ws.hasMoreElements()) {
+			var window = ws.getNext();
+			this.restoreDlItemsTooltips(window.document);
+		}
 	},
 	downloadCommand: function(e, prefName) {
 		var window = e.currentTarget;
@@ -1180,6 +1189,8 @@ var dpTweaker = {
 			}
 			this.reloadTweakStyleProxy();
 		}
+		else if(pName == "showFullPathInTooltip")
+			!pVal && this.restoreAllDlItemsTooltips();
 		else if(pName.startsWith("override")) {
 			var handleCommand = this.handleCommandEvent;
 			var handleClick = this.handleClickEvent;
