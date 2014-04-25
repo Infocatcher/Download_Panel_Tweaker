@@ -8,6 +8,7 @@
 <!ENTITY dpt.compactDownloads.default "Προεπιλεγμένη">
 <!ENTITY dpt.compactDownloads.compact "Συμπαγής">
 <!ENTITY dpt.compactDownloads.veryCompact "Πολύ συμπαγής">
+<!ENTITY dpt.showFullPathInTooltip "Show full patch in tooltip for file name">
 <!ENTITY dpt.showDownloadRate "Εμφάνιση ρυθμού λήψης">
 <!ENTITY dpt.decolorizePausedProgress "Αποχρωμάτιση γραμμής προόδου λήψεων σε παύση">
 <!ENTITY dpt.dontRemoveFinishedDownloads "Μη απομάκρυνση ολοκληρωμένων λήψεων">

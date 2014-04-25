@@ -8,6 +8,7 @@
 <!ENTITY dpt.compactDownloads.default "Default">
 <!ENTITY dpt.compactDownloads.compact "Compact">
 <!ENTITY dpt.compactDownloads.veryCompact "Very compact">
+<!ENTITY dpt.showFullPathInTooltip "Show full patch in tooltip for file name">
 <!ENTITY dpt.showDownloadRate "Show download rate">
 <!ENTITY dpt.decolorizePausedProgress "Decolorize progress bar of paused downloads">
 <!ENTITY dpt.dontRemoveFinishedDownloads "Don't remove finished downloads">

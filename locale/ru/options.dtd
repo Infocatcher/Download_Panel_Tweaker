@@ -8,6 +8,7 @@
 <!ENTITY dpt.compactDownloads.default "По умолчанию">
 <!ENTITY dpt.compactDownloads.compact "Компактный">
 <!ENTITY dpt.compactDownloads.veryCompact "Очень компактный">
+<!ENTITY dpt.showFullPathInTooltip "Показывать полный путь во всплывающей подсказке для имени файла">
 <!ENTITY dpt.showDownloadRate "Показывать скорость загрузки">
 <!ENTITY dpt.decolorizePausedProgress "Обесцвечивать полосу прогресса приостановленных загрузок">
 <!ENTITY dpt.dontRemoveFinishedDownloads "Не удалять завершённые загрузки">

@@ -47,6 +47,7 @@
 			<radio label="&dpt.compactDownloads.veryCompact;" value="2" />
 		</radiogroup>
 	</setting>
+	<setting pref="extensions.downloadPanelTweaker.showFullPathInTooltip" type="bool" title="&dpt.showFullPathInTooltip;" />
 	<setting pref="extensions.downloadPanelTweaker.showDownloadRate" type="bool" title="&dpt.showDownloadRate;" />
 	<setting pref="extensions.downloadPanelTweaker.decolorizePausedProgress" type="bool" title="&dpt.decolorizePausedProgress;" />
 	<setting pref="extensions.downloadPanelTweaker.dontRemoveFinishedDownloads" type="bool" title="&dpt.dontRemoveFinishedDownloads;" />
