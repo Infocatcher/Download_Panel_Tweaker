@@ -133,11 +133,12 @@ var dpTweaker = {
 				this.showPausedDownloadsSummary(true);
 				needUpdate && this.updateDownloadsSummary(document, true);
 			}
+		}.bind(this), 0);
+		window.setTimeout(function() {
 			if(prefs.get("dontRemoveFinishedDownloads"))
 				this.de.dontRemoveFinishedDownloads(true);
-		}.bind(this), 0);
-		if(prefs.get("fixWrongTabsOnTopAttribute")) window.setTimeout(function() {
-			this.setFixToolbox(window, true);
+			if(prefs.get("fixWrongTabsOnTopAttribute"))
+				this.setFixToolbox(window, true);
 		}.bind(this), 0);
 		window.setTimeout(function() {
 			this.loadStyles(true);
