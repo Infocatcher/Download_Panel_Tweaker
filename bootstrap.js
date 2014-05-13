@@ -960,10 +960,17 @@ var dpTweaker = {
 		var dlContext = mi.parentNode;
 		var dlController = this.getDlController(dlContext.triggerNode);
 		var document = mi.ownerDocument;
-		var contentDoc = document.defaultView.content.document; // For Private Tab extension
-		Components.classes["@mozilla.org/widget/clipboardhelper;1"]
-			.getService(Components.interfaces.nsIClipboardHelper)
-			.copyString(dlController.dataItem.referrer, contentDoc);
+		var clipHelper = Components.classes["@mozilla.org/widget/clipboardhelper;1"]
+			.getService(Components.interfaces.nsIClipboardHelper);
+		try {
+			var contentDoc = document.defaultView.content.document; // For Private Tab extension
+			clipHelper.copyString(dlController.dataItem.referrer, contentDoc);
+		}
+		catch(e) {
+			_log("nsIClipboardHelper.copyString(..., content.document) failed, Electrolysis?");
+			Components.utils.reportError(e);
+			clipHelper.copyString(dlController.dataItem.referrer, document);
+		}
 	},
 	removeFile: function(mi) {
 		var dlContext = mi.parentNode;
