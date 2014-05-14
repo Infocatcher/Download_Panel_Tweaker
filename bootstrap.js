@@ -35,9 +35,8 @@ var dpTweaker = {
 		_dbg = prefs.get("debug", false);
 		_dbgv = prefs.get("debug.verbose", false);
 
-		var ws = Services.wm.getEnumerator("navigator:browser");
-		while(ws.hasMoreElements())
-			this.initWindow(ws.getNext(), reason);
+		for(var window in this.windows)
+			this.initWindow(window, reason);
 		if(!this._tweakStyleLoaded && Services.wm.getMostRecentWindow("Places:Organizer"))
 			this.loadStyles(true);
 		Services.ww.registerNotification(this);
@@ -76,9 +75,8 @@ var dpTweaker = {
 			this.de.saveDownloads();
 		}
 
-		var ws = Services.wm.getEnumerator("navigator:browser");
-		while(ws.hasMoreElements())
-			this.destroyWindow(ws.getNext(), reason);
+		for(var window in this.windows)
+			this.destroyWindow(window, reason);
 		Services.ww.unregisterNotification(this);
 
 		prefs.destroy();
@@ -171,6 +169,11 @@ var dpTweaker = {
 	},
 	isLibraryWindow: function(window) {
 		return window.document.documentElement.getAttribute("windowtype") == "Places:Organizer";
+	},
+	get windows() {
+		var ws = Services.wm.getEnumerator("navigator:browser");
+		while(ws.hasMoreElements())
+			yield ws.getNext();
 	},
 
 	get de() {
@@ -571,11 +574,8 @@ var dpTweaker = {
 	},
 	restoreAllDlItemsTooltips: function() {
 		_log("restoreAllDlItemsTooltips()");
-		var ws = Services.wm.getEnumerator("navigator:browser");
-		while(ws.hasMoreElements()) {
-			var window = ws.getNext();
+		for(var window in this.windows)
 			this.restoreDlItemsTooltips(window.document);
-		}
 	},
 	downloadCommand: function(e, prefName) {
 		var window = e.currentTarget;
@@ -1165,16 +1165,14 @@ var dpTweaker = {
 			this.loadCompactStyle(pVal);
 		else if(pName == "showDownloadRate") {
 			this.showDownloadRate(pVal);
-			var ws = Services.wm.getEnumerator("navigator:browser");
-			while(ws.hasMoreElements())
-				this.udateDownloadRate(ws.getNext().document, pVal);
+			for(var window in this.windows)
+				this.udateDownloadRate(window.document, pVal);
 		}
 		else if(pName == "itemCountLimit") {
 			if(this.wrongPref(pName, pVal, this.minItemCountLimit, 10e3))
 				return;
-			var ws = Services.wm.getEnumerator("navigator:browser");
-			while(ws.hasMoreElements())
-				this.setItemCountLimit(ws.getNext(), true);
+			for(var window in this.windows)
+				this.setItemCountLimit(window, true);
 		}
 		else if(
 			pName == "panelWidth"
@@ -1193,9 +1191,8 @@ var dpTweaker = {
 				return;
 			if(pName == "decolorizePausedProgress") {
 				this.showPausedDownloadsSummary(pVal);
-				var ws = Services.wm.getEnumerator("navigator:browser");
-				while(ws.hasMoreElements())
-					this.updateDownloadsSummary(ws.getNext().document, pVal);
+				for(var window in this.windows)
+					this.updateDownloadsSummary(window.document, pVal);
 			}
 			this.reloadTweakStyleProxy();
 		}
@@ -1209,9 +1206,7 @@ var dpTweaker = {
 				+ ", handleCommandEvent = " + handleCommand
 				+ ", handleClickEvent = " + handleClick
 			);
-			var ws = Services.wm.getEnumerator("navigator:browser");
-			while(ws.hasMoreElements()) {
-				var window = ws.getNext();
+			for(var window in this.windows) {
 				if(handleCommand)
 					window.addEventListener("command", this, true);
 				else
@@ -1232,9 +1227,8 @@ var dpTweaker = {
 		else if(pName == "fixDownloadsLoading")
 			this.de.fixLoadDownloads(pVal && prefs.get("dontRemoveFinishedDownloads"));
 		else if(pName == "fixWrongTabsOnTopAttribute") {
-			var ws = Services.wm.getEnumerator("navigator:browser");
-			while(ws.hasMoreElements())
-				this.setFixToolbox(ws.getNext(), pVal);
+			for(var window in this.windows)
+				this.setFixToolbox(window, pVal);
 		}
 		else if(pName == "debug")
 			_dbg = pVal;
