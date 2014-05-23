@@ -12,6 +12,7 @@
 `+` Added “Remove File From Disk” item to panel context menu (hidden preferences: <em>extensions.downloadPanelTweaker.removeFile.clearHistory</em> to also remove from panel/history and <em>extensions.downloadPanelTweaker.removeFile.removeFilesDirectoryForHTML</em> to also remove *_files folders for *.html files) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/15">#15</a>).<br>
 `x` Fixed: correctly close downloads sidebar from <a href="https://addons.mozilla.org/addon/omnisidebar/">OmniSidebar</a> extension (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/21">#21</a>).<br>
 `+` Added ability to show full patch to file in tooltip for file name (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/22">#22</a>).<br>
+`+` Added confirmation dialog to “Clear Downloads” command (<em>extensions.downloadPanelTweaker.clearDownloads.confirm</em> preference).<br>
 
 ##### 0.2.0 (2014-02-28)
 `+` Added ability to configure actions for downloads command, hotkey (Ctrl+J) and “Show All Downloads” button (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/10">#10</a>).<br>
