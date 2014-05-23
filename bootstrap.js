@@ -504,7 +504,7 @@ var dpTweaker = {
 		if(curTrg.getAttribute && curTrg.hasAttribute("downloadPanelTweaker-command")) {
 			var cmd = curTrg.getAttribute("downloadPanelTweaker-command");
 			if(cmd == "clearDownloads")
-				this.clearDownloads();
+				this.clearDownloads(e.target);
 			else if(cmd == "copyReferrer")
 				this.copyReferrer(e.target);
 			else if(cmd == "removeFile")
@@ -927,8 +927,28 @@ var dpTweaker = {
 			node.setAttribute("disabled", "true");
 	},
 
-	clearDownloads: function() {
+	clearDownloads: function(mi) {
 		_log("clearDownloads()");
+		if(prefs.get("clearDownloads.confirm")) {
+			var strings = {
+				"dpt.clearDownloads.confirmTitle": "Download Panel Tweaker",
+				"dpt.clearDownloads.confirmMessage": "Are you sure you want to clear ALL downloads history?",
+				"dpt.clearDownloads.dontAskAgain": "Don't ask again"
+			};
+			this.getEntities(["chrome://downloadpaneltweaker/locale/dpt.dtd"], strings);
+			var dontAsk = { value: false };
+			var ok = Services.prompt.confirmCheck(
+				mi && mi.ownerDocument.defaultView || Services.ww.activeWindow,
+				strings["dpt.clearDownloads.confirmTitle"],
+				strings["dpt.clearDownloads.confirmMessage"],
+				strings["dpt.clearDownloads.dontAskAgain"],
+				dontAsk
+			);
+			if(!ok)
+				return;
+			if(dontAsk)
+				prefs.set("clearDownloads.confirm", false);
+		}
 		try {
 			var downloads = Services.downloads;
 			downloads.canCleanUp && downloads.cleanUp();
