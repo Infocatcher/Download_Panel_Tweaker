@@ -6,7 +6,7 @@
 `*` - improved<br>
 
 ##### master/HEAD
-`+` Added ability to remove downloads from panel using middle-click (disabled by default + hidden preference <em>extensions.downloadPanelTweaker.middleClickToRemoveFromPanel.clearHistory</em> to also remove from history) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/9">#9</a>).<br>
+`+` Added ability to remove downloads from panel using middle-click (disabled by default) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/9">#9</a>).<br>
 `+` Suppress notifications about adding of failed downloads (only if saved finished downloads, <em>extensions.downloadPanelTweaker.suppressFailedDownloadsNotifications</em> preference).<br>
 `+` Added “Copy Download Page Link” item to panel context menu (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/14">#14</a>).<br>
 `+` Added “Remove File From Disk” item to panel context menu (hidden preferences: <em>extensions.downloadPanelTweaker.removeFile.clearHistory</em> to also remove from panel/history and <em>extensions.downloadPanelTweaker.removeFile.removeFilesDirectoryForHTML</em> to also remove *_files folders for *.html files) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/15">#15</a>).<br>
