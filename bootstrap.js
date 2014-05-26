@@ -3,6 +3,7 @@ const WINDOW_CLOSED = -2;
 
 const LOG_PREFIX = "[Download Panel Tweaker] ";
 
+var global = this;
 Components.utils.import("resource://gre/modules/Services.jsm");
 var patcherLoaded = false;
 this.__defineGetter__("patcher", function() {
@@ -84,6 +85,8 @@ var dpTweaker = {
 			patcher.destroy();
 			Components.utils.unload("chrome://downloadpaneltweaker/content/patcher.jsm");
 		}
+		if("downloadsActions" in global)
+			downloadsActions.dpt = null;
 		_log("Successfully destroyed");
 	},
 
