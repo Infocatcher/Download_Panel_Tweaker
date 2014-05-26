@@ -618,7 +618,7 @@ var dpTweaker = {
 		var dlController = this.da.getDlController(e.target);
 		if(!dlController)
 			return;
-		this.removeFromPanel(dlController, prefs.get("middleClickToRemoveFromPanel.clearHistory"));
+		this.da.removeFromPanel(dlController, prefs.get("middleClickToRemoveFromPanel.clearHistory"));
 		this.stopEvent(e);
 	},
 
