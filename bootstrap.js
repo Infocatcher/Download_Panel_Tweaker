@@ -645,6 +645,7 @@ var dpTweaker = {
 		e.stopImmediatePropagation();
 	},
 	showDownloadWindow: function(window) {
+		this.toggleDownloadPanel(window, false);
 		if(!this.dispatchAPIEvent(window, "OpenDownloadWindow")) {
 			_log("showDownloadWindow(): someone handle API event, do nothing");
 			return true;
@@ -668,7 +669,6 @@ var dpTweaker = {
 		// See resource://app/components/DownloadsUI.js
 		// DownloadsUI.prototype.show()
 		_log("showDownloadWindow()");
-		this.toggleDownloadPanel(window, false);
 		var toolkitUI = Components.classesByID["{7dfdf0d1-aff6-4a34-bad1-d0fe74601642}"]
 			.getService(Components.interfaces.nsIDownloadManagerUI);
 		toolkitUI.show(window/*, aDownload, aReason, aUsePrivateUI*/);
@@ -726,6 +726,7 @@ var dpTweaker = {
 		});
 	},
 	toggleDownloadsSidebar: function(window) {
+		this.toggleDownloadPanel(window, false);
 		if(!this.dispatchAPIEvent(window, "ToggleDownloadSidebar")) {
 			_log("toggleDownloadsSidebar(): someone handle API event, do nothing");
 			return true;
