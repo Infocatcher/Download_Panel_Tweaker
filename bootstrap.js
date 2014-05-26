@@ -307,6 +307,9 @@ var dpTweaker = {
 						text-decoration: underline;\n\
 						' + tdsPrefix + 'text-decoration-style: dotted;\n\
 					}\n\
+					.downloadPanelTweaker-indent .preferences-title {\n\
+						-moz-margin-start: 4ch !important;\n\
+					}\n\
 				}';
 			cssURI = this.tweakCssURI = this.newCssURI(cssStr);
 		}
