@@ -13,6 +13,7 @@
 `x` Исправлено закрытие боковой панели загрузок от расширения <a href="https://addons.mozilla.org/addon/omnisidebar/">OmniSidebar</a> (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/21">#21</a>).<br>
 `+` Добавлена возможность показывать полный путь к файлу во всплывающей подсказке для имени файла (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/22">#22</a>).<br>
 `+` Добавлен запрос подтверждения для команды «Очистить загрузки» (<em>extensions.downloadPanelTweaker.clearDownloads.confirm</em> preference).<br>
+`*` Улучшена производительность при запуске: код для различных действий с загрузками перемещен в отдельный лениво загружаемый файл (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/24">#24</a>).<br>
 
 ##### 0.2.0 (2014-02-28)
 `+` Добавлена возможность настроить действия для команды загрузок, сочетания клавиш (Ctrl+J) и кнопки «Показать все загрузки» (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/10">#10</a>).<br>
