@@ -58,13 +58,25 @@
 		onpreferencechanged='
 			this.removeAttribute("onpreferencechanged");
 			var {Services} = Components.utils.import("resource://gre/modules/Services.jsm", {});
-			if(parseFloat(Services.appinfo.version) >= 26) {
+			var version = parseFloat(Services.appinfo.version);
+			if(version >= 26) {
 				var oldUI = this.ownerDocument.getElementsByAttribute("pref", "browser.download.useToolkitUI")[0];
 				if(oldUI)
 					oldUI.style.visibility = "collapse";
 			}
+			if(version &lt; 20) {
+				var clearHistory = this.ownerDocument.getElementsByAttribute("pref", "extensions.downloadPanelTweaker.middleClickToRemoveFromPanel.clearHistory")[0];
+				if(clearHistory) {
+					clearHistory.setAttribute("disabled", "true");
+					clearHistory.style.opacity = "0.55";
+					setTimeout(function() {
+						clearHistory.removeAttribute("pref"); /* Disable synchronization */
+						clearHistory.value = true;
+					}, 0);
+				}
+			}
 			setTimeout(function(_this) {
-				var hasPrivateWindows = parseFloat(Services.appinfo.version) >= 20;
+				var hasPrivateWindows = version >= 20;
 				var mp = _this.getElementsByTagName("menupopup")[0];
 				for(var setting = _this.nextSibling; setting; setting = setting.nextSibling) {
 					if(setting.localName != "setting" || setting.getAttribute("type") != "menulist")
