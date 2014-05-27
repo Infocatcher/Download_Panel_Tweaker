@@ -229,13 +229,15 @@ var downloadsActions = {
 	},
 	removeFromPanel: function(dlController, clearHistory) {
 		// See chrome://browser/content/downloads/downloads.js
-		if(clearHistory) {
-			dlController.doCommand("cmd_delete");
-			_log('removeFromPanel() -> dlController.doCommand("cmd_delete")');
+		if(!clearHistory && dlController.dataItem && "remove" in dlController.dataItem) {
+			dlController.dataItem.remove(); // Firefox 20+
+			_log("removeFromPanel() -> dlController.dataItem.remove()");
 		}
 		else {
-			dlController.dataItem.remove();
-			_log("removeFromPanel() -> dlController.dataItem.remove()");
+			if(!clearHistory)
+				_log("removeFromPanel(): dlController.dataItem.remove() not available!");
+			dlController.doCommand("cmd_delete");
+			_log('removeFromPanel() -> dlController.doCommand("cmd_delete")');
 		}
 	},
 
