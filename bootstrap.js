@@ -665,22 +665,19 @@ var dpTweaker = {
 		popup.addEventListener("mouseover", this, false);
 
 		var labels = {
-			"cmd.clearDownloads.label": "Clear Downloads",
-			"cmd.clearDownloads.accesskey": "D",
+			"dpt.clearDownloads": "Clear Downloads",
+			"dpt.clearDownloads.accesskey": "D",
 			"dpt.copyReferrer": "Copy Download Page Link",
 			"dpt.copyReferrer.accesskey": "P",
 			"dpt.removeFile": "Remove File From Disk",
 			"dpt.removeFile.accesskey": "F"
 		};
-		this.getEntities([
-			"chrome://downloadpaneltweaker/locale/dpt.dtd",
-			"chrome://browser/locale/downloads/downloads.dtd"
-		], labels);
+		this.getEntities(["chrome://downloadpaneltweaker/locale/dpt.dtd"], labels);
 
 		var clearDownloads = this.createMenuItem(document, {
 			id: this.clearDownloadsId,
-			label: labels["cmd.clearDownloads.label"],
-			accesskey: labels["cmd.clearDownloads.accesskey"],
+			label: labels["dpt.clearDownloads"],
+			accesskey: labels["dpt.clearDownloads.accesskey"],
 			"downloadPanelTweaker-command": "clearDownloads"
 		});
 		var copyReferrer = this.createMenuItem(document, {
