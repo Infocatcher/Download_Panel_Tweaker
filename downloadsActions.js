@@ -242,6 +242,69 @@ var downloadsActions = {
 		}
 	},
 
+	updateDownloadsContextMenu: function(popup) {
+		_log("updateDownloadsContextMenu()");
+		var dlItem = this.getDlNode(popup.triggerNode);
+		var dlController = this.getDlController(dlItem);
+		var dataItem = dlController && dlController.dataItem;
+		Array.forEach(
+			popup.getElementsByAttribute("downloadPanelTweaker-command", "*"),
+			function(mi) {
+				var cmd = mi.getAttribute("downloadPanelTweaker-command");
+				if(cmd == "copyReferrer")
+					this.enableNode(mi, dataItem && dataItem.referrer);
+				else if(cmd == "removeFile") {
+					var exists = dlItem && dlItem.getAttribute("exists") == "true";
+					var existsChecked = false;
+					var window = popup.ownerDocument.defaultView;
+					if(
+						window.DownloadsViewItem
+						&& window.DownloadsViewItem.prototype
+						&& !("verifyTargetExists" in window.DownloadsViewItem.prototype)
+					) try { // Firefox 20 and older
+						_log("Will use dataItem.localFile.exists()");
+						exists = dataItem.localFile.exists();
+						existsChecked = true;
+					}
+					catch(e) {
+						Components.utils.reportError(e);
+					}
+					this.enableNode(mi, this.isActiveDownload(dataItem.state) ? false : exists);
+					// "exists" attribute may be wrong for canceled downloads
+					if(!existsChecked && !dataItem.openable) {
+						_log("Will check anyway using OS.File.exists() (exists: " + exists + ")");
+						var path = this.getDataItemPath(dataItem);
+						Components.utils.import("resource://gre/modules/osfile.jsm");
+						OS.File.exists(path).then(
+							function onSuccess(exists) {
+								_log("OS.File.exists(): " + exists);
+								this.enableNode(mi, this.isActiveDownload(dataItem.state) ? false : exists);
+							}.bind(this),
+							Components.utils.reportError
+						);
+					}
+				}
+			},
+			this
+		);
+	},
+	isActiveDownload: function(state) {
+		var dm = Components.interfaces.nsIDownloadManager || {};
+		switch(state) {
+			case dm.DOWNLOAD_DOWNLOADING || 0:
+			case dm.DOWNLOAD_PAUSED      || 4:
+			case dm.DOWNLOAD_QUEUED      || 5:
+				return true;
+		}
+		return false;
+	},
+	enableNode: function(node, enable) {
+		if(enable)
+			node.removeAttribute("disabled");
+		else
+			node.setAttribute("disabled", "true");
+	},
+
 	getDlNode: function(node) {
 		for(; node; node = node.parentNode) {
 			var ln = node.localName;
