@@ -792,11 +792,22 @@ var dpTweaker = {
 					catch(e) {
 						Components.utils.reportError(e);
 					}
-					this.enableNode(mi, exists);
+					var canRemove = this.isActiveDownload(dlController.dataItem.state) ? false : exists;
+					this.enableNode(mi, canRemove);
 				}
 			},
 			this
 		);
+	},
+	isActiveDownload: function(state) {
+		var dm = Components.interfaces.nsIDownloadManager || {};
+		switch(state) {
+			case dm.DOWNLOAD_DOWNLOADING || 0:
+			case dm.DOWNLOAD_PAUSED      || 4:
+			case dm.DOWNLOAD_QUEUED      || 5:
+				return true;
+		}
+		return false;
 	},
 	enableNode: function(node, enable) {
 		if(enable)
