@@ -12,6 +12,7 @@ pref("extensions.downloadPanelTweaker.clearDownloads.confirm", true);
 pref("extensions.downloadPanelTweaker.middleClickToRemoveFromPanel", false);
 pref("extensions.downloadPanelTweaker.middleClickToRemoveFromPanel.clearHistory", false);
 
+pref("extensions.downloadPanelTweaker.removeFile.confirm", true);
 pref("extensions.downloadPanelTweaker.removeFile.clearHistory", 0);
 // 0 - only remove file from disk
 // 1 - also remove download item from panel

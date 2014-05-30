@@ -170,6 +170,15 @@ var downloadsActions = {
 		}
 	},
 	removeFile: function(mi) {
+		if(
+			!this.confirm({
+				pref: "removeFile.confirm",
+				messageKey: "dpt.removeFile.confirmMessage",
+				messageDefault: "Are you sure you want to remove file from disk?",
+				window: mi && mi.ownerDocument.defaultView
+			})
+		)
+			return;
 		var dlContext = mi.parentNode;
 		var dlItem = this.getDlNode(dlContext.triggerNode);
 		var dlController = this.getDlController(dlItem);

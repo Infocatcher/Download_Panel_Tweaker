@@ -15,3 +15,4 @@ We can use Firefox localization, but accesskey should be corrected for some loca
 <!ENTITY dpt.confirm.title "Download Panel Tweaker">
 <!ENTITY dpt.confirm.dontAskAgain "Больше не спрашивать">
 <!ENTITY dpt.clearDownloads.confirmMessage "Вы уверены, что хотите очистить ВСЮ историю загрузок?">
+<!ENTITY dpt.removeFile.confirmMessage "Вы уверены, что хотите удалить файл с диска?">
