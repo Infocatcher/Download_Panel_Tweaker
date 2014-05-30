@@ -134,7 +134,7 @@ var downloadsActions = {
 			);
 			if(!ok)
 				return;
-			if(dontAsk)
+			if(dontAsk.value)
 				prefs.set("clearDownloads.confirm", false);
 		}
 		try {
