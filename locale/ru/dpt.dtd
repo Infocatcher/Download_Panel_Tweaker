@@ -3,12 +3,12 @@
 <!ENTITY dpt.copyReferrer.accesskey "з">
 <!ENTITY dpt.removeFile "Удалить файл с диска">
 <!ENTITY dpt.removeFile.accesskey "ф">
-
+<!ENTITY dpt.removeFile.confirmMessage "Вы уверены, что хотите удалить файл с диска?">
 <!-- Like cmd.clearDownloads.label from view-source:chrome://browser/locale/downloads/downloads.dtd -->
 <!ENTITY dpt.clearDownloads "Очистить загрузки">
 <!ENTITY dpt.clearDownloads.accesskey "и">
+<!ENTITY dpt.clearDownloads.confirmMessage "Вы уверены, что хотите очистить ВСЮ историю загрузок?">
 
+<!-- Confirmation dialog -->
 <!ENTITY dpt.confirm.title "Download Panel Tweaker">
 <!ENTITY dpt.confirm.dontAskAgain "Больше не спрашивать">
-<!ENTITY dpt.clearDownloads.confirmMessage "Вы уверены, что хотите очистить ВСЮ историю загрузок?">
-<!ENTITY dpt.removeFile.confirmMessage "Вы уверены, что хотите удалить файл с диска?">
