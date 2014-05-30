@@ -3,7 +3,7 @@
 <!ENTITY dpt.copyReferrer.accesskey "з">
 <!ENTITY dpt.removeFile "Удалить файл с диска">
 <!ENTITY dpt.removeFile.accesskey "ф">
-<!ENTITY dpt.removeFile.confirmMessage "Вы уверены, что хотите удалить файл с диска?">
+<!ENTITY dpt.removeFile.confirmMessage "Вы уверены, что хотите удалить файл «$S»?">
 <!-- Like cmd.clearDownloads.label from view-source:chrome://browser/locale/downloads/downloads.dtd -->
 <!ENTITY dpt.clearDownloads "Очистить загрузки">
 <!ENTITY dpt.clearDownloads.accesskey "и">

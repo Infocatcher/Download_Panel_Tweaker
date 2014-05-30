@@ -170,21 +170,24 @@ var downloadsActions = {
 		}
 	},
 	removeFile: function(mi) {
-		if(
-			!this.confirm({
-				pref: "removeFile.confirm",
-				messageKey: "dpt.removeFile.confirmMessage",
-				messageDefault: "Are you sure you want to remove file from disk?",
-				window: mi && mi.ownerDocument.defaultView
-			})
-		)
-			return;
 		var dlContext = mi.parentNode;
 		var dlItem = this.getDlNode(dlContext.triggerNode);
 		var dlController = this.getDlController(dlItem);
 		var dataItem = dlController.dataItem;
 		var path = this.getDataItemPath(dataItem);
 		_log("removeFile(): " + path);
+		if(
+			!this.confirm({
+				pref: "removeFile.confirm",
+				messageKey: "dpt.removeFile.confirmMessage",
+				messageDefault: "Are you sure you want to remove file “$S”?",
+				messageReplace: function(s) {
+					return s.replace("$S", path);
+				},
+				window: mi && mi.ownerDocument.defaultView
+			})
+		)
+			return;
 		var htmlPattern = /\.(?:[xs]?html?|xht)$/i;
 		var removeFilesDirPref = "removeFile.removeFilesDirectoryForHTML";
 		var clearHistory = prefs.get("removeFile.clearHistory");
@@ -320,11 +323,14 @@ var downloadsActions = {
 		};
 		strings[options.messageKey] = options.messageDefault;
 		this.dpt.getEntities(["chrome://downloadpaneltweaker/locale/dpt.dtd"], strings);
+		var message = strings[options.messageKey];
+		if("messageReplace" in options)
+			message = options.messageReplace(message);
 		var dontAsk = { value: false };
 		var ok = Services.prompt.confirmCheck(
 			options.window || Services.ww.activeWindow,
 			strings["dpt.confirm.title"],
-			strings[options.messageKey],
+			message,
 			strings["dpt.confirm.dontAskAgain"],
 			dontAsk
 		);
