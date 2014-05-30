@@ -772,14 +772,16 @@ var dpTweaker = {
 		_log("updateDownloadsContextMenu()");
 		var dlItem = this.da.getDlNode(popup.triggerNode);
 		var dlController = this.da.getDlController(dlItem);
+		var dataItem = dlController && dlController.dataItem;
 		Array.forEach(
 			popup.getElementsByAttribute("downloadPanelTweaker-command", "*"),
 			function(mi) {
 				var cmd = mi.getAttribute("downloadPanelTweaker-command");
 				if(cmd == "copyReferrer")
-					this.enableNode(mi, dlController && dlController.dataItem && dlController.dataItem.referrer);
+					this.enableNode(mi, dataItem && dataItem.referrer);
 				else if(cmd == "removeFile") {
 					var exists = dlItem && dlItem.getAttribute("exists") == "true";
+					var existsChecked = false;
 					var window = popup.ownerDocument.defaultView;
 					if(
 						window.DownloadsViewItem
@@ -787,13 +789,26 @@ var dpTweaker = {
 						&& !("verifyTargetExists" in window.DownloadsViewItem.prototype)
 					) try { // Firefox 20 and older
 						_log("Will use dataItem.localFile.exists()");
-						exists = dlController.dataItem.localFile.exists();
+						exists = dataItem.localFile.exists();
+						existsChecked = true;
 					}
 					catch(e) {
 						Components.utils.reportError(e);
 					}
-					var canRemove = this.isActiveDownload(dlController.dataItem.state) ? false : exists;
-					this.enableNode(mi, canRemove);
+					this.enableNode(mi, this.isActiveDownload(dataItem.state) ? false : exists);
+					// "exists" attribute may be wrong for canceled downloads
+					if(!existsChecked && !dataItem.openable) {
+						_log("Will check anyway using OS.File.exists() (exists: " + exists + ")");
+						var path = this.da.getDataItemPath(dataItem);
+						Components.utils.import("resource://gre/modules/osfile.jsm");
+						OS.File.exists(path).then(
+							function onSuccess(exists) {
+								_log("OS.File.exists(): " + exists);
+								this.enableNode(mi, this.isActiveDownload(dataItem.state) ? false : exists);
+							}.bind(this),
+							Components.utils.reportError
+						);
+					}
 				}
 			},
 			this
