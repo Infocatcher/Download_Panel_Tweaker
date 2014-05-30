@@ -657,6 +657,7 @@ var dpTweaker = {
 	clearDownloads2Id: "downloadPanelTweaker-menuItem-clearDownloads2",
 	copyReferrerId: "downloadPanelTweaker-menuItem-copyReferrer",
 	removeFileId: "downloadPanelTweaker-menuItem-removeFile",
+	removeFileSepId: "downloadPanelTweaker-menuItem-removeFile-separator",
 	panelFooterContextId: "downloadPanelTweaker-popup-panelFooterContext",
 	origTtAttr: "downloadPanelTweaker_origTooltiptext",
 	initPanel: function(document, popup) {
@@ -692,6 +693,9 @@ var dpTweaker = {
 			accesskey: labels["dpt.removeFile.accesskey"],
 			"downloadPanelTweaker-command": "removeFile"
 		});
+		var removeFileSep = document.createElement("menuseparator");
+		removeFileSep.id = this.removeFileSepId;
+		removeFileSep.setAttribute("downloadPanelTweaker-command", "<nothing>");
 
 		var footer = document.getElementById("downloadsFooter")
 			|| document.getElementById("downloadsHistory"); // Firefox < 20
@@ -715,9 +719,13 @@ var dpTweaker = {
 				item.addEventListener("command", this, false);
 				contextMenu.insertBefore(item, insPos && insPos.parentNode == contextMenu && insPos.nextSibling);
 			}.bind(this);
+			var removeFilePos = contextMenu.getElementsByClassName("downloadCommandsSeparator")[0];
+			if(removeFilePos)
+				removeFilePos = removeFilePos.previousSibling;
 			insert(clearDownloads, contextMenu.getElementsByAttribute("command", "downloadsCmd_clearList")[0]);
 			insert(copyReferrer, contextMenu.getElementsByAttribute("command", "downloadsCmd_copyLocation")[0]);
-			insert(removeFile, contextMenu.getElementsByAttribute("command", "cmd_delete")[0]);
+			insert(removeFile, removeFilePos);
+			insert(removeFileSep, removeFilePos);
 			contextMenu.addEventListener("popupshowing", this, false);
 			_log("Add menu items to panel context menu");
 		}
