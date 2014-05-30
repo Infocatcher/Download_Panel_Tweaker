@@ -12,6 +12,6 @@ We can use Firefox localization, but accesskey should be corrected for some loca
 <!ENTITY cmd.clearDownloads.label "Очистить загрузки">
 <!ENTITY cmd.clearDownloads.accesskey "и">
 
-<!ENTITY dpt.clearDownloads.confirmTitle "Download Panel Tweaker">
+<!ENTITY dpt.confirm.title "Download Panel Tweaker">
+<!ENTITY dpt.confirm.dontAskAgain "Больше не спрашивать">
 <!ENTITY dpt.clearDownloads.confirmMessage "Вы уверены, что хотите очистить ВСЮ историю загрузок?">
-<!ENTITY dpt.clearDownloads.dontAskAgain "Больше не спрашивать">

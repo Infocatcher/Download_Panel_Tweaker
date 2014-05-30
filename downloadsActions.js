@@ -117,26 +117,15 @@ var downloadsActions = {
 
 	clearDownloads: function(mi) {
 		_log("clearDownloads()");
-		if(prefs.get("clearDownloads.confirm")) {
-			var strings = {
-				"dpt.clearDownloads.confirmTitle": "Download Panel Tweaker",
-				"dpt.clearDownloads.confirmMessage": "Are you sure you want to clear ALL downloads history?",
-				"dpt.clearDownloads.dontAskAgain": "Don't ask again"
-			};
-			this.dpt.getEntities(["chrome://downloadpaneltweaker/locale/dpt.dtd"], strings);
-			var dontAsk = { value: false };
-			var ok = Services.prompt.confirmCheck(
-				mi && mi.ownerDocument.defaultView || Services.ww.activeWindow,
-				strings["dpt.clearDownloads.confirmTitle"],
-				strings["dpt.clearDownloads.confirmMessage"],
-				strings["dpt.clearDownloads.dontAskAgain"],
-				dontAsk
-			);
-			if(!ok)
-				return;
-			if(dontAsk.value)
-				prefs.set("clearDownloads.confirm", false);
-		}
+		if(
+			!this.confirm({
+				pref: "clearDownloads.confirm",
+				messageKey: "dpt.clearDownloads.confirmMessage",
+				messageDefault: "Are you sure you want to clear ALL downloads history?",
+				window: mi && mi.ownerDocument.defaultView
+			})
+		)
+			return;
 		try {
 			var downloads = Services.downloads;
 			downloads.canCleanUp && downloads.cleanUp();
@@ -311,5 +300,27 @@ var downloadsActions = {
 			}, false);
 		}
 		return win;
+	},
+	confirm: function(options) {
+		var pref = options.pref;
+		if(!prefs.get(pref))
+			return true;
+		var strings = {
+			"dpt.confirm.title": "Download Panel Tweaker",
+			"dpt.confirm.dontAskAgain": "Don't ask again"
+		};
+		strings[options.messageKey] = options.messageDefault;
+		this.dpt.getEntities(["chrome://downloadpaneltweaker/locale/dpt.dtd"], strings);
+		var dontAsk = { value: false };
+		var ok = Services.prompt.confirmCheck(
+			options.window || Services.ww.activeWindow,
+			strings["dpt.confirm.title"],
+			strings[options.messageKey],
+			strings["dpt.confirm.dontAskAgain"],
+			dontAsk
+		);
+		if(ok && dontAsk.value)
+			prefs.set(pref, false);
+		return ok;
 	}
 };
