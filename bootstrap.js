@@ -725,7 +725,17 @@ var dpTweaker = {
 			insert(clearDownloads, contextMenu.getElementsByAttribute("command", "downloadsCmd_clearList")[0]);
 			insert(copyReferrer, contextMenu.getElementsByAttribute("command", "downloadsCmd_copyLocation")[0]);
 			insert(removeFile, removeFilePos);
-			insert(removeFileSep, removeFilePos);
+			removeFile.parentNode.insertBefore(removeFileSep, removeFile);
+			if(prefs.get("removeFile.groupWithRemoveFromHistory")) {
+				var removeFromHistory = contextMenu.getElementsByAttribute("command", "cmd_delete")[0];
+				if(removeFromHistory) {
+					// Note: we may save link to our item here, so we should restore position
+					// before removing of our items
+					removeFromHistory._downloadPanelTweaker_previousSibling = removeFromHistory.previousSibling;
+					removeFromHistory._downloadPanelTweaker_nextSibling = removeFromHistory.nextSibling;
+					removeFile.parentNode.insertBefore(removeFromHistory, removeFile);
+				}
+			}
 			contextMenu.addEventListener("popupshowing", this, false);
 			_log("Add menu items to panel context menu");
 		}
@@ -739,8 +749,24 @@ var dpTweaker = {
 			force && this.restoreDlItemsTooltips(document, popup);
 		}
 		var contextMenu = document.getElementById("downloadsContextMenu");
-		if(contextMenu)
+		if(contextMenu) {
 			contextMenu.removeEventListener("popupshowing", this, false);
+			var removeFromHistory = contextMenu.getElementsByAttribute("command", "cmd_delete")[0];
+			if(removeFromHistory && "_downloadPanelTweaker_previousSibling" in removeFromHistory) {
+				var ps = removeFromHistory._downloadPanelTweaker_previousSibling;
+				var ns = removeFromHistory._downloadPanelTweaker_nextSibling;
+				delete removeFromHistory._downloadPanelTweaker_previousSibling;
+				delete removeFromHistory._downloadPanelTweaker_nextSibling;
+				if(ps && ps.parentNode)
+					ps.parentNode.insertBefore(removeFromHistory, ps.nextSibling);
+				else if(ns && ns.parentNode)
+					ns.parentNode.insertBefore(removeFromHistory, ns);
+				else if(!ps)
+					contextMenu.insertBefore(removeFromHistory, contextMenu.firstChild);
+				else
+					_log("Can't move \"Remove From History\" to original position!");
+			}
+		}
 		var footer = document.getElementById("downloadsFooter")
 			|| document.getElementById("downloadsHistory"); // Firefox < 20
 		if(footer) {

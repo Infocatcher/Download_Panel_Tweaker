@@ -19,6 +19,8 @@ pref("extensions.downloadPanelTweaker.removeFile.clearHistory", 0);
 // 2 - also remove from panel and from history
 pref("extensions.downloadPanelTweaker.removeFile.removeFilesDirectoryForHTML", true);
 // Also remove *_files directory for *.html files
+pref("extensions.downloadPanelTweaker.removeFile.groupWithRemoveFromHistory", true);
+// Re-enable extension to apply changes!
 
 pref("extensions.downloadPanelTweaker.overrideDownloadsCommand", 0);
 pref("extensions.downloadPanelTweaker.overrideDownloadsCommand.private", 0);
