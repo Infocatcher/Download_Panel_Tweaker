@@ -251,8 +251,11 @@ var downloadsActions = {
 			popup.getElementsByAttribute("downloadPanelTweaker-command", "*"),
 			function(mi) {
 				var cmd = mi.getAttribute("downloadPanelTweaker-command");
-				if(cmd == "copyReferrer")
-					this.enableNode(mi, dataItem && dataItem.referrer);
+				if(cmd == "copyReferrer") {
+					var ref = dataItem && dataItem.referrer || "";
+					this.enableNode(mi, ref);
+					mi.tooltipText = ref;
+				}
 				else if(cmd == "removeFile") {
 					var exists = dlItem && dlItem.getAttribute("exists") == "true";
 					var existsChecked = false;
