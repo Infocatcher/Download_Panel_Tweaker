@@ -287,6 +287,9 @@ var downloadsActions = {
 			},
 			this
 		);
+		var sep = popup.getElementsByAttribute("id", this.dpt.removeFileSepId)[0];
+		if(sep)
+			sep.hidden = !this.hasVisibleNodeBefore(sep);
 	},
 	isActiveDownload: function(state) {
 		var dm = Components.interfaces.nsIDownloadManager || {};
@@ -303,6 +306,12 @@ var downloadsActions = {
 			node.removeAttribute("disabled");
 		else
 			node.setAttribute("disabled", "true");
+	},
+	hasVisibleNodeBefore: function(node) {
+		for(var ps = node.previousSibling; ps; ps = ps.previousSibling)
+			if(ps.boxObject.width && ps.boxObject.height)
+				return true;
+		return false;
 	},
 
 	getDlNode: function(node) {
