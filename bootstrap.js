@@ -854,7 +854,7 @@ var dpTweaker = {
 			return '<!ENTITY % dtd' + i + ' SYSTEM "' + dtd + '"> %dtd' + i + ';';
 		}).join("\n");
 		var attrs = [];
-		for(var name in names) if(names.hasOwnProperty(name))
+		for(var name in names)
 			attrs.push(name + '="&' + name + ';"');
 		var attrsData = attrs.join(" ");
 		try {
@@ -867,7 +867,7 @@ var dpTweaker = {
 				.parseFromString(xul, "application/xml")
 				.documentElement;
 			if(node.localName == "label") {
-				for(var name in names) if(names.hasOwnProperty(name))
+				for(var name in names)
 					names[name] = node.getAttribute(name) || names[name];
 				return true;
 			}
