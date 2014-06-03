@@ -600,10 +600,10 @@ var dpTweaker = {
 			return;
 		var ok;
 		switch(cmd) {
-			case 1: ok = this.da.toggleDownloadPanel(window);  break;
-			case 2: ok = this.da.showDownloadWindow(window);   break;
-			case 3: ok = this.da.openDownloadsTab(window);     break;
-			case 4: ok = this.da.openDownloadsLibrary(window); break;
+			case 1: ok = this.da.toggleDownloadPanel(window);    break;
+			case 2: ok = this.da.showDownloadWindow(window);     break;
+			case 3: ok = this.da.openDownloadsTab(window);       break;
+			case 4: ok = this.da.openDownloadsLibrary(window);   break;
 			case 5: ok = this.da.toggleDownloadsSidebar(window); break;
 			default: return;
 		}
