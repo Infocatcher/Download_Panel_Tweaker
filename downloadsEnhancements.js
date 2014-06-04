@@ -110,7 +110,7 @@ var downloadsEnhancements = {
 			}
 		}
 		// Suppress notifications, see _updateDataItemState() in
-		// resource:///modules/DownloadsCommon.jsm
+		// resource://app/modules/DownloadsCommon.jsm
 		if(
 			!this.newDownloadNotified && (
 				dl.succeeded
