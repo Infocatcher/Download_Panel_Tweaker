@@ -286,6 +286,9 @@ var downloadsActions = {
 							Components.utils.reportError
 						);
 					}
+					window.setTimeout(function() {
+						mi.tooltipText = mi.disabled ? "" : path || this.getDataItemPath(dataItem);
+					}.bind(this), 0);
 				}
 			},
 			this
