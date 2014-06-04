@@ -253,7 +253,7 @@ var downloadsActions = {
 				var cmd = mi.getAttribute("downloadPanelTweaker-command");
 				if(cmd == "copyReferrer") {
 					var ref = dataItem && dataItem.referrer || "";
-					this.enableNode(mi, ref);
+					mi.disabled = !ref;
 					mi.tooltipText = ref;
 				}
 				else if(cmd == "removeFile") {
@@ -272,7 +272,7 @@ var downloadsActions = {
 					catch(e) {
 						Components.utils.reportError(e);
 					}
-					this.enableNode(mi, this.isActiveDownload(dataItem.state) ? false : exists);
+					mi.disabled = this.isActiveDownload(dataItem.state) || !exists;
 					// "exists" attribute may be wrong for canceled downloads
 					if(!existsChecked && !dataItem.openable) {
 						_log("Will check anyway using OS.File.exists() (exists: " + exists + ")");
@@ -281,7 +281,7 @@ var downloadsActions = {
 						OS.File.exists(path).then(
 							function onSuccess(exists) {
 								_log("OS.File.exists(): " + exists);
-								this.enableNode(mi, this.isActiveDownload(dataItem.state) ? false : exists);
+								mi.disabled = this.isActiveDownload(dataItem.state) || !exists;
 							}.bind(this),
 							Components.utils.reportError
 						);
@@ -303,12 +303,6 @@ var downloadsActions = {
 				return true;
 		}
 		return false;
-	},
-	enableNode: function(node, enable) {
-		if(enable)
-			node.removeAttribute("disabled");
-		else
-			node.setAttribute("disabled", "true");
 	},
 	hasVisibleNodeBefore: function(node) {
 		for(var ps = node.previousSibling; ps; ps = ps.previousSibling)
