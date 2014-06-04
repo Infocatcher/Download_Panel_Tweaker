@@ -192,7 +192,7 @@ var downloadsActions = {
 			})
 		)
 			return;
-		var htmlPattern = /\.(?:[xs]?html?|xht)$/i;
+		var htmlPattern = /\.(?:[xs]?html?|xht|xml)$/i;
 		var removeFilesDirPref = "removeFile.removeFilesDirectoryForHTML";
 		var clearHistory = prefs.get("removeFile.clearHistory");
 		try {
