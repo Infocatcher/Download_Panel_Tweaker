@@ -195,6 +195,7 @@ var downloadsActions = {
 		var htmlPattern = /\.(?:[xs]?html?|xht|xml)$/i;
 		var removeFilesDirPref = "removeFile.removeFilesDirectoryForHTML";
 		var clearHistory = prefs.get("removeFile.clearHistory");
+		var fileRemoved = false;
 		try {
 			Components.utils.import("resource://gre/modules/osfile.jsm");
 			OS.File.remove(path).then(
@@ -205,17 +206,22 @@ var downloadsActions = {
 				}.bind(this),
 				Components.utils.reportError
 			);
+			fileRemoved = true; // Not yet, but we may get "access denied" error
 			if(htmlPattern.test(path) && prefs.get(removeFilesDirPref)) {
 				var filesPath = RegExp.leftContext + "_files";
-				_log("removeFile(): HTML _files directory: " + filesPath);
 				OS.File.removeDir(filesPath, { ignoreAbsent: true }).then(
 					null,
 					Components.utils.reportError
 				);
+				_log("removeFile(): HTML _files directory: " + filesPath);
 			}
 		}
-		catch(e) { // Firefox 17
-			if((e.message || e) != "osfile.jsm cannot be used from the main thread yet")
+		catch(e) { // Firefox 17, Firefox < 27 without OS.File.removeDir()
+			var msg = e.message || e;
+			if(
+				msg != "osfile.jsm cannot be used from the main thread yet"
+				&& !(msg == "OS.File.removeDir is not a function" && this.dpt.fxVersion < 27)
+			)
 				Components.utils.reportError(e);
 			_log("removeFile(): will use dataItem.localFile.remove(false)");
 			var localFile = dataItem.localFile;
@@ -225,7 +231,8 @@ var downloadsActions = {
 				filesDir.append(filesName);
 				_log("removeFile(): HTML _files directory: " + filesDir.path);
 			}
-			localFile.remove(false);
+			if(!fileRemoved && localFile.exists())
+				localFile.remove(false);
 			if(clearHistory)
 				this.removeFromPanel(dlController, clearHistory > 1);
 			if(filesDir && filesDir.exists())

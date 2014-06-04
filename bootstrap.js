@@ -196,6 +196,10 @@ var dpTweaker = {
 		return this.sss = Components.classes["@mozilla.org/content/style-sheet-service;1"]
 			.getService(Components.interfaces.nsIStyleSheetService);
 	},
+	get fxVersion() {
+		delete this.fxVersion;
+		return this.fxVersion = parseFloat(Services.appinfo.version);
+	},
 	newCssURI: function(cssStr) {
 		cssStr = this.trimCSSString(cssStr);
 		return Services.io.newURI("data:text/css," + encodeURIComponent(cssStr), null, null);
@@ -251,7 +255,7 @@ var dpTweaker = {
 			var pbHeight = Math.max(this.minProgressBarHeight, Math.min(this.maxProgressBarHeight,
 				prefs.get("progressBarHeight", 10)
 			));
-			var containerSelector = parseFloat(Services.appinfo.version) >= 20
+			var containerSelector = this.fxVersion >= 20
 				? ".downloadContainer"
 				: ".download-state > vbox";
 			var tdsPrefix = "-moz-";
