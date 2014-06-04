@@ -6,6 +6,7 @@
 `*` - improved<br>
 
 ##### master/HEAD
+##### 0.2.1 (2014-06-04)
 `+` Added ability to remove downloads from panel using middle-click (disabled by default) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/9">#9</a>).<br>
 `+` Suppress notifications about adding of failed downloads (only if saved finished downloads, <em>extensions.downloadPanelTweaker.suppressFailedDownloadsNotifications</em> preference).<br>
 `+` Added “Copy Download Page Link” item to panel context menu (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/14">#14</a>).<br>
