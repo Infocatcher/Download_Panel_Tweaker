@@ -34,6 +34,10 @@ var downloadsActions = {
 	toggleDownloadPanel: function(window, show) {
 		_log("toggleDownloadPanel(" + show + ")");
 		var DownloadsPanel = window.DownloadsPanel;
+		if(!DownloadsPanel) {
+			_log("toggleDownloadPanel(): window.DownloadsPanel not found!");
+			return;
+		}
 		if(show === undefined)
 			show = !DownloadsPanel.isPanelShowing;
 		else if(show == DownloadsPanel.isPanelShowing)
@@ -398,9 +402,11 @@ var downloadsActions = {
 		var message = strings[options.messageKey];
 		if("messageReplace" in options)
 			message = options.messageReplace(message);
+		var window = options.window || Services.ww.activeWindow;
+		this.toggleDownloadPanel(window, false);
 		var dontAsk = { value: false };
 		var ok = Services.prompt.confirmCheck(
-			options.window || Services.ww.activeWindow,
+			window,
 			strings["dpt.confirm.title"],
 			message,
 			strings["dpt.confirm.dontAskAgain"],
