@@ -814,7 +814,7 @@ var dpTweaker = {
 				return;
 			}
 
-			var mo = new window.MutationObserver(this.handleMutationsFixed);
+			var mo = new window.MutationObserver(this.onTabsOnTopChanged);
 			mo.observe(tb, {
 				attributes: true,
 				attributeFilter: ["tabsontop"]
@@ -831,13 +831,12 @@ var dpTweaker = {
 			}
 		}
 	},
-	get handleMutationsFixed() {
-		delete this.handleMutationsFixed;
-		return this.handleMutationsFixed = this.handleMutations.bind(this);
-	},
-	handleMutations: function(mutations) {
-		var tb = mutations[0].target;
-		this.fixToolbox(tb);
+	get onTabsOnTopChanged() {
+		delete this.onTabsOnTopChanged;
+		return this.onTabsOnTopChanged = function(mutations) {
+			var tb = mutations[0].target;
+			this.fixToolbox(tb);
+		}.bind(this);
 	},
 	fixToolbox: function(tb) {
 		var root = tb.ownerDocument.documentElement;
