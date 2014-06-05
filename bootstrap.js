@@ -185,23 +185,14 @@ var dpTweaker = {
 			yield ws.getNext();
 	},
 
-	get de() {
-		_log("Load downloadsEnhancements.js");
-		Services.scriptloader.loadSubScript("chrome://downloadpaneltweaker/content/downloadsEnhancements.js");
-		delete this.de;
-		return this.de = downloadsEnhancements;
-	},
-	get da() {
-		_log("Load downloadsActions.js");
-		Services.scriptloader.loadSubScript("chrome://downloadpaneltweaker/content/downloadsActions.js");
-		delete this.da;
-		return this.da = downloadsActions;
-	},
-	get btn() {
-		_log("Load downloadsButton.js");
-		Services.scriptloader.loadSubScript("chrome://downloadpaneltweaker/content/downloadsButton.js");
-		delete this.btn;
-		return this.btn = downloadsButton;
+	get de()  { return this.lazy("de",  "downloadsEnhancements"); },
+	get da()  { return this.lazy("da",  "downloadsActions");      },
+	get btn() { return this.lazy("btn", "downloadsButton");       },
+	lazy: function(prop, name) {
+		_log("Load " + name + ".js");
+		Services.scriptloader.loadSubScript("chrome://downloadpaneltweaker/content/" + name + ".js");
+		delete this[prop];
+		return this[prop] = global[name];
 	},
 	get sss() {
 		delete this.sss;
