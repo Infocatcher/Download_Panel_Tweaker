@@ -804,6 +804,9 @@ var dpTweaker = {
 	setFixToolbox: function(window, enable) {
 		var document = window.document;
 		var tb = document.getElementById("navigator-toolbox");
+		var key = "_downloadPanelTweaker_mutationObserverTabsOnTop";
+		if(enable == key in tb)
+			return;
 		_log("setFixToolbox(" + enable + ")");
 		if(enable) {
 			if(
@@ -814,17 +817,17 @@ var dpTweaker = {
 				return;
 			}
 
-			var mo = new window.MutationObserver(this.onTabsOnTopChanged);
+			var mo = tb[key] = new window.MutationObserver(this.onTabsOnTopChanged);
 			mo.observe(tb, {
 				attributes: true,
 				attributeFilter: ["tabsontop"]
 			});
-			tb._downloadPanelTweakerMutationObserver = mo;
 			this.fixToolbox(tb);
 		}
-		else if("_downloadPanelTweakerMutationObserver" in tb) {
-			tb._downloadPanelTweakerMutationObserver.disconnect();
-			delete tb._downloadPanelTweakerMutationObserver;
+		else {
+			var mo = tb[key];
+			delete tb[key];
+			mo.disconnect();
 			if(tb.hasAttribute("_downloadPanelTweaker_tabsontop")) {
 				tb.setAttribute("tabsontop", tb.getAttribute("_downloadPanelTweaker_tabsontop"));
 				tb.removeAttribute("_downloadPanelTweaker_tabsontop")
