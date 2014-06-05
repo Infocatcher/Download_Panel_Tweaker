@@ -7,6 +7,9 @@ pref("extensions.downloadPanelTweaker.compactDownloads", 1);
 pref("extensions.downloadPanelTweaker.decolorizePausedProgress", true);
 pref("extensions.downloadPanelTweaker.showFullPathInTooltip", true);
 
+pref("extensions.downloadPanelTweaker.dontHighlightButton", false);
+// Don't set [attention="true"] attribute on downloads button
+
 pref("extensions.downloadPanelTweaker.clearDownloads.confirm", true);
 
 pref("extensions.downloadPanelTweaker.middleClickToRemoveFromPanel", false);

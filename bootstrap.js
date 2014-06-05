@@ -140,6 +140,8 @@ var dpTweaker = {
 				this.de.dontRemoveFinishedDownloads(true);
 			if(prefs.get("fixWrongTabsOnTopAttribute"))
 				this.setFixToolbox(window, true);
+			if(this.enableDlButtonTweaks)
+				this.tweakDlButton(window, true);
 		}.bind(this), 0);
 		window.setTimeout(function() {
 			this.loadStyles(true);
@@ -166,6 +168,8 @@ var dpTweaker = {
 		}
 		if(prefs.get("fixWrongTabsOnTopAttribute"))
 			this.setFixToolbox(window, false);
+		if(this.enableDlButtonTweaks)
+			this.tweakDlButton(window, false, force);
 	},
 	isTargetWindow: function(window) {
 		return window.document.documentElement.getAttribute("windowtype") == "navigator:browser";
@@ -847,6 +851,65 @@ var dpTweaker = {
 		}
 	},
 
+	get enableDlButtonTweaks() {
+		return prefs.get("dontHighlightButton");
+	},
+	getButton: function(window, id) {
+		return window.document.getElementById(id)
+			|| window.gNavToolbox.palette.getElementsByAttribute("id", id)[0];
+	},
+	tweakDlButton: function(window, tweak, forceDestroy) {
+		var dlBtn = this.getButton(window, "downloads-button");
+		if(!dlBtn) {
+			_log("tweakDlButton(): button not found!");
+			return;
+		}
+		_log("tweakDlButton(" + tweak + ")");
+		this.dontHighlightButton(window, dlBtn, tweak && prefs.get("dontHighlightButton"), forceDestroy);
+	},
+	dontHighlightButton: function(window, dlBtn, dontHL, forceDestroy) {
+		var key = "_downloadPanelTweaker_mutationObserverDontHL";
+		if(dontHL == key in dlBtn)
+			return;
+		_log("dontHighlightButton(" + dontHL + ")");
+		if(dontHL) {
+			this.removeDlAttention(dlBtn);
+			var mo = dlBtn[key] = new window.MutationObserver(function(mutations) {
+				this.removeDlAttention(dlBtn);
+			}.bind(this));
+			mo.observe(dlBtn, {
+				attributes: true,
+				attributeFilter: ["attention"]
+			});
+		}
+		else {
+			var mo = dlBtn[key];
+			delete dlBtn[key];
+			mo.disconnect();
+		}
+	},
+	removeDlAttention: function(dlBtn, force) {
+		if(
+			!dlBtn.hasAttribute("attention")
+			|| "_downloadPanelTweaker_ignore" in dlBtn
+		)
+			return;
+		dlBtn._downloadPanelTweaker_ignore = true;
+		dlBtn.removeAttribute("attention");
+		delete dlBtn._downloadPanelTweaker_ignore;
+		_log('removeDlAttention(): remove "attention" attribute');
+		var window = dlBtn.ownerDocument.defaultView;
+		try {
+			var dlData = window.DownloadsCommon.getIndicatorData(window);
+			dlData.attentionSuppressed = true; // See DownloadsPanel.onPopupShown()
+			//dlData._attentionSuppressed = dlData._attention = false;
+			dlData.attentionSuppressed = false; // See DownloadsPanel.onPopupHidden()
+		}
+		catch(e) {
+			Components.utils.reportError(e);
+		}
+	},
+
 	getEntity: function(dtds, name, dafaultVal) {
 		var out = {};
 		out[name] = dafaultVal;
@@ -952,6 +1015,10 @@ var dpTweaker = {
 		else if(pName == "fixWrongTabsOnTopAttribute") {
 			for(var window in this.windows)
 				this.setFixToolbox(window, pVal);
+		}
+		else if(pName == "dontHighlightButton") {
+			for(var window in this.windows)
+				this.tweakDlButton(window, this.enableDlButtonTweaks, true);
 		}
 		else if(pName == "debug")
 			_dbg = pVal;
