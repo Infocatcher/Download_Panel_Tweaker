@@ -56,9 +56,7 @@ var downloadsButton = {
 		_log("dontHighlightButton(" + dontHL + ") #" + dlBtn.id);
 		if(dontHL) {
 			this.removeDlAttention(dlBtn);
-			var mo = dlBtn[key] = new window.MutationObserver(function(mutations) {
-				this.removeDlAttention(dlBtn);
-			}.bind(this));
+			var mo = dlBtn[key] = new window.MutationObserver(this.onDlAttentionChanged);
 			mo.observe(dlBtn, {
 				attributes: true,
 				attributeFilter: ["attention"]
@@ -69,6 +67,13 @@ var downloadsButton = {
 			delete dlBtn[key];
 			mo.disconnect();
 		}
+	},
+	get onDlAttentionChanged() {
+		delete this.onDlAttentionChanged;
+		return this.onDlAttentionChanged = function(mutations) {
+			var dlBtn = mutations[0].target;
+			this.removeDlAttention(dlBtn);
+		}.bind(this);
 	},
 	removeDlAttention: function(dlBtn, force) {
 		if(
