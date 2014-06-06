@@ -153,6 +153,20 @@ var downloadsButton = {
 		var trg = e.originalTarget;
 		var panel = e.currentTarget;
 		var window = panel.ownerDocument.defaultView;
+		var anchor = panel.anchorNode;
+		if(anchor) {
+			var bo = anchor.boxObject;
+			var border = 2;
+			if(
+				e.screenX >= bo.screenX - border
+				&& e.screenX <= bo.screenX + bo.width + border
+				&& e.screenY >= bo.screenY - border
+				&& e.screenY <= bo.screenY + bo.height + border
+			) {
+				_log(e.type + ": ignore in #" + anchor.id + " coordinates");
+				return;
+			}
+		}
 		var nativeEvent = false;
 		function waitNativeEvent(e) {
 			_dbgv && _log(e.type + " in #" + panel.id + " => do nothing");
