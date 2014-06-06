@@ -106,9 +106,9 @@ var downloadsButton = {
 	},
 	menuButtonBehavior: function(window, dlBtn, enable, forceDestroy) {
 		if(enable)
-			dlBtn.addEventListener("mousedown", this, false);
+			dlBtn.addEventListener("mousedown", this, true);
 		else
-			dlBtn.removeEventListener("mousedown", this, false);
+			dlBtn.removeEventListener("mousedown", this, true);
 		var panel = window.document.getElementById("downloadsPanel");
 		panel && this.menuPanelBehavior(panel, enable);
 	},
@@ -130,6 +130,7 @@ var downloadsButton = {
 			_log(e.type + " on #" + dlBtn.id + " -> panel is opened, will close it");
 			panel.hidePopup();
 			var preventPopup = function(e) {
+				_log("Prevent panel opening");
 				e.preventDefault();
 				dlBtn.removeAttribute("open");
 			};
