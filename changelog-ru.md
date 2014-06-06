@@ -6,6 +6,8 @@
 `*` - улучшено<br>
 
 ##### master/HEAD
+`+` Добавлена возможность не подсвечивать кнопку с новыми завершенными загрузками (по умолчанию отключено) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/23">#23</a>).<br>
+
 ##### 0.2.1 (2014-06-04)
 `+` Добавлена возможность удалять загрузки из панели кликом средней кнопкой мыши (по умолчанию отключено) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/9">#9</a>).<br>
 `+` Добавлено подавление оповещений о добавлении неудавшихся загрузок (только если сохраняются завершенные загрузки, настройка <em>extensions.downloadPanelTweaker.suppressFailedDownloadsNotifications</em>).<br>
