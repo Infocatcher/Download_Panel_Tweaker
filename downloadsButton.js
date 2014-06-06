@@ -122,29 +122,8 @@ var downloadsButton = {
 		if(e.button != 0 || e.target != e.currentTarget)
 			return;
 		var window = e.view;
-		// Workaround to force hide panel after second mousedown
-		var key = "_downloadPanelTweaker_allowPopup";
-		var dlBtn = e.currentTarget;
-		var panel = window.document.getElementById("downloadsPanel");
-		if(panel && (panel.state == "open" || panel.state == "showing")) {
-			_log(e.type + " on #" + dlBtn.id + " -> panel is opened, will close it");
-			panel.hidePopup();
-			var preventPopup = function(e) {
-				_log("Prevent panel opening");
-				e.preventDefault();
-				dlBtn.removeAttribute("open");
-			};
-			var allowPopup = dlBtn[key] = function() {
-				panel.removeEventListener("popupshowing", preventPopup, true);
-				delete dlBtn[key];
-			};
-			panel.addEventListener("popupshowing", preventPopup, true);
-			window.setTimeout(allowPopup, 500);
-			return;
-		}
-		if(key in dlBtn)
-			dlBtn[key]();
-		_log(e.type + " on #" + dlBtn.id + " => toggleDownloadPanel()");
+		_log(e.type + " on #" + e.target.id + " => toggleDownloadPanel()");
+		// Note: we can't hide panel after double click (due to opening animation?)
 		this.dpt.da.toggleDownloadPanel(window);
 		this.dpt.stopEvent(e);
 	},
