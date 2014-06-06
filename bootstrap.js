@@ -853,7 +853,8 @@ var dpTweaker = {
 	},
 
 	get enableDlButtonTweaks() {
-		return prefs.get("dontHighlightButton");
+		return prefs.get("dontHighlightButton")
+			|| prefs.get("menuButtonBehavior");
 	},
 
 	getEntity: function(dtds, name, dafaultVal) {
@@ -962,7 +963,10 @@ var dpTweaker = {
 			for(var window in this.windows)
 				this.setFixToolbox(window, pVal);
 		}
-		else if(pName == "dontHighlightButton") {
+		else if(
+			pName == "dontHighlightButton"
+			|| pName == "menuButtonBehavior"
+		) {
 			for(var window in this.windows)
 				this.btn.tweakDlButton(window, this.enableDlButtonTweaks, true);
 		}

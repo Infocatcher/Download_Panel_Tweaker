@@ -9,6 +9,7 @@ pref("extensions.downloadPanelTweaker.showFullPathInTooltip", true);
 
 pref("extensions.downloadPanelTweaker.dontHighlightButton", false);
 // Don't set [attention="true"] attribute on downloads button
+pref("extensions.downloadPanelTweaker.menuButtonBehavior", false);
 
 pref("extensions.downloadPanelTweaker.clearDownloads.confirm", true);
 

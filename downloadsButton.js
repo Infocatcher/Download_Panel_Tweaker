@@ -2,6 +2,12 @@
 var downloadsButton = {
 	dpt: dpTweaker,
 
+	handleEvent: function(e) {
+		switch(e.type) {
+			case "mousedown": this.handleMouseDown(e);
+		}
+	},
+
 	getButton: function(window, id) {
 		return window.document.getElementById(id)
 			|| window.gNavToolbox.palette.getElementsByAttribute("id", id)[0];
@@ -21,6 +27,7 @@ var downloadsButton = {
 				this.waitForDlIndicator(window, dlBtn, tweak);
 		}
 		this.dontHighlightButton(window, dlBtn, tweak && prefs.get("dontHighlightButton"), forceDestroy);
+		this.menuButtonBehavior(window, dlBtn, tweak && prefs.get("menuButtonBehavior"), forceDestroy);
 	},
 	waitForDlIndicator: function(window, dlBtn, wait) {
 		// Wait for #downloads-indicator (Firefox 26 and older)
@@ -95,5 +102,20 @@ var downloadsButton = {
 		catch(e) {
 			Components.utils.reportError(e);
 		}
+	},
+	menuButtonBehavior: function(window, dlBtn, enable, forceDestroy) {
+		if(enable)
+			dlBtn.addEventListener("mousedown", this, false);
+		else
+			dlBtn.removeEventListener("mousedown", this, false);
+	},
+	handleMouseDown: function(e) {
+		if(e.button != 0 || e.target != e.currentTarget)
+			return;
+		var window = e.view;
+		_log(e.type + " on #" + e.target.id + " => toggleDownloadPanel()");
+		// Note: we can't hide panel after double click (due to opening animation?)
+		this.dpt.da.toggleDownloadPanel(window);
+		this.dpt.stopEvent(e);
 	}
 };
