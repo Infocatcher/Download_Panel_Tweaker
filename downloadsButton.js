@@ -4,7 +4,8 @@ var downloadsButton = {
 
 	handleEvent: function(e) {
 		switch(e.type) {
-			case "mousedown": this.handleMouseDown(e);
+			case "mousedown": this.handleMouseDown(e); break;
+			case "mouseup":   this.handleMouseUp(e);
 		}
 	},
 
@@ -108,6 +109,14 @@ var downloadsButton = {
 			dlBtn.addEventListener("mousedown", this, false);
 		else
 			dlBtn.removeEventListener("mousedown", this, false);
+		var panel = window.document.getElementById("downloadsPanel");
+		panel && this.menuPanelBehavior(panel, enable);
+	},
+	menuPanelBehavior: function(panel, enable) {
+		if(enable)
+			panel.addEventListener("mouseup", this, true);
+		else
+			panel.removeEventListener("mouseup", this, true);
 	},
 	handleMouseDown: function(e) {
 		if(e.button != 0 || e.target != e.currentTarget)
@@ -117,5 +126,39 @@ var downloadsButton = {
 		// Note: we can't hide panel after double click (due to opening animation?)
 		this.dpt.da.toggleDownloadPanel(window);
 		this.dpt.stopEvent(e);
+	},
+	handleMouseUp: function(e) {
+		if(e.button != 0)
+			return;
+		var trg = e.originalTarget;
+		var panel = e.currentTarget;
+		var window = panel.ownerDocument.defaultView;
+		var nativeEvent = false;
+		function waitNativeEvent(e) {
+			_dbgv && _log(e.type + " in #" + panel.id + " => do nothing");
+			destroy();
+			nativeEvent = true;
+		}
+		function destroy() {
+			window.removeEventListener("click", waitNativeEvent, true);
+			window.removeEventListener("command", waitNativeEvent, true);
+			window.clearTimeout(timer);
+		}
+		window.addEventListener("click", waitNativeEvent, true);
+		window.addEventListener("command", waitNativeEvent, true);
+		var timer = window.setTimeout(function() {
+			destroy();
+			if(nativeEvent)
+				return;
+			for(var node = trg; node && node != panel; node = node.parentNode) {
+				if(node.hasAttribute("command") || node.hasAttribute("oncommand")) {
+					_log(e.type + " in #" + panel.id + " => doCommand()");
+					trg.doCommand();
+					return;
+				}
+			}
+			_log(e.type + " in #" + panel.id + " => click()");
+			trg.click();
+		}, 0);
 	}
 };

@@ -671,6 +671,8 @@ var dpTweaker = {
 		_log("initPanel()");
 		popup.addEventListener("click", this, true);
 		popup.addEventListener("mouseover", this, false);
+		if(prefs.get("menuButtonBehavior"))
+			this.btn.menuPanelBehavior(popup, true);
 
 		var labels = {
 			"dpt.clearDownloads": "Clear Downloads",

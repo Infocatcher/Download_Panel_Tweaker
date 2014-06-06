@@ -10,6 +10,8 @@ pref("extensions.downloadPanelTweaker.showFullPathInTooltip", true);
 pref("extensions.downloadPanelTweaker.dontHighlightButton", false);
 // Don't set [attention="true"] attribute on downloads button
 pref("extensions.downloadPanelTweaker.menuButtonBehavior", false);
+// Behavior like standard menu-button:
+// mousedown to open panel, move mouse to some item and then mouseup to perform action
 
 pref("extensions.downloadPanelTweaker.clearDownloads.confirm", true);
 
