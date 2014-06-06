@@ -5,7 +5,8 @@ var downloadsButton = {
 	handleEvent: function(e) {
 		switch(e.type) {
 			case "mousedown": this.handleMouseDown(e); break;
-			case "mouseup":   this.handleMouseUp(e);
+			case "mouseup":   this.handleMouseUp(e);   break;
+			case "click":     this.handleClick(e);
 		}
 	},
 
@@ -105,10 +106,14 @@ var downloadsButton = {
 		}
 	},
 	menuButtonBehavior: function(window, dlBtn, enable, forceDestroy) {
-		if(enable)
+		if(enable) {
 			dlBtn.addEventListener("mousedown", this, true);
-		else
+			dlBtn.addEventListener("click", this, true);
+		}
+		else {
 			dlBtn.removeEventListener("mousedown", this, true);
+			dlBtn.removeEventListener("click", this, true);
+		}
 		var panel = window.document.getElementById("downloadsPanel");
 		panel && this.menuPanelBehavior(panel, enable);
 	},
@@ -123,7 +128,6 @@ var downloadsButton = {
 			return;
 		var window = e.view;
 		_log(e.type + " on #" + e.target.id + " => toggleDownloadPanel()");
-		// Note: we can't hide panel after double click (due to opening animation?)
 		this.dpt.da.toggleDownloadPanel(window);
 		this.dpt.stopEvent(e);
 	},
@@ -174,5 +178,11 @@ var downloadsButton = {
 			_log(e.type + " in #" + panel.id + " => click()");
 			trg.click();
 		}, 0);
+	},
+	handleClick: function(e) {
+		if(e.button != 0 || e.target != e.currentTarget)
+			return;
+		_log("Prevent " + e.type + " on #" + e.target.id);
+		this.dpt.stopEvent(e); // Also stops "command" event
 	}
 };
