@@ -62,7 +62,7 @@ var downloadsButton = {
 		var key = "_downloadPanelTweaker_mutationObserverDontHL";
 		if(dontHL == key in dlBtn)
 			return;
-		_log("dontHighlightButton(" + dontHL + ") #" + dlBtn.id);
+		_log("dontHighlightButton(" + dontHL + "): #" + dlBtn.id);
 		if(dontHL) {
 			this.removeDlAttention(dlBtn);
 			var mo = dlBtn[key] = new window.MutationObserver(this.onDlAttentionChanged);
@@ -106,6 +106,7 @@ var downloadsButton = {
 		}
 	},
 	menuButtonBehavior: function(window, dlBtn, enable, forceDestroy) {
+		_log("menuButtonBehavior(" + enable + ")");
 		if(enable) {
 			dlBtn.addEventListener("mousedown", this, true);
 			dlBtn.addEventListener("click", this, true);
@@ -118,6 +119,7 @@ var downloadsButton = {
 		panel && this.menuPanelBehavior(panel, enable);
 	},
 	menuPanelBehavior: function(panel, enable) {
+		_log("menuPanelBehavior(" + enable + ")");
 		if(enable)
 			panel.addEventListener("mouseup", this, true);
 		else
