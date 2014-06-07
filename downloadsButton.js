@@ -10,6 +10,12 @@ var downloadsButton = {
 		}
 	},
 
+	get evtSvc() {
+		delete this.evtSvc;
+		return this.evtSvc = Components.classes["@mozilla.org/eventlistenerservice;1"]
+			.getService(Components.interfaces.nsIEventListenerService);
+	},
+
 	getButton: function(window, id) {
 		return window.document.getElementById(id)
 			|| window.gNavToolbox.palette.getElementsByAttribute("id", id)[0];
@@ -170,16 +176,13 @@ var downloadsButton = {
 			destroy();
 			if(nativeEvent)
 				return;
-			for(var node = trg; node && node != panel; node = node.parentNode) {
-				if(node.hasAttribute("command") || node.hasAttribute("oncommand")) {
-					_log(e.type + " in #" + panel.id + " => doCommand()");
-					trg.doCommand();
-					return;
-				}
-			}
-			_log(e.type + " in #" + panel.id + " => click()");
-			trg.click();
-		}, 0);
+			var hasCmdListener = this.evtSvc.hasListenersFor(trg, "command");
+			_log(e.type + " in #" + panel.id + " => " + (hasCmdListener ? "doCommand()" : "click()"));
+			if(hasCmdListener)
+				trg.doCommand();
+			else
+				trg.click();
+		}.bind(this), 0);
 	},
 	handleClick: function(e) {
 		if(e.button != 0 || e.target != e.currentTarget)
