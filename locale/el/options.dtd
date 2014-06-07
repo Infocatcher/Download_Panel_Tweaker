@@ -12,6 +12,7 @@
 <!ENTITY dpt.showDownloadRate "Εμφάνιση ρυθμού λήψης">
 <!ENTITY dpt.decolorizePausedProgress "Αποχρωμάτιση γραμμής προόδου λήψεων σε παύση">
 <!ENTITY dpt.dontHighlightButton "Don't highlight button with new finished downloads">
+<!ENTITY dpt.menuButtonBehavior "Open panel right after mouse down on download button">
 <!ENTITY dpt.dontRemoveFinishedDownloads "Μη απομάκρυνση ολοκληρωμένων λήψεων">
 <!ENTITY dpt.middleClickToRemoveFromPanel "Middle-click to remove downloads from panel">
 <!ENTITY dpt.middleClickToRemoveFromPanel.clearHistory "Also remove from history">

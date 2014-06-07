@@ -12,6 +12,7 @@
 <!ENTITY dpt.showDownloadRate "Показывать скорость загрузки">
 <!ENTITY dpt.decolorizePausedProgress "Обесцвечивать полосу прогресса приостановленных загрузок">
 <!ENTITY dpt.dontHighlightButton "Не подсвечивать кнопку с новыми завершенными загрузками">
+<!ENTITY dpt.menuButtonBehavior "Открывать панель сразу после нажатия мыши на кнопке загрузок">
 <!ENTITY dpt.dontRemoveFinishedDownloads "Не удалять завершённые загрузки">
 <!ENTITY dpt.middleClickToRemoveFromPanel "Удалять загрузки из панели по клику средней кнопкой мыши">
 <!ENTITY dpt.middleClickToRemoveFromPanel.clearHistory "Также удалять из истории">
