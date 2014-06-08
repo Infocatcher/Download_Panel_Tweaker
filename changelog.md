@@ -7,6 +7,7 @@
 
 ##### master/HEAD
 `+` Added ability to not highlight toolbar button with new finished downloads (disabled by default) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/23">#23</a>).<br>
+`+` Added ability to open panel right after mouse down on download button (just like regular menus) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/25">#25</a>).<br>
 
 ##### 0.2.1 (2014-06-04)
 `+` Added ability to remove downloads from panel using middle-click (disabled by default) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/9">#9</a>).<br>
