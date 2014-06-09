@@ -86,11 +86,11 @@ var dpTweaker = {
 			Components.utils.unload("chrome://downloadpaneltweaker/content/patcher.jsm");
 		}
 		if("downloadsActions" in global)
-			downloadsActions.dpt = null;
+			this.da.dpt = null;
 		if("downloadsPanel" in global)
-			downloadsPanel.dpt = null;
+			this.dp.dpt = null;
 		if("downloadsButton" in global)
-			downloadsButton.dpt = null;
+			this.btn.dpt = null;
 		_log("Successfully destroyed");
 	},
 
