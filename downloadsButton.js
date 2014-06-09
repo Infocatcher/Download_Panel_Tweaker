@@ -135,9 +135,18 @@ var downloadsButton = {
 		if(e.button != 0 || e.target != e.currentTarget)
 			return;
 		var window = e.view;
-		_log(e.type + " on #" + e.target.id + " => toggleDownloadPanel()");
+		var dlBtn = e.target;
+		if(this.buttonInMenu(dlBtn)) {
+			_log("Download panel can't be opened from Australis menu");
+			return;
+		}
+		_log(e.type + " on #" + dlBtn.id + " => toggleDownloadPanel()");
 		this.dpt.da.toggleDownloadPanel(window);
 		this.dpt.stopEvent(e);
+	},
+	buttonInMenu: function(dlBtn) {
+		// See DownloadsIndicatorView.onCommand()
+		return dlBtn.getAttribute("cui-areatype") == "menu-panel";
 	},
 	handleMouseUp: function(e) {
 		if(e.button != 0)
@@ -185,7 +194,7 @@ var downloadsButton = {
 		}.bind(this), 0);
 	},
 	handleClick: function(e) {
-		if(e.button != 0 || e.target != e.currentTarget)
+		if(e.button != 0 || e.target != e.currentTarget || this.buttonInMenu(e.target))
 			return;
 		_log("Prevent " + e.type + " on #" + e.target.id);
 		this.dpt.stopEvent(e); // Also stops "command" event
