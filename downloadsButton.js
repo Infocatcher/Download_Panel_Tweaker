@@ -156,7 +156,8 @@ var downloadsButton = {
 		var window = panel.ownerDocument.defaultView;
 		var anchor = panel.anchorNode;
 		if(anchor) {
-			var bo = anchor.boxObject;
+			var btn = this.getButton(anchor) || anchor;
+			var bo = btn.boxObject;
 			var border = 2;
 			if(
 				e.screenX >= bo.screenX - border
@@ -164,7 +165,7 @@ var downloadsButton = {
 				&& e.screenY >= bo.screenY - border
 				&& e.screenY <= bo.screenY + bo.height + border
 			) {
-				_log(e.type + ": ignore in #" + anchor.id + " coordinates");
+				_log(e.type + ": ignore in #" + btn.id + " coordinates");
 				return;
 			}
 		}
@@ -192,6 +193,12 @@ var downloadsButton = {
 			else
 				trg.click();
 		}.bind(this), 0);
+	},
+	getButton: function(child) {
+		for(var btn = child; btn; btn = btn.parentNode)
+			if(btn.localName == "toolbarbutton")
+				return btn;
+		return null;
 	},
 	handleClick: function(e) {
 		if(e.button != 0 || e.target != e.currentTarget || this.buttonInMenu(e.target))
