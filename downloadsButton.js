@@ -156,7 +156,7 @@ var downloadsButton = {
 		var window = panel.ownerDocument.defaultView;
 		var anchor = panel.anchorNode;
 		if(anchor) {
-			var btn = this.getButton(anchor) || anchor;
+			var btn = this.getButtonFromChild(anchor) || anchor;
 			var bo = btn.boxObject;
 			var border = 2;
 			if(
@@ -194,7 +194,7 @@ var downloadsButton = {
 				trg.click();
 		}.bind(this), 0);
 	},
-	getButton: function(child) {
+	getButtonFromChild: function(child) {
 		for(var btn = child; btn; btn = btn.parentNode)
 			if(btn.localName == "toolbarbutton")
 				return btn;
