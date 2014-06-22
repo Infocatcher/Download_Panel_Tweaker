@@ -248,7 +248,7 @@ var dpTweaker = {
 	maxProgressBarHeight: 50,
 	pausedAttr: "downloadPanelTweaker_paused",
 	loadTweakStyle: function(add) {
-		if(!add ^ this._tweakStyleLoaded)
+		if(add == this._tweakStyleLoaded)
 			return;
 		this._tweakStyleLoaded = add;
 		var cssURI;
@@ -358,7 +358,7 @@ var dpTweaker = {
 	},
 	loadSheet: function(cssURI, load) {
 		var sss = this.sss;
-		if(!load ^ sss.sheetRegistered(cssURI, sss.USER_SHEET))
+		if(load == sss.sheetRegistered(cssURI, sss.USER_SHEET))
 			return;
 		if(load)
 			sss.loadAndRegisterSheet(cssURI, sss.USER_SHEET);
@@ -407,7 +407,7 @@ var dpTweaker = {
 	showDownloadRate: function(patch) {
 		var {DownloadUtils} = Components.utils.import("resource://gre/modules/DownloadUtils.jsm", {});
 		const bakKey = "_downloadPanelTweaker_getDownloadStatusNoRate";
-		if(!patch ^ bakKey in DownloadUtils)
+		if(patch == bakKey in DownloadUtils)
 			return;
 		if(patch) {
 			DownloadUtils[bakKey] = DownloadUtils.getDownloadStatusNoRate;
@@ -447,7 +447,7 @@ var dpTweaker = {
 
 	_downloadsSummaryPatched: false,
 	showPausedDownloadsSummary: function(patch) {
-		if(!patch ^ this._downloadsSummaryPatched)
+		if(patch == this._downloadsSummaryPatched)
 			return;
 		this._downloadsSummaryPatched = patch;
 
@@ -495,7 +495,7 @@ var dpTweaker = {
 		var details = summaryNode.getElementsByAttribute("id", "downloadsSummaryDetails")[0];
 		if(details) {
 			var paused = !details.getAttribute("value");
-			if(!paused ^ summaryNode.hasAttribute(this.pausedAttr))
+			if(paused == summaryNode.hasAttribute(this.pausedAttr))
 				return;
 			_log("updateDownloadsSummary(): Paused: " + paused);
 			if(paused)

@@ -23,7 +23,7 @@ var downloadsEnhancements = {
 			return;
 		}
 		const bakKey = "_downloadPanelTweaker_shouldPersistDownload";
-		if(!patch ^ bakKey in DownloadIntegration)
+		if(patch == bakKey in DownloadIntegration)
 			return;
 		_log(logPrefix + "Will fix DownloadIntegration");
 		var store = "_store" in DownloadIntegration && DownloadIntegration._store;
@@ -126,7 +126,7 @@ var downloadsEnhancements = {
 	dontRemoveFinishedDownloadsLegacy: function(patch) {
 		const bakKey = "_downloadPanelTweaker_downloads";
 		const newKey = "_downloadPanelTweaker_downloadsWrapper";
-		if(!patch ^ bakKey in Services)
+		if(patch == bakKey in Services)
 			return;
 		var logPrefix = "dontRemoveFinishedDownloadsLegacy(" + patch + "): ";
 		if(patch) {
@@ -185,7 +185,7 @@ var downloadsEnhancements = {
 		) {
 			var dsp = DownloadStore.prototype;
 			var bakKey = "_downloadPanelTweaker_load";
-			if(!fix ^ bakKey in dsp)
+			if(fix == bakKey in dsp)
 				return;
 			_log("fixLoadDownloads(" + fix + ")");
 			if(fix) {
