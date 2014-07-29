@@ -304,7 +304,7 @@ var downloadsActions = {
 			},
 			this
 		);
-		var sep = popup.getElementsByAttribute("id", this.dpt.removeFileSepId)[0];
+		var sep = popup.getElementsByAttribute("id", this.dpt.dp.removeFileSepId)[0];
 		if(sep)
 			sep.hidden = !this.hasVisibleNodeBefore(sep);
 	},
