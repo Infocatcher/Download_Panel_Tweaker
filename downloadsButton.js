@@ -140,6 +140,11 @@ var downloadsButton = {
 			_log("Download panel can't be opened from Australis menu");
 			return;
 		}
+		var dt = Date.now() - this.dpt.dp.panelCloseTime;
+		if(dt < 25) {
+			_log("Download panel was closed " + dt + " ms ago, don't open it again");
+			return;
+		}
 		_log(e.type + " on #" + dlBtn.id + " => toggleDownloadPanel()");
 		this.dpt.da.toggleDownloadPanel(window);
 		this.dpt.stopEvent(e);

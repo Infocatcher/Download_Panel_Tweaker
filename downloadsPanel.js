@@ -5,7 +5,8 @@ var downloadsPanel = {
 	handleEvent: function(e) {
 		switch(e.type) {
 			case "mouseover": this.panelMouseOver(e); break;
-			case "click":     this.panelClick(e);
+			case "click":     this.panelClick(e);     break;
+			case "popuphidden": this.panelHidden(e);
 		}
 	},
 
@@ -20,6 +21,7 @@ var downloadsPanel = {
 		_log("initPanel()");
 		popup.addEventListener("click", this, true);
 		popup.addEventListener("mouseover", this, false);
+		popup.addEventListener("popuphidden", this, false);
 		if(prefs.get("menuButtonBehavior"))
 			this.dpt.btn.menuPanelBehavior(popup, true);
 
@@ -103,6 +105,7 @@ var downloadsPanel = {
 		if(popup) {
 			popup.removeEventListener("click", this, true);
 			popup.removeEventListener("mouseover", this, false);
+			popup.removeEventListener("popuphidden", this, false);
 			// Note: following may be not needed, looks like we somehow cause XBL binding reattaching
 			force && this.restoreDlItemsTooltips(document, popup);
 		}
@@ -208,5 +211,10 @@ var downloadsPanel = {
 			return;
 		this.dpt.da.removeFromPanel(dlController, prefs.get("middleClickToRemoveFromPanel.clearHistory"));
 		this.dpt.stopEvent(e);
+	},
+
+	panelCloseTime: 0,
+	panelHidden: function(e) {
+		this.panelCloseTime = Date.now();
 	}
 };
