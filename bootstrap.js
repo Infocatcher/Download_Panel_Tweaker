@@ -125,6 +125,9 @@ var dpTweaker = {
 		if(this.handleClickEvent)
 			window.addEventListener("click", this, true);
 		window.addEventListener("popupshowing", this, false);
+		if(this.enableDlButtonTweaks) window.setTimeout(function() {
+			this.btn.tweakDlButton(window, true);
+		}.bind(this), 0);
 		window.setTimeout(function() {
 			this.setItemCountLimit(window, true);
 			var needUpdate = reason != WINDOW_LOADED;
@@ -137,15 +140,13 @@ var dpTweaker = {
 				this.showPausedDownloadsSummary(true);
 				needUpdate && this.updateDownloadsSummary(document, true);
 			}
-		}.bind(this), 0);
+		}.bind(this), 10);
 		window.setTimeout(function() {
 			if(prefs.get("dontRemoveFinishedDownloads"))
 				this.de.dontRemoveFinishedDownloads(true);
 			if(prefs.get("fixWrongTabsOnTopAttribute"))
 				this.setFixToolbox(window, true);
-			if(this.enableDlButtonTweaks)
-				this.btn.tweakDlButton(window, true);
-		}.bind(this), 0);
+		}.bind(this), 10);
 		window.setTimeout(function() {
 			this.loadStyles(true);
 		}.bind(this), 50);
