@@ -90,7 +90,7 @@ var downloadsActions = {
 		this.toggleDownloadPanel(window, false);
 		if(!this.dpt.dispatchAPIEvent(window, "ToggleDownloadSidebar")) {
 			_log("toggleDownloadsSidebar(): someone handle API event, do nothing");
-			return true;
+			return;
 		}
 		var document = window.document;
 		var sbItem = document.getElementById("menu_dmSidebar") // OmniSidebar
