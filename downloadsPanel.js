@@ -66,7 +66,8 @@ var downloadsPanel = {
 			clearDownloads2.id = this.clearDownloads2Id;
 			clearDownloads2.addEventListener("command", this.dpt, false);
 			footerContext.appendChild(clearDownloads2);
-			document.documentElement.appendChild(footerContext);
+			var popupSet = document.getElementById("mainPopupSet") || document.documentElement;
+			popupSet.appendChild(footerContext);
 			if(footer.hasAttribute("context"))
 				footer.setAttribute("downloadPanelTweaker-origContext", footer.getAttribute("context"));
 			footer.setAttribute("context", this.panelFooterContextId);
