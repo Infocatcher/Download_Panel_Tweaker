@@ -8,6 +8,7 @@
 ##### master/HEAD
 `+` Добавлена возможность не подсвечивать кнопку с новыми завершенными загрузками (по умолчанию отключено) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/23">#23</a>).<br>
 `+` Добавлена возможность открывать панель сразу после нажатия мыши на кнопке загрузок (как обычные меню) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/25">#25</a>).<br>
+`*` Улучшена производительность при запуске: код для модификаций панели загрузок перемещен в отдельный лениво загружаемый файл (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/26">#26</a>).<br>
 
 ##### 0.2.1 (2014-06-04)
 `+` Добавлена возможность удалять загрузки из панели кликом средней кнопкой мыши (по умолчанию отключено) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/9">#9</a>).<br>
