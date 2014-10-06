@@ -46,6 +46,9 @@ pref("extensions.downloadPanelTweaker.dontRemoveFinishedDownloads", true);
 // Additional tweaks for dontRemoveFinishedDownloads = true, only Firefox 26+
 pref("extensions.downloadPanelTweaker.downloadsMaxRetentionHours", 72); // 3*24
 // Store finished downloads at least this time (in hours)
+pref("extensions.downloadPanelTweaker.downloadsMinStoreThreshold", 4);
+// -1   - remove expired downloads
+// 0..N - always store at least "itemCountLimit + downloadsMinStoreThreshold"
 pref("extensions.downloadPanelTweaker.cleanupDownloadsOnShutdown", true);
 // Save current "session" downloads into %profile%/downloads.json on browser shutdown to perform cleanup
 // and correctly remove deleted (from UI) downloads, but this may break save process, if someone will

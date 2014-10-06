@@ -34,8 +34,29 @@ var downloadsEnhancements = {
 				if(download.hasPartialData || !download.succeeded)
 					return true;
 				var retentionHours = prefs.get("downloadsMaxRetentionHours");
-				return retentionHours > 0
-					&& download.startTime > (Date.now() - retentionHours*60*60*1000);
+				if(retentionHours <= 0)
+					return false;
+				var older = Date.now() - retentionHours*60*60*1000;
+				var minStore = prefs.get("downloadsMinStoreThreshold");
+				if(minStore >= 0)
+					minStore += prefs.get("itemCountLimit");
+				if(minStore > 0 && DownloadIntegration._store) try {
+					var dlArr = DownloadIntegration._store.list._downloads;
+					var dlCount = dlArr.length;
+					_dbgv && _log("DownloadIntegration._store.list._downloads.length: " + dlCount);
+					if(dlCount <= minStore)
+						return true;
+					// Assumed older...newest order
+					if(dlCount) {
+						var dlLeave = dlArr[Math.max(0, dlCount - 1 - minStore)].startTime;
+						if(dlLeave < older)
+							older = dlLeave;
+					}
+				}
+				catch(e) {
+					Components.utils.reportError(e);
+				}
+				return download.startTime > older;
 			};
 			if(store) {
 				_log(logPrefix + "Override DownloadStore.onsaveitem()");
