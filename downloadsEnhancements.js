@@ -46,11 +46,11 @@ var downloadsEnhancements = {
 					_dbgv && _log("DownloadIntegration._store.list._downloads.length: " + dlCount);
 					if(dlCount <= minStore)
 						return true;
-					// Assumed older...newest order
 					if(dlCount) {
-						var dlLeave = dlArr[Math.max(0, dlCount - 1 - minStore)].startTime;
-						if(dlLeave < older)
-							older = dlLeave;
+						// Assumed older...newest order
+						var leaveTime = dlArr[Math.max(0, dlCount - 1 - minStore)].startTime;
+						if(leaveTime < older)
+							older = leaveTime;
 					}
 				}
 				catch(e) {
