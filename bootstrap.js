@@ -269,6 +269,9 @@ var dpTweaker = {
 			var window = Services.wm.getMostRecentWindow(null);
 			if(window && "textDecorationStyle" in window.document.documentElement.style)
 				tdsPrefix = "";
+			var grayscaleFilter = this.fxVersion >= 36
+				? "grayscale(1)"
+				: 'url("chrome://mozapps/skin/extensions/extensions.svg#greyscale")';
 			var cssStr = '\
 				/* Download Panel Tweaker */\n\
 				@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");\n\
@@ -310,7 +313,7 @@ var dpTweaker = {
 					/* Paused downloads */\n\
 					.download-state[state="4"] .downloadProgress,\n\
 					#downloadsSummary[' + this.pausedAttr + '] .downloadProgress {\n\
-						filter: url("chrome://mozapps/skin/extensions/extensions.svg#greyscale");\n\
+						filter: ' + grayscaleFilter + ';\n\
 					}\n\
 					.download-state[state="4"] .downloadProgress > .progress-bar,\n\
 					.download-state[state="4"] .downloadProgress > .progress-remainder,\n\
