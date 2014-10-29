@@ -7,6 +7,7 @@
 
 ##### master/HEAD
 `+` Added ability to always leave last downloads in panel, even very old ones (<em>extensions.downloadPanelTweaker.downloadsMinStoreThreshold</em> preference) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/28">#28</a>).<br>
+`x` Fixed “Decolorize progress bar of paused downloads” option in Firefox 36+.<br>
 
 ##### 0.2.2 (2014-09-03)
 `+` Added ability to not highlight toolbar button with new finished downloads (disabled by default) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/23">#23</a>).<br>
