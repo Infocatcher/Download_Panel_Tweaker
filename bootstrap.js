@@ -73,7 +73,12 @@ var dpTweaker = {
 		) {
 			// Force save downloads.json to perform cleanup: due to optimizations (or bugs?)
 			// this may not happens after removing of "session" downloads
-			this.de.saveDownloads();
+			// Note: windows aren't closed yet, will wait for better performance
+			Services.obs.addObserver(function observer(subject, topic, data) {
+				// Following doesn't work (NS_ERROR_FAILURE) and isn't really needed on shutdown
+				//Services.obs.removeObserver(observer, topic);
+				this.de.saveDownloads();
+			}.bind(this), "profile-change-teardown", false);
 		}
 
 		for(var window in this.windows)
