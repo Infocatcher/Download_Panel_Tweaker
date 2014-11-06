@@ -8,6 +8,7 @@
 ##### master/HEAD
 `+` Добавлена возможность всегда сохранять последние загрузки в панели, даже если они очень старые (настройка <em>extensions.downloadPanelTweaker.downloadsMinStoreThreshold</em>) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/28">#28</a>).<br>
 `x` Исправлена настройка «Обесцвечивать полосу прогресса приостановленных загрузок» в Firefox 36+.<br>
+`*` Немного улучшена производительность при закрытии браузера при использовании настройки «Не удалять завершённые загрузки» (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/29">#29</a>).<br>
 
 ##### 0.2.2 (2014-09-03)
 `+` Добавлена возможность не подсвечивать кнопку с новыми завершенными загрузками (по умолчанию отключено) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/23">#23</a>).<br>
