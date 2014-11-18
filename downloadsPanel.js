@@ -205,6 +205,15 @@ var downloadsPanel = {
 	},
 
 	panelClick: function(e) {
+		// See chrome://browser/content/downloads/downloads.js, DownloadsView.onDownloadClick()
+		if(e.button == 0 && !e.originalTarget.hasAttribute("oncommand")) {
+			// => goDoCommand("downloadsCmd_open");
+			var window = e.target.ownerDocument.defaultView;
+			window.setTimeout(function() {
+				window.DownloadsPanel.showPanel();
+			}, prefs.get("reopenPanelAfterShowFile.delay"));
+		}
+
 		if(e.button != 1 || !prefs.get("middleClickToRemoveFromPanel"))
 			return;
 		var dlController = this.dpt.da.getDlController(e.target);
