@@ -208,8 +208,10 @@ var downloadsPanel = {
 		// See chrome://browser/content/downloads/downloads.js, DownloadsView.onDownloadClick()
 		if(e.button == 0 && !e.originalTarget.hasAttribute("oncommand")) {
 			// => goDoCommand("downloadsCmd_open");
-			var window = e.target.ownerDocument.defaultView;
-			this.reopenPanel(window);
+			if(prefs.get("reopenPanel.openFile")) {
+				var window = e.target.ownerDocument.defaultView;
+				this.reopenPanel(window);
+			}
 		}
 
 		if(e.button != 1 || !prefs.get("middleClickToRemoveFromPanel"))
