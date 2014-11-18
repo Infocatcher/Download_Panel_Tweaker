@@ -522,7 +522,8 @@ var dpTweaker = {
 		].some(function(pName) {
 			return prefs.get(pName)
 				|| prefs.get(pName + ".private");
-		});
+		})
+		|| prefs.get("reopenPanelAfterShowFile");
 	},
 	get handleClickEvent() {
 		return !!(
@@ -550,6 +551,8 @@ var dpTweaker = {
 		else if(e.target.id == "downloadsHistory")
 			this.downloadCommand(e, "overrideShowAllDownloads");
 		else if(e.target.id == "downloadsCmd_show") {
+			if(!prefs.get("reopenPanelAfterShowFile"))
+				return;
 			var window = e.target.ownerDocument.defaultView;
 			window.setTimeout(function() {
 				window.DownloadsPanel.showPanel();
@@ -750,7 +753,10 @@ var dpTweaker = {
 		}
 		else if(pName == "showFullPathInTooltip")
 			!pVal && this.dp.restoreAllDlItemsTooltips();
-		else if(pName.startsWith("override")) {
+		else if(
+			pName.startsWith("override")
+			|| pName == "reopenPanelAfterShowFile"
+		) {
 			var handleCommand = this.handleCommandEvent;
 			var handleClick = this.handleClickEvent;
 			_log(

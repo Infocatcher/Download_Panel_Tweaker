@@ -29,6 +29,8 @@ pref("extensions.downloadPanelTweaker.removeFile.removeFilesDirectoryForHTML", t
 pref("extensions.downloadPanelTweaker.removeFile.groupWithRemoveFromHistory", true);
 // Re-enable extension to apply changes!
 
+pref("extensions.downloadPanelTweaker.reopenPanelAfterShowFile", false);
+
 pref("extensions.downloadPanelTweaker.overrideDownloadsCommand", 0);
 pref("extensions.downloadPanelTweaker.overrideDownloadsCommand.private", 0);
 pref("extensions.downloadPanelTweaker.overrideDownloadsHotkey", 1);
