@@ -549,6 +549,12 @@ var dpTweaker = {
 		}
 		else if(e.target.id == "downloadsHistory")
 			this.downloadCommand(e, "overrideShowAllDownloads");
+		else if(e.target.id == "downloadsCmd_show") {
+			var window = e.target.ownerDocument.defaultView;
+			window.setTimeout(function() {
+				window.DownloadsPanel.showPanel();
+			}, 100);
+		}
 	},
 	handleClick: function(e) {
 		var trg = e.target;
