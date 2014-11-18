@@ -211,7 +211,7 @@ var downloadsPanel = {
 			var window = e.target.ownerDocument.defaultView;
 			window.setTimeout(function() {
 				window.DownloadsPanel.showPanel();
-			}, prefs.get("reopenPanelAfterShowFile.delay"));
+			}, prefs.get("reopenPanel.delay"));
 		}
 
 		if(e.button != 1 || !prefs.get("middleClickToRemoveFromPanel"))

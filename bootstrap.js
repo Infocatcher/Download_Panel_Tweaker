@@ -523,7 +523,7 @@ var dpTweaker = {
 			return prefs.get(pName)
 				|| prefs.get(pName + ".private");
 		})
-		|| prefs.get("reopenPanelAfterShowFile");
+		|| prefs.get("reopenPanel.openContainingFolder");
 	},
 	get handleClickEvent() {
 		return !!(
@@ -551,12 +551,12 @@ var dpTweaker = {
 		else if(e.target.id == "downloadsHistory")
 			this.downloadCommand(e, "overrideShowAllDownloads");
 		else if(e.target.id == "downloadsCmd_show") {
-			if(!prefs.get("reopenPanelAfterShowFile"))
+			if(!prefs.get("reopenPanel.openContainingFolder"))
 				return;
 			var window = e.target.ownerDocument.defaultView;
 			window.setTimeout(function() {
 				window.DownloadsPanel.showPanel();
-			}, prefs.get("reopenPanelAfterShowFile.delay"));
+			}, prefs.get("reopenPanel.delay"));
 		}
 	},
 	handleClick: function(e) {
@@ -755,7 +755,7 @@ var dpTweaker = {
 			!pVal && this.dp.restoreAllDlItemsTooltips();
 		else if(
 			pName.startsWith("override")
-			|| pName == "reopenPanelAfterShowFile"
+			|| pName == "reopenPanel.openContainingFolder"
 		) {
 			var handleCommand = this.handleCommandEvent;
 			var handleClick = this.handleClickEvent;
