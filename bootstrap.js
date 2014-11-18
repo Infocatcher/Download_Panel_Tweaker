@@ -551,12 +551,10 @@ var dpTweaker = {
 		else if(e.target.id == "downloadsHistory")
 			this.downloadCommand(e, "overrideShowAllDownloads");
 		else if(e.target.id == "downloadsCmd_show") {
-			if(!prefs.get("reopenPanel.openContainingFolder"))
-				return;
-			var window = e.target.ownerDocument.defaultView;
-			window.setTimeout(function() {
-				window.DownloadsPanel.showPanel();
-			}, prefs.get("reopenPanel.delay"));
+			if(prefs.get("reopenPanel.openContainingFolder")) {
+				var window = e.target.ownerDocument.defaultView;
+				this.dp.reopenPanel(window);
+			}
 		}
 	},
 	handleClick: function(e) {

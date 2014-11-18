@@ -209,9 +209,7 @@ var downloadsPanel = {
 		if(e.button == 0 && !e.originalTarget.hasAttribute("oncommand")) {
 			// => goDoCommand("downloadsCmd_open");
 			var window = e.target.ownerDocument.defaultView;
-			window.setTimeout(function() {
-				window.DownloadsPanel.showPanel();
-			}, prefs.get("reopenPanel.delay"));
+			this.reopenPanel(window);
 		}
 
 		if(e.button != 1 || !prefs.get("middleClickToRemoveFromPanel"))
@@ -221,6 +219,11 @@ var downloadsPanel = {
 			return;
 		this.dpt.da.removeFromPanel(dlController, prefs.get("middleClickToRemoveFromPanel.clearHistory"));
 		this.dpt.stopEvent(e);
+	},
+	reopenPanel: function(window) {
+		window.setTimeout(function() {
+			window.DownloadsPanel.showPanel();
+		}, prefs.get("reopenPanel.delay"));
 	},
 
 	panelCloseTime: 0,
