@@ -30,6 +30,7 @@ pref("extensions.downloadPanelTweaker.removeFile.groupWithRemoveFromHistory", tr
 // Re-enable extension to apply changes!
 
 pref("extensions.downloadPanelTweaker.reopenPanelAfterShowFile", false);
+pref("extensions.downloadPanelTweaker.reopenPanelAfterShowFile.delay", 100);
 
 pref("extensions.downloadPanelTweaker.overrideDownloadsCommand", 0);
 pref("extensions.downloadPanelTweaker.overrideDownloadsCommand.private", 0);

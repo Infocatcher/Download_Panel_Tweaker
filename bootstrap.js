@@ -556,7 +556,7 @@ var dpTweaker = {
 			var window = e.target.ownerDocument.defaultView;
 			window.setTimeout(function() {
 				window.DownloadsPanel.showPanel();
-			}, 100);
+			}, prefs.get("reopenPanelAfterShowFile.delay"));
 		}
 	},
 	handleClick: function(e) {
