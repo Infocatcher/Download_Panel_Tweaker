@@ -206,12 +206,17 @@ var downloadsPanel = {
 
 	panelClick: function(e) {
 		// See chrome://browser/content/downloads/downloads.js, DownloadsView.onDownloadClick()
-		if(e.button == 0 && !e.originalTarget.hasAttribute("oncommand")) {
-			// => goDoCommand("downloadsCmd_open");
-			if(prefs.get("reopenPanel.openFile")) {
-				var window = e.target.ownerDocument.defaultView;
-				this.reopenPanel(window);
-			}
+		if(
+			e.button == 0 && (
+				!e.originalTarget.hasAttribute("oncommand") // => goDoCommand("downloadsCmd_open")
+					&& prefs.get("reopenPanel.openFile")
+				|| e.originalTarget.classList.contains("downloadButton")
+					&& e.originalTarget.classList.contains("downloadShow")
+					&& prefs.get("reopenPanel.openContainingFolder")
+			)
+		) {
+			var window = e.target.ownerDocument.defaultView;
+			this.reopenPanel(window);
 		}
 
 		if(e.button != 1 || !prefs.get("middleClickToRemoveFromPanel"))
