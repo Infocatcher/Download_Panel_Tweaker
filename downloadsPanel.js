@@ -209,6 +209,7 @@ var downloadsPanel = {
 		if(
 			e.button == 0 && (
 				!e.originalTarget.hasAttribute("oncommand") // => goDoCommand("downloadsCmd_open")
+					&& this.dpt.da.getDlNode(e.originalTarget)
 					&& prefs.get("reopenPanel.openFile")
 				|| e.originalTarget.classList.contains("downloadButton")
 					&& e.originalTarget.classList.contains("downloadShow")
