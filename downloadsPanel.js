@@ -217,8 +217,7 @@ var downloadsPanel = {
 					&& prefs.get("reopenPanel.openContainingFolder")
 			)
 		) {
-			var window = e.target.ownerDocument.defaultView;
-			this.reopenPanel(window);
+			this.reopenPanel(e.view);
 		}
 
 		if(e.button != 1 || !prefs.get("middleClickToRemoveFromPanel"))
