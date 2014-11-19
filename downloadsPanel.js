@@ -205,14 +205,15 @@ var downloadsPanel = {
 	},
 
 	panelClick: function(e) {
+		var trg = e.originalTarget;
 		// See chrome://browser/content/downloads/downloads.js, DownloadsView.onDownloadClick()
 		if(
 			e.button == 0 && (
-				!e.originalTarget.hasAttribute("oncommand") // => goDoCommand("downloadsCmd_open")
-					&& this.dpt.da.getDlNode(e.originalTarget)
+				!trg.hasAttribute("oncommand") // => goDoCommand("downloadsCmd_open")
+					&& this.dpt.da.getDlNode(trg)
 					&& prefs.get("reopenPanel.openFile")
-				|| e.originalTarget.classList.contains("downloadButton")
-					&& e.originalTarget.classList.contains("downloadShow")
+				|| trg.classList.contains("downloadButton")
+					&& trg.classList.contains("downloadShow")
 					&& prefs.get("reopenPanel.openContainingFolder")
 			)
 		) {
