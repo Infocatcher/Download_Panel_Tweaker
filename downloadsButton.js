@@ -193,10 +193,13 @@ var downloadsButton = {
 				return;
 			var hasCmdListener = this.evtSvc.hasListenersFor(trg, "command");
 			_log(e.type + " in #" + panel.id + " => " + (hasCmdListener ? "doCommand()" : "click()"));
-			if(hasCmdListener)
+			if(hasCmdListener) {
 				trg.doCommand();
-			else
+				this.dpt.dp.panelClick(e);
+			}
+			else {
 				trg.click();
+			}
 		}.bind(this), 0);
 	},
 	getButtonFromChild: function(child) {
