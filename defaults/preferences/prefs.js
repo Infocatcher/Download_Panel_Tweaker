@@ -31,7 +31,8 @@ pref("extensions.downloadPanelTweaker.removeFile.groupWithRemoveFromHistory", tr
 
 pref("extensions.downloadPanelTweaker.reopenPanel.openContainingFolder", false);
 pref("extensions.downloadPanelTweaker.reopenPanel.openFile", false);
-pref("extensions.downloadPanelTweaker.reopenPanel.delay", 100);
+pref("extensions.downloadPanelTweaker.reopenPanel.delay", 60);
+pref("extensions.downloadPanelTweaker.reopenPanel.delayFallback", 150);
 
 pref("extensions.downloadPanelTweaker.overrideDownloadsCommand", 0);
 pref("extensions.downloadPanelTweaker.overrideDownloadsCommand.private", 0);

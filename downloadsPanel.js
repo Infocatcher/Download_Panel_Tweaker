@@ -230,7 +230,12 @@ var downloadsPanel = {
 	},
 	reopenPanel: function(window) {
 		window.setTimeout(function() {
-			window.DownloadsPanel.showPanel();
+			var stopTime = Date.now() + prefs.get("reopenPanel.delayFallback");
+			var timer = window.setInterval(function() {
+				window.DownloadsPanel.showPanel();
+				if(Date.now() > stopTime)
+					window.clearTimeout(timer);
+			}, 10);
 		}, prefs.get("reopenPanel.delay"));
 	},
 
