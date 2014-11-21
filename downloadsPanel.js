@@ -205,21 +205,8 @@ var downloadsPanel = {
 	},
 
 	panelClick: function(e) {
-		var trg = e.originalTarget;
-		// See chrome://browser/content/downloads/downloads.js, DownloadsView.onDownloadClick()
-		if(
-			e.button == 0 && (
-				!trg.hasAttribute("oncommand") // => goDoCommand("downloadsCmd_open")
-					&& this.dpt.da.getDlNode(trg)
-					&& prefs.get("reopenPanel.openFile")
-				|| trg.classList.contains("downloadButton")
-					&& trg.classList.contains("downloadShow")
-					&& prefs.get("reopenPanel.openContainingFolder")
-			)
-		) {
-			this.reopenPanel(e.view);
-		}
-
+		if(e.button == 0)
+			this.checkForReopenPanel(e);
 		if(e.button != 1 || !prefs.get("middleClickToRemoveFromPanel"))
 			return;
 		var dlController = this.dpt.da.getDlController(e.target);
@@ -227,6 +214,20 @@ var downloadsPanel = {
 			return;
 		this.dpt.da.removeFromPanel(dlController, prefs.get("middleClickToRemoveFromPanel.clearHistory"));
 		this.dpt.stopEvent(e);
+	},
+	checkForReopenPanel: function(e) {
+		var trg = e.originalTarget;
+		if(
+			// See chrome://browser/content/downloads/downloads.js, DownloadsView.onDownloadClick()
+			!trg.hasAttribute("oncommand") // => goDoCommand("downloadsCmd_open")
+				&& this.dpt.da.getDlNode(trg)
+				&& prefs.get("reopenPanel.openFile")
+			|| trg.classList.contains("downloadButton")
+				&& trg.classList.contains("downloadShow")
+				&& prefs.get("reopenPanel.openContainingFolder")
+		) {
+			this.reopenPanel(e.view);
+		}
 	},
 	reopenPanel: function(window) {
 		window.setTimeout(function() {
