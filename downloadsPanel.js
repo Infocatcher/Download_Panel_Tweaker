@@ -207,17 +207,8 @@ var downloadsPanel = {
 	panelClick: function(e) {
 		if(e.button == 0)
 			this.checkForReopenPanel(e);
-		if(e.button != 1)
-			return;
-		if(this.checkForFooterClick(e))
-			return;
-		if(!prefs.get("middleClickToRemoveFromPanel"))
-			return;
-		var dlController = this.dpt.da.getDlController(e.target);
-		if(!dlController)
-			return;
-		this.dpt.da.removeFromPanel(dlController, prefs.get("middleClickToRemoveFromPanel.clearHistory"));
-		this.dpt.stopEvent(e);
+		else if(e.button == 1)
+			this.checkForFooterClick(e) || this.checkForDlClick(e);
 	},
 	checkForReopenPanel: function(e) {
 		var trg = e.originalTarget;
@@ -243,6 +234,16 @@ var downloadsPanel = {
 			}
 		}
 		return false;
+	},
+	checkForDlClick: function(e) {
+		if(!prefs.get("middleClickToRemoveFromPanel"))
+			return false;
+		var dlController = this.dpt.da.getDlController(e.target);
+		if(!dlController)
+			return false;
+		this.dpt.da.removeFromPanel(dlController, prefs.get("middleClickToRemoveFromPanel.clearHistory"));
+		this.dpt.stopEvent(e);
+		return true;
 	},
 	reopenPanel: function(window) {
 		window.setTimeout(function() {
