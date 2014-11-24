@@ -221,6 +221,7 @@ var downloadsPanel = {
 				&& trg.classList.contains("downloadShow")
 				&& prefs.get("reopenPanel.openContainingFolder")
 		) {
+			_log("checkForReopenPanel() -> reopenPanel()");
 			this.reopenPanel(e.view);
 		}
 	},
@@ -228,6 +229,7 @@ var downloadsPanel = {
 		var dlPopup = e.currentTarget;
 		for(var node = e.target; node && node != dlPopup; node = node.parentNode) {
 			if(node.id == "downloadsFooter") {
+				_log("checkForFooterClick() -> hidePopup()");
 				this.dpt.stopEvent(e);
 				dlPopup.hidePopup();
 				return true;
