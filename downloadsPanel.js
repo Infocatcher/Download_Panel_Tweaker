@@ -164,7 +164,7 @@ var downloadsPanel = {
 			|| !prefs.get("showFullPathInTooltip")
 		)
 			return;
-		var window = trg.ownerDocument.defaultView;
+		var window = e.view;
 		window.setTimeout(function() {
 			this.updateDlItemTooltip(trg);
 		}.bind(this), 0);

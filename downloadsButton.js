@@ -158,7 +158,7 @@ var downloadsButton = {
 			return;
 		var trg = e.originalTarget;
 		var panel = e.currentTarget;
-		var window = panel.ownerDocument.defaultView;
+		var window = e.view;
 		var anchor = panel.anchorNode;
 		if(anchor) {
 			var btn = this.getButtonFromChild(anchor) || anchor;
