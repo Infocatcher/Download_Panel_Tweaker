@@ -6,6 +6,7 @@ var downloadsPanel = {
 		switch(e.type) {
 			case "mouseover":   this.panelMouseOver(e); break;
 			case "click":       this.panelClick(e);     break;
+			case "keypress":    this.panelKeyPress(e);  break;
 			case "popuphidden": this.panelHidden(e);
 		}
 	},
@@ -20,6 +21,7 @@ var downloadsPanel = {
 	initPanel: function(document, popup) {
 		_log("initPanel()");
 		popup.addEventListener("click", this, true);
+		popup.addEventListener("keypress", this, true);
 		popup.addEventListener("mouseover", this, false);
 		popup.addEventListener("popuphidden", this, false);
 		if(prefs.get("menuButtonBehavior"))
@@ -105,6 +107,7 @@ var downloadsPanel = {
 		var popup = document.getElementById("downloadsPanel");
 		if(popup) {
 			popup.removeEventListener("click", this, true);
+			popup.removeEventListener("keypress", this, true);
 			popup.removeEventListener("mouseover", this, false);
 			popup.removeEventListener("popuphidden", this, false);
 			// Note: following may be not needed, looks like we somehow cause XBL binding reattaching
@@ -209,6 +212,22 @@ var downloadsPanel = {
 			this.checkForReopenPanel(e);
 		else if(e.button == 1)
 			this.checkForFooterClick(e) || this.checkForDlClick(e);
+	},
+	panelKeyPress: function(e) {
+		// See chrome://browser/content/downloads/downloads.js, DownloadsView.onDownloadKeyPress()
+		var trg = e.originalTarget;
+		var window = e.view;
+		if(
+			!trg.hasAttribute("command")
+			&& !trg.hasAttribute("oncommand")
+			&& e.keyCode == e.DOM_VK_RETURN
+			&& window.document.activeElement // See DownloadsPanel._onKeyPress()
+			&& window.document.activeElement.id == "downloadsListBox"
+			&& prefs.get("reopenPanel.openFile")
+		) {
+			_log("panelKeyPress() -> reopenPanel()");
+			this.reopenPanel(window);
+		}
 	},
 	checkForReopenPanel: function(e) {
 		var trg = e.originalTarget;
