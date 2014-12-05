@@ -201,7 +201,7 @@ var dpTweaker = {
 	get dp()  { return this.lazy("dp",  "downloadsPanel");        },
 	get btn() { return this.lazy("btn", "downloadsButton");       },
 	lazy: function(prop, name) {
-		_log("Load " + name + ".js");
+		_log("Load " + name + ".js" + (_dbgv ? "\n" + new Error().stack : ""));
 		Services.scriptloader.loadSubScript("chrome://downloadpaneltweaker/content/" + name + ".js", global, "UTF-8");
 		delete this[prop];
 		return this[prop] = global[name];
