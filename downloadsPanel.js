@@ -211,7 +211,7 @@ var downloadsPanel = {
 		if(e.button == 0)
 			this.checkForReopenPanel(e);
 		else if(e.button == 1)
-			this.checkForFooterClick(e) || this.checkForDlClick(e);
+			this.checkForClosePanel(e) || this.checkForDlClick(e);
 	},
 	panelKeyPress: function(e) {
 		// See chrome://browser/content/downloads/downloads.js, DownloadsView.onDownloadKeyPress()
@@ -244,15 +244,20 @@ var downloadsPanel = {
 			this.reopenPanel(e.view);
 		}
 	},
-	checkForFooterClick: function(e) {
+	checkForClosePanel: function(e) {
 		var dlPopup = e.currentTarget;
-		for(var node = e.target; node && node != dlPopup; node = node.parentNode) {
-			if(node.id == "downloadsFooter") {
-				_log("checkForFooterClick() -> hidePopup()");
+		for(var node = e.target; node; node = node.parentNode) {
+			if(
+				node == dlPopup && !prefs.get("middleClickToRemoveFromPanel")
+				|| node.id == "downloadsFooter"
+			) {
+				_log("checkForClosePanel() -> hidePopup()");
 				this.dpt.stopEvent(e);
 				dlPopup.hidePopup();
 				return true;
 			}
+			if(node == dlPopup)
+				break;
 		}
 		return false;
 	},
