@@ -552,7 +552,7 @@ var dpTweaker = {
 
 	prefChanged: function(pName, pVal) {
 		if(pName == "compactDownloads")
-			this.loadCompactStyle(pVal);
+			this.stl.loadCompactStyle(pVal);
 		else if(pName == "showDownloadRate") {
 			this.showDownloadRate(pVal);
 			for(var window in this.windows)
