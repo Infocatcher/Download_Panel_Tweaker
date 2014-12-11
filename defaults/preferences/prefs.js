@@ -34,6 +34,9 @@ pref("extensions.downloadPanelTweaker.reopenPanel.openFile", false);
 pref("extensions.downloadPanelTweaker.reopenPanel.delay", 60);
 pref("extensions.downloadPanelTweaker.reopenPanel.delayFallback", 150);
 
+pref("extensions.downloadPanelTweaker.middleClickToClosePanel", true);
+// Note: with middleClickToRemoveFromPanel = true works only for panel footer
+
 pref("extensions.downloadPanelTweaker.overrideDownloadsCommand", 0);
 pref("extensions.downloadPanelTweaker.overrideDownloadsCommand.private", 0);
 pref("extensions.downloadPanelTweaker.overrideDownloadsHotkey", 1);

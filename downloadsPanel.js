@@ -245,6 +245,8 @@ var downloadsPanel = {
 		}
 	},
 	checkForClosePanel: function(e) {
+		if(!prefs.get("middleClickToClosePanel"))
+			return false;
 		var dlPopup = e.currentTarget;
 		for(var node = e.target; node; node = node.parentNode) {
 			if(
