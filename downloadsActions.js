@@ -18,7 +18,11 @@ var downloadsActions = {
 		}
 		if(
 			"PrivateBrowsingUtils" in window
-			&& window.PrivateBrowsingUtils.isWindowPrivate(window.content)
+			&& window.PrivateBrowsingUtils.isWindowPrivate(
+				window.content
+				|| window.gBrowser.selectedBrowser.contentWindow
+				|| window.gBrowser.selectedBrowser.contentWindowAsCPOW
+			)
 		) {
 			_log("showDownloadWindow(): private downloads aren't supported");
 			return false;
@@ -53,14 +57,21 @@ var downloadsActions = {
 		var gBrowser = window.gBrowser;
 		// We need to check private state for Private Tab extension
 		var pbu = "PrivateBrowsingUtils" in window && window.PrivateBrowsingUtils;
-		var isPrivate = pbu && pbu.isWindowPrivate(window.content);
+		var isPrivate = pbu && pbu.isWindowPrivate(
+			window.content
+			|| gBrowser.selectedBrowser.contentWindow
+			|| gBrowser.selectedBrowser.contentWindowAsCPOW
+		);
 		if(!Array.some(gBrowser.visibleTabs || gBrowser.tabs, function(tab) {
 			var browser = tab.linkedBrowser;
 			if(
 				browser
 				&& browser.currentURI
 				&& browser.currentURI.spec == downloadsURI
-				&& isPrivate == (pbu && pbu.isWindowPrivate(browser.contentWindow))
+				&& isPrivate == (pbu && pbu.isWindowPrivate(
+					browser.contentWindow
+					|| browser.contentWindowAsCPOW
+				))
 			) {
 				gBrowser.selectedTab = tab;
 				return true;

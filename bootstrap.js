@@ -406,7 +406,11 @@ var dpTweaker = {
 	downloadCommand: function(e, prefName) {
 		var window = e.currentTarget;
 		var isPrivate = "PrivateBrowsingUtils" in window
-			&& window.PrivateBrowsingUtils.isWindowPrivate(window.content);
+			&& window.PrivateBrowsingUtils.isWindowPrivate(
+				window.content
+				|| window.gBrowser.selectedBrowser.contentWindow
+				|| window.gBrowser.selectedBrowser.contentWindowAsCPOW
+			);
 		if(isPrivate)
 			prefName += ".private";
 		var cmd = prefs.get(prefName);
