@@ -175,6 +175,8 @@ var downloadsActions = {
 		var clipHelper = Components.classes["@mozilla.org/widget/clipboardhelper;1"]
 			.getService(Components.interfaces.nsIClipboardHelper);
 		try {
+			// Note: looks like gBrowser.selectedBrowser.contentWindowAsCPOW.document
+			// doesn't work here as expected
 			var contentDoc = document.defaultView.content.document; // For Private Tab extension
 			clipHelper.copyString(dlController.dataItem.referrer, contentDoc);
 		}
