@@ -341,12 +341,11 @@ var downloadsActions = {
 	getDlNode: function(node) {
 		for(; node; node = node.parentNode) {
 			var ln = node.localName;
+			if(ln == "panel")
+				break;
 			if(ln == "richlistitem") {
 				if(node.getAttribute("type") == "download")
 					return node;
-				break;
-			}
-			else if(ln == "panel") {
 				break;
 			}
 		}
