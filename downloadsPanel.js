@@ -274,22 +274,23 @@ var downloadsPanel = {
 		this.dpt.stopEvent(e);
 		return true;
 	},
-	_reopenPanelTimer: 0,
 	reopenPanel: function(window) {
 		this.cancelReopenPanel(window);
-		this._reopenPanelTimer = window.setTimeout(function() {
+		var DownloadsPanel = window.DownloadsPanel;
+		DownloadsPanel._dptReopenPanelTimer = window.setTimeout(function() {
 			var stopTime = Date.now() + prefs.get("reopenPanel.delayFallback");
-			this._reopenPanelTimer = window.setInterval(function() {
+			DownloadsPanel._dptReopenPanelTimer = window.setInterval(function() {
 				if(Date.now() > stopTime)
 					this.cancelReopenPanel(window);
-				window.DownloadsPanel.showPanel();
+				DownloadsPanel.showPanel();
 			}.bind(this), 10);
 		}.bind(this), prefs.get("reopenPanel.delay"));
 	},
 	cancelReopenPanel: function(window) {
-		var timer = this._reopenPanelTimer;
+		var DownloadsPanel = window.DownloadsPanel;
+		var timer = DownloadsPanel._dptReopenPanelTimer || 0;
 		if(timer) {
-			this._reopenPanelTimer = 0;
+			delete DownloadsPanel._dptReopenPanelTimer;
 			window.clearTimeout(timer);
 			window.clearInterval(timer);
 		}
