@@ -279,7 +279,7 @@ var downloadsPanel = {
 			var timer = window.setInterval(function() {
 				window.DownloadsPanel.showPanel();
 				if(Date.now() > stopTime)
-					window.clearTimeout(timer);
+					window.clearInterval(timer);
 			}, 10);
 		}, prefs.get("reopenPanel.delay"));
 	},
