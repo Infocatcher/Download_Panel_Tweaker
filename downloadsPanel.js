@@ -276,6 +276,7 @@ var downloadsPanel = {
 	},
 	_reopenPanelTimer: 0,
 	reopenPanel: function(window) {
+		this.cancelReopenPanel(window);
 		this._reopenPanelTimer = window.setTimeout(function() {
 			var stopTime = Date.now() + prefs.get("reopenPanel.delayFallback");
 			this._reopenPanelTimer = window.setInterval(function() {
