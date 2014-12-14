@@ -280,9 +280,9 @@ var downloadsPanel = {
 		this._reopenPanelTimer = window.setTimeout(function() {
 			var stopTime = Date.now() + prefs.get("reopenPanel.delayFallback");
 			this._reopenPanelTimer = window.setInterval(function() {
-				window.DownloadsPanel.showPanel();
 				if(Date.now() > stopTime)
 					this.cancelReopenPanel(window);
+				window.DownloadsPanel.showPanel();
 			}.bind(this), 10);
 		}.bind(this), prefs.get("reopenPanel.delay"));
 	},
