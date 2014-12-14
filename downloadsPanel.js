@@ -255,6 +255,7 @@ var downloadsPanel = {
 			) {
 				_log("checkForClosePanel() -> hidePopup()");
 				this.dpt.stopEvent(e);
+				this.cancelReopenPanel(e.view);
 				dlPopup.hidePopup();
 				return true;
 			}
@@ -273,15 +274,24 @@ var downloadsPanel = {
 		this.dpt.stopEvent(e);
 		return true;
 	},
+	_reopenPanelTimer: 0,
 	reopenPanel: function(window) {
-		window.setTimeout(function() {
+		this._reopenPanelTimer = window.setTimeout(function() {
 			var stopTime = Date.now() + prefs.get("reopenPanel.delayFallback");
-			var timer = window.setInterval(function() {
+			this._reopenPanelTimer = window.setInterval(function() {
 				window.DownloadsPanel.showPanel();
 				if(Date.now() > stopTime)
-					window.clearInterval(timer);
-			}, 10);
-		}, prefs.get("reopenPanel.delay"));
+					this.cancelReopenPanel(window);
+			}.bind(this), 10);
+		}.bind(this), prefs.get("reopenPanel.delay"));
+	},
+	cancelReopenPanel: function(window) {
+		var timer = this._reopenPanelTimer;
+		if(timer) {
+			this._reopenPanelTimer = 0;
+			window.clearTimeout(timer);
+			window.clearInterval(timer);
+		}
 	},
 
 	panelCloseTime: 0,
