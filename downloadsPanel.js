@@ -7,7 +7,8 @@ var downloadsPanel = {
 			case "mouseover":   this.panelMouseOver(e); break;
 			case "click":       this.panelClick(e);     break;
 			case "keypress":    this.panelKeyPress(e);  break;
-			case "popuphidden": this.panelHidden(e);
+			case "popuphidden": this.panelHidden(e);    break;
+			case "mousedown":   this.windowMouseDown(e);
 		}
 	},
 
@@ -285,6 +286,7 @@ var downloadsPanel = {
 				DownloadsPanel.showPanel();
 			}.bind(this), 10);
 		}.bind(this), prefs.get("reopenPanel.delay"));
+		window.addEventListener("mousedown", this, true);
 	},
 	cancelReopenPanel: function(window) {
 		var DownloadsPanel = window.DownloadsPanel;
@@ -293,7 +295,12 @@ var downloadsPanel = {
 			delete DownloadsPanel._dptReopenPanelTimer;
 			window.clearTimeout(timer);
 			window.clearInterval(timer);
+			window.removeEventListener("mousedown", this, true);
 		}
+	},
+	windowMouseDown: function(e) {
+		_log(e.type + " -> cancelReopenPanel()");
+		this.cancelReopenPanel(e.currentTarget);
 	},
 
 	panelCloseTime: 0,
