@@ -61,7 +61,7 @@ var downloadsPanel = {
 		removeFileSep.setAttribute("downloadPanelTweaker-command", "<nothing>");
 
 		var footer = document.getElementById("downloadsFooter")
-			|| document.getElementById("downloadsHistory"); // Firefox < 20
+			|| document.getElementById("downloadsHistory"); // Firefox 19 and older
 		if(footer) {
 			var footerContext = document.createElement("menupopup");
 			footerContext.id = this.panelFooterContextId;
@@ -134,7 +134,7 @@ var downloadsPanel = {
 			}
 		}
 		var footer = document.getElementById("downloadsFooter")
-			|| document.getElementById("downloadsHistory"); // Firefox < 20
+			|| document.getElementById("downloadsHistory"); // Firefox 19 and older
 		if(footer) {
 			if(footer.hasAttribute("downloadPanelTweaker-origContext"))
 				footer.setAttribute("context", footer.getAttribute("downloadPanelTweaker-origContext"));

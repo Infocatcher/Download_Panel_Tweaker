@@ -78,7 +78,7 @@ var downloadsStyles = {
 					url("about:downloads"),\n\
 					url("chrome://browser/content/downloads/contentAreaDownloadsView.xul") {\n\
 					#downloadsListBox {\n\
-						/* Set width for Firefox < 20 and NASA Night Launch theme */\n\
+						/* Set width for Firefox 19 and older and NASA Night Launch theme */\n\
 						width: auto !important;\n\
 						min-width: 0 !important;\n\
 						max-width: none !important;\n\

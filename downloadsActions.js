@@ -146,7 +146,7 @@ var downloadsActions = {
 			downloads.canCleanUp && downloads.cleanUp();
 			downloads.canCleanUpPrivate && downloads.cleanUpPrivate();
 		}
-		catch(e) { // Firefox 26.0a1
+		catch(e) { // Firefox 26+
 			_log("clearDownloads(): Services.downloads.cleanUp/cleanUpPrivate() failed:\n" + e);
 			try {
 				var global = Components.utils.import("resource://app/modules/DownloadsCommon.jsm", {});
@@ -229,7 +229,7 @@ var downloadsActions = {
 				_log("removeFile(): HTML _files directory: " + filesPath);
 			}
 		}
-		catch(e) { // Firefox 17, Firefox < 27 without OS.File.removeDir()
+		catch(e) { // Firefox 17, Firefox 26 and older without OS.File.removeDir()
 			var msg = e.message || e;
 			if(
 				msg != "osfile.jsm cannot be used from the main thread yet"

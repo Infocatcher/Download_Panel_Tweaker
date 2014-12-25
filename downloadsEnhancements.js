@@ -121,7 +121,7 @@ var downloadsEnhancements = {
 				&& Date.now() - this.endTime < 300
 				&& dl.startTime
 			) {
-				var time = dl.endTime // Missing for now in Firefox 29.0a1 (2014-01-06)
+				var time = dl.endTime // Missing for now in Firefox 37.0a1 (2014-12-25)
 					|| dl.startTime;
 				var ts = new Date(time).getTime();
 				if(ts > 0) {
