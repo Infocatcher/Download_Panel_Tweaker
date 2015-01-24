@@ -43,14 +43,16 @@ var downloadsEnhancements = {
 				if(minStore > 0 && DownloadIntegration._store) try {
 					var dlArr = DownloadIntegration._store.list._downloads;
 					var dlCount = dlArr.length;
-					_dbgv && _log("DownloadIntegration._store.list._downloads.length: " + dlCount);
+					_dbgv && _log("DownloadIntegration._store.list._downloads.length: " + dlCount + ", min store: " + minStore);
 					if(dlCount <= minStore)
 						return true;
 					if(dlCount) {
 						// Assumed older...newest order
 						var leaveTime = dlArr[Math.max(0, dlCount - 1 - minStore)].startTime;
-						if(leaveTime < older)
+						if(leaveTime < older) {
 							older = leaveTime;
+							_dbgv && _log("Override leave time to " + leaveTime);
+						}
 					}
 				}
 				catch(e) {
