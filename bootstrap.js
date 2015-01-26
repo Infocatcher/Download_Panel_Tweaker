@@ -370,26 +370,27 @@ var dpTweaker = {
 	},
 	handleCommand: function(e) {
 		var curTrg = e.currentTarget;
+		var trg = e.target;
 		if(curTrg.getAttribute && curTrg.hasAttribute("downloadPanelTweaker-command")) {
 			var cmd = curTrg.getAttribute("downloadPanelTweaker-command");
 			if(cmd == "clearDownloads")
-				this.da.clearDownloads(e.target);
+				this.da.clearDownloads(trg);
 			else if(cmd == "copyReferrer")
-				this.da.copyReferrer(e.target);
+				this.da.copyReferrer(trg);
 			else if(cmd == "removeFile")
-				this.da.removeFile(e.target);
+				this.da.removeFile(trg);
 		}
-		else if(e.target.id == "Tools:Downloads") {
+		else if(trg.id == "Tools:Downloads") {
 			if(e.sourceEvent && e.sourceEvent.target.nodeName != "key")
 				this.downloadCommand(e, "overrideDownloadsCommand");
 			else
 				this.downloadCommand(e, "overrideDownloadsHotkey");
 		}
-		else if(e.target.id == "downloadsHistory")
+		else if(trg.id == "downloadsHistory")
 			this.downloadCommand(e, "overrideShowAllDownloads");
-		else if(e.target.id == "downloadsCmd_show") {
+		else if(trg.id == "downloadsCmd_show") {
 			if(prefs.get("reopenPanel.openContainingFolder")) {
-				_log(e.type + " #" + e.target.id + " => reopenPanel()");
+				_log(e.type + " #" + trg.id + " => reopenPanel()");
 				this.dp.reopenPanel(e.view);
 			}
 		}
