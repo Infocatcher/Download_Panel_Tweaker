@@ -356,6 +356,11 @@ var downloadsActions = {
 		if(!dlItem)
 			return null;
 		var window = dlItem.ownerDocument.defaultView;
+		if(
+			"DownloadsView" in window
+			&& "controllerForElement" in window.DownloadsView // Firefox 38+
+		)
+			return window.DownloadsView.controllerForElement(dlItem);
 		return new window.DownloadsViewItemController(dlItem);
 	},
 	getDataItemPath: function(dataItem) {
