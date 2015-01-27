@@ -179,7 +179,7 @@ var dpTweaker = {
 				this.updateDownloadsSummary(document, false);
 		}
 		if(prefs.get("fixWrongTabsOnTopAttribute"))
-			this.setFixToolbox(window, false);
+			this.setFixToolbox(window, false, force);
 		if(this.enableDlButtonTweaks)
 			this.btn.tweakDlButton(window, false, force);
 	},
@@ -463,7 +463,7 @@ var dpTweaker = {
 			this.da.updateDownloadsContextMenu(popup);
 	},
 
-	setFixToolbox: function(window, enable) {
+	setFixToolbox: function(window, enable, force) {
 		var document = window.document;
 		var tb = document.getElementById("navigator-toolbox");
 		var key = "_downloadPanelTweaker_mutationObserverTabsOnTop";
@@ -490,7 +490,7 @@ var dpTweaker = {
 			var mo = tb[key];
 			delete tb[key];
 			mo.disconnect();
-			if(tb.hasAttribute("_downloadPanelTweaker_tabsontop")) {
+			if(force && tb.hasAttribute("_downloadPanelTweaker_tabsontop")) {
 				tb.setAttribute("tabsontop", tb.getAttribute("_downloadPanelTweaker_tabsontop"));
 				tb.removeAttribute("_downloadPanelTweaker_tabsontop")
 			}
@@ -626,7 +626,7 @@ var dpTweaker = {
 			this.de.fixLoadDownloads(pVal && prefs.get("dontRemoveFinishedDownloads"));
 		else if(pName == "fixWrongTabsOnTopAttribute") {
 			for(var window in this.windows)
-				this.setFixToolbox(window, pVal);
+				this.setFixToolbox(window, pVal, true);
 		}
 		else if(
 			pName == "dontHighlightButton"
