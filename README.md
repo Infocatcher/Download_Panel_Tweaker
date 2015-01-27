@@ -57,7 +57,10 @@ Additional tweaks can be done using following style (but `[downloadPanelTweaker_
 	/* Paused downloads */
 	.download-state[state="4"] .downloadProgress,
 	#downloadsSummary[downloadPanelTweaker_paused] .downloadProgress {
+		/* Firefox 35 and older */
 		filter: url("chrome://mozapps/skin/extensions/extensions.svg#greyscale");
+		/* Firefox 36+ */
+		filter: grayscale(1);
 	}
 	.download-state[state="4"] .downloadProgress > .progress-bar,
 	.download-state[state="4"] .downloadProgress > .progress-remainder,
