@@ -248,7 +248,7 @@ var downloadsActions = {
 				localFile.remove(false);
 			if(clearHistory)
 				this.removeFromPanel(dlController, clearHistory > 1);
-			if(filesDir && filesDir.exists())
+			if(filesDir && filesDir.exists() && filesDir.isDirectory())
 				filesDir.remove(true);
 		}
 	},
