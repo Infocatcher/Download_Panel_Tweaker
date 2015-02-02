@@ -21,24 +21,15 @@ var downloadsStyles = {
 	_compactStyleLoaded: false,
 	_forceCompactStyleLoaded: false,
 	loadCompactStyle: function(compact) {
-		var loadCompact = compact == 1;
-		if(loadCompact != this._compactStyleLoaded) {
-			this._compactStyleLoaded = loadCompact;
-			this.loadSheet(
-				Services.io.newURI("chrome://downloadpaneltweaker/content/compactDownloads.css", null, null),
-				loadCompact
-			);
-			_log((loadCompact ? "Load" : "Unload") + " compactDownloads.css");
-		}
-		var loadForceCompact = compact == 2;
-		if(loadForceCompact != this._forceCompactStyleLoaded) {
-			this._forceCompactStyleLoaded = loadForceCompact;
-			this.loadSheet(
-				Services.io.newURI("chrome://downloadpaneltweaker/content/compactDownloadsForce.css", null, null),
-				loadForceCompact
-			);
-			_log((loadForceCompact ? "Load" : "Unload") + " compactDownloadsForce.css");
-		}
+		this.loadStyleFile("compactDownloads.css", "_compactStyleLoaded", compact == 1);
+		this.loadStyleFile("compactDownloadsForce.css", "_forceCompactStyleLoaded", compact == 2);
+	},
+	loadStyleFile: function(file, key, load) {
+		if(load == this[key])
+			return;
+		this[key] = load;
+		this.loadSheet(Services.io.newURI("chrome://downloadpaneltweaker/content/" + file, null, null), load);
+		_log((load ? "Load" : "Unload") + " " + file);
 	},
 	_tweakStyleLoaded: false,
 	tweakCssURI: null,
