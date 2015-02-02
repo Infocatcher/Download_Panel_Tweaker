@@ -63,10 +63,10 @@ var downloadsStyles = {
 			var containerSelector = this.dpt.fxVersion >= 20
 				? ".downloadContainer"
 				: ".download-state > vbox";
-			var tdsPrefix = "-moz-";
 			var window = Services.wm.getMostRecentWindow(null);
-			if(window && "textDecorationStyle" in window.document.documentElement.style)
-				tdsPrefix = "";
+			var tdsPrefix = window && "textDecorationStyle" in window.document.documentElement.style
+				? ""
+				: "-moz-";
 			var grayscaleFilter = this.dpt.fxVersion >= 36
 				? "grayscale(1)"
 				: 'url("chrome://mozapps/skin/extensions/extensions.svg#greyscale")';
