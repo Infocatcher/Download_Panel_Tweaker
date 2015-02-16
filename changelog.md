@@ -11,6 +11,7 @@
 `*` Slightly improved shutdown performance around “Don't remove finished downloads” option (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/29">#29</a>).<br>
 `+` Added experimental (and disabled by default) ability to reopen panel after open file or containing folder (<em>extensions.downloadPanelTweaker.reopenPanel.</em>\* preferences) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/18">#18</a>).<br>
 `*` Improved startup performance: code around styles was moved into lazily loaded separate file (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/31">#31</a>).<br>
+`x` Fixed handling of downloads inside panel in Firefox 38+.<br>
 
 ##### 0.2.2 (2014-09-03)
 `+` Added ability to not highlight toolbar button with new finished downloads (disabled by default) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/23">#23</a>).<br>

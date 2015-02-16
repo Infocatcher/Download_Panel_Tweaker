@@ -11,6 +11,7 @@
 `*` Немного улучшена производительность при закрытии браузера при использовании настройки «Не удалять завершённые загрузки» (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/29">#29</a>).<br>
 `+` Добавлена экспериментальная (и по умолчанию выключенная) возможность переоткрывать панель после открытия файла или папки с файлом (настройки <em>extensions.downloadPanelTweaker.reopenPanel.</em>\*) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/18">#18</a>).<br>
 `*` Улучшена производительность при запуске: код для применения стилей перемещен в отдельный лениво загружаемый файл (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/31">#31</a>).<br>
+`x` Исправлена обработка загрузок в панели в Firefox 38+.<br>
 
 ##### 0.2.2 (2014-09-03)
 `+` Добавлена возможность не подсвечивать кнопку с новыми завершенными загрузками (по умолчанию отключено) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/23">#23</a>).<br>
