@@ -6,7 +6,7 @@ var downloadsEnhancements = {
 		try { // Firefox 26+
 			// http://mxr.mozilla.org/mozilla-central/source/toolkit/components/jsdownloads/src/DownloadIntegration.jsm
 			var {DownloadIntegration} = Components.utils.import("resource://gre/modules/DownloadIntegration.jsm", {});
-			var dcg = Components.utils.import("resource://app/modules/DownloadsCommon.jsm", {});
+			var dcg = Components.utils.import("resource:///modules/DownloadsCommon.jsm", {});
 			var {DownloadsDataItem} = dcg;
 			if(DownloadsDataItem && DownloadsDataItem.prototype) {
 				var ddiPrototype = DownloadsDataItem.prototype;
@@ -133,7 +133,7 @@ var downloadsEnhancements = {
 			}
 		}
 		// Suppress notifications, see _updateDataItemState() in
-		// resource://app/modules/DownloadsCommon.jsm
+		// resource:///modules/DownloadsCommon.jsm
 		if(
 			!this.newDownloadNotified && (
 				dl.succeeded
@@ -228,7 +228,7 @@ var downloadsEnhancements = {
 		this.fixOnDownloadAdded(dcg, fix);
 	},
 	fixUpdateViews: function(dcg, fix) {
-		// Create proxy for _updateViews(), see resource://app/modules/DownloadsCommon.jsm
+		// Create proxy for _updateViews(), see resource:///modules/DownloadsCommon.jsm
 		var didcPrototype = "DownloadsIndicatorDataCtor" in dcg
 			&& "prototype" in dcg.DownloadsIndicatorDataCtor
 			&& "_updateViews" in dcg.DownloadsIndicatorDataCtor.prototype
@@ -263,7 +263,7 @@ var downloadsEnhancements = {
 		}
 	},
 	fixOnDownloadAdded: function(dcg, fix) {
-		// Make onDownloadAdded() async, see resource://app/modules/DownloadsCommon.jsm
+		// Make onDownloadAdded() async, see resource:///modules/DownloadsCommon.jsm
 		var ddcPrototype = "DownloadsDataCtor" in dcg
 			&& "prototype" in dcg.DownloadsDataCtor
 			&& "onDownloadAdded" in dcg.DownloadsDataCtor.prototype

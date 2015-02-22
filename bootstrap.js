@@ -226,7 +226,7 @@ var dpTweaker = {
 			: this._origItemCountLimit;
 
 		// https://gist.github.com/Infocatcher/5387328
-		// resource://app/modules/DownloadsCommon.jsm, see getSummary() function
+		// resource:///modules/DownloadsCommon.jsm, see getSummary() function
 		if(DownloadsCommon._privateSummary)
 			DownloadsCommon._privateSummary._numToExclude = itemCountLimit;
 		if(DownloadsCommon._summary)
@@ -297,7 +297,7 @@ var dpTweaker = {
 			return;
 		this._downloadsSummaryPatched = patch;
 
-		var {DownloadsSummaryData} = Components.utils.import("resource://app/modules/DownloadsCommon.jsm", {});
+		var {DownloadsSummaryData} = Components.utils.import("resource:///modules/DownloadsCommon.jsm", {});
 		if(
 			!DownloadsSummaryData
 			|| !DownloadsSummaryData.prototype

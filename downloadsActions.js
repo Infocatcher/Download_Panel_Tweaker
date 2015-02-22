@@ -27,7 +27,7 @@ var downloadsActions = {
 			_log("showDownloadWindow(): private downloads aren't supported");
 			return false;
 		}
-		// See resource://app/components/DownloadsUI.js
+		// See resource:///components/DownloadsUI.js
 		// DownloadsUI.prototype.show()
 		_log("showDownloadWindow()");
 		var toolkitUI = Components.classesByID["{7dfdf0d1-aff6-4a34-bad1-d0fe74601642}"]
@@ -79,13 +79,13 @@ var downloadsActions = {
 			return false;
 		})) {
 			//gBrowser.selectedTab = gBrowser.addTab(downloadsURI);
-			// See resource://app/components/DownloadsUI.js
+			// See resource:///components/DownloadsUI.js
 			window.openUILinkIn(downloadsURI, "tab");
 		}
 	},
 	openDownloadsLibrary: function(window) {
 		this.toggleDownloadPanel(window, false);
-		// See resource://app/components/DownloadsUI.js
+		// See resource:///components/DownloadsUI.js
 		return this.openWindow(window, {
 			uri: "chrome://browser/content/places/places.xul",
 			type: "Places:Organizer",
@@ -149,7 +149,7 @@ var downloadsActions = {
 		catch(e) { // Firefox 26+
 			_log("clearDownloads(): Services.downloads.cleanUp/cleanUpPrivate() failed:\n" + e);
 			try {
-				var global = Components.utils.import("resource://app/modules/DownloadsCommon.jsm", {});
+				var global = Components.utils.import("resource:///modules/DownloadsCommon.jsm", {});
 				if(global.DownloadsData && global.DownloadsData.removeFinished) {
 					global.DownloadsData.removeFinished();
 					_log("clearDownloads(): cleanup DownloadsData");
