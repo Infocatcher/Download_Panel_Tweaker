@@ -15,6 +15,16 @@ var downloadsEnhancements = {
 				var updateFromDownloadKey = updateFromDownloadProp
 					&& "DownloadsDataItem.prototype." + updateFromDownloadProp;
 			}
+			var {DownloadsDataCtor} = dcg;
+			if(
+				DownloadsDataCtor
+				&& DownloadsDataCtor.prototype
+				&& "onDownloadChanged" in DownloadsDataCtor.prototype
+			) {
+				var ddcPrototype = DownloadsDataCtor.prototype;
+				var onDownloadChangedProp = "onDownloadChanged";
+				var onDownloadChangedKey = "DownloadsDataCtor.prototype." + onDownloadChangedProp;
+			}
 		}
 		catch(e) {
 		}
@@ -72,6 +82,12 @@ var downloadsEnhancements = {
 					this.fixUpdateFromDownload
 				);
 			}
+			else if(onDownloadChangedKey) {
+				_log(logPrefix + "Patch " + onDownloadChangedKey + "()");
+				patcher.wrapFunction(ddcPrototype, onDownloadChangedProp, onDownloadChangedKey,
+					this.fixOnDownloadChanged.bind(this)
+				);
+			}
 			if(store && "_cleanupDownloads" in this) try { // See migratePrefs()
 				delete this._cleanupDownloads;
 				_log(logPrefix + "Try cleanup downloads.json");
@@ -94,6 +110,10 @@ var downloadsEnhancements = {
 				_log(logPrefix + "Restore " + updateFromDownloadKey + "()");
 				patcher.unwrapFunction(ddiPrototype, updateFromDownloadProp, updateFromDownloadKey);
 			}
+			else if(onDownloadChangedKey) {
+				_log(logPrefix + "Restore " + onDownloadChangedKey + "()");
+				patcher.unwrapFunction(ddcPrototype, onDownloadChangedProp, onDownloadChangedKey);
+			}
 		}
 		if(dcg && updateFromDownloadKey) {
 			if(patch) delay(function() {
@@ -104,9 +124,9 @@ var downloadsEnhancements = {
 			}
 		}
 	},
-	fixUpdateFromDownload: function() {
-		// this == DownloadsDataItem instance
-		var dl = this._download;
+	fixUpdateFromDownload: function(dl) {
+		// this == DownloadsDataItem instance (or download itself in Firefox 38+)
+		dl = this._download || dl;
 		if(!dl)
 			return;
 		if(dl.succeeded) {
@@ -123,7 +143,7 @@ var downloadsEnhancements = {
 				&& Date.now() - this.endTime < 300
 				&& dl.startTime
 			) {
-				var time = dl.endTime // Missing for now in Firefox 37.0a1 (2014-12-25)
+				var time = dl != this && dl.endTime // Missing for now in Firefox 37.0a1 (2014-12-25)
 					|| dl.startTime;
 				var ts = new Date(time).getTime();
 				if(ts > 0) {
@@ -145,6 +165,9 @@ var downloadsEnhancements = {
 			)
 		)
 			this.newDownloadNotified = true;
+	},
+	fixOnDownloadChanged: function(download) {
+		this.fixUpdateFromDownload.call(download, download);
 	},
 	dontRemoveFinishedDownloadsLegacy: function(patch) {
 		const bakKey = "_downloadPanelTweaker_downloads";
