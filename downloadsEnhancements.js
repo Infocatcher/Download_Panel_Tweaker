@@ -1,5 +1,7 @@
 // Things around "dontRemoveFinishedDownloads" preference
 var downloadsEnhancements = {
+	dpt: dpTweaker,
+
 	dontRemoveFinishedDownloads: function(patch) {
 		// See https://github.com/Infocatcher/Download_Panel_Tweaker/issues/5 for details
 		var logPrefix = "dontRemoveFinishedDownloads(" + patch + "): ";
@@ -27,6 +29,8 @@ var downloadsEnhancements = {
 			}
 		}
 		catch(e) {
+			if(this.dpt.fxVersion >= 26)
+				Components.utils.reportError(e);
 		}
 		if(!DownloadIntegration || !("shouldPersistDownload" in DownloadIntegration)) {
 			this.dontRemoveFinishedDownloadsLegacy(patch);

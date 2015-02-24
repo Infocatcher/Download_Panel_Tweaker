@@ -92,6 +92,8 @@ var dpTweaker = {
 		}
 		if("downloadsStyles" in global)
 			this.stl.dpt = null;
+		if("downloadsEnhancements" in global)
+			this.de.dpt = null;
 		if("downloadsActions" in global)
 			this.da.dpt = null;
 		if("downloadsPanel" in global)
