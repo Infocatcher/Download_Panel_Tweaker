@@ -21,11 +21,11 @@ var downloadsEnhancements = {
 			if(
 				DownloadsDataCtor
 				&& DownloadsDataCtor.prototype
-				&& "onDownloadChanged" in DownloadsDataCtor.prototype
+				&& "onDownloadAdded" in DownloadsDataCtor.prototype
 			) {
 				var ddcPrototype = DownloadsDataCtor.prototype;
-				var onDownloadChangedProp = "onDownloadChanged";
-				var onDownloadChangedKey = "DownloadsDataCtor.prototype." + onDownloadChangedProp;
+				var onDownloadAddedProp = "onDownloadAdded";
+				var onDownloadAddedKey = "DownloadsDataCtor.prototype." + onDownloadAddedProp;
 			}
 		}
 		catch(e) {
@@ -86,10 +86,16 @@ var downloadsEnhancements = {
 					this.fixUpdateFromDownload
 				);
 			}
-			else if(onDownloadChangedKey) {
-				_log(logPrefix + "Patch " + onDownloadChangedKey + "()");
-				patcher.wrapFunction(ddcPrototype, onDownloadChangedProp, onDownloadChangedKey,
-					this.fixDownload.bind(this)
+			else if(
+				onDownloadAddedKey
+				&& !prefs.get("fixDownloadsLoadingPerformance")
+			) {
+				_log(logPrefix + "Patch " + onDownloadAddedKey + "()");
+				patcher.wrapFunction(ddcPrototype, onDownloadAddedProp, onDownloadAddedKey,
+					function before(download) {},
+					function after(ret, download) {
+						this.fixDownload(download);
+					}.bind(this)
 				);
 			}
 			if(store && "_cleanupDownloads" in this) try { // See migratePrefs()
@@ -114,12 +120,12 @@ var downloadsEnhancements = {
 				_log(logPrefix + "Restore " + updateFromDownloadKey + "()");
 				patcher.unwrapFunction(ddiPrototype, updateFromDownloadProp, updateFromDownloadKey);
 			}
-			else if(onDownloadChangedKey) {
-				_log(logPrefix + "Restore " + onDownloadChangedKey + "()");
-				patcher.unwrapFunction(ddcPrototype, onDownloadChangedProp, onDownloadChangedKey);
+			else if(onDownloadAddedKey) {
+				_log(logPrefix + "Restore " + onDownloadAddedKey + "()");
+				patcher.unwrapFunction(ddcPrototype, onDownloadAddedProp, onDownloadAddedKey);
 			}
 		}
-		if(dcg && (updateFromDownloadKey || onDownloadChangedKey)) {
+		if(dcg && (updateFromDownloadKey || onDownloadAddedKey)) {
 			if(patch) delay(function() {
 				this.fixLoadDownloadsPerformance(dcg, patch);
 			}, this);
