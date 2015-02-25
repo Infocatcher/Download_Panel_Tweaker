@@ -89,7 +89,7 @@ var downloadsEnhancements = {
 			else if(onDownloadChangedKey) {
 				_log(logPrefix + "Patch " + onDownloadChangedKey + "()");
 				patcher.wrapFunction(ddcPrototype, onDownloadChangedProp, onDownloadChangedKey,
-					this.fixOnDownloadChanged.bind(this)
+					this.fixDownload.bind(this)
 				);
 			}
 			if(store && "_cleanupDownloads" in this) try { // See migratePrefs()
@@ -170,7 +170,7 @@ var downloadsEnhancements = {
 		)
 			this.newDownloadNotified = true;
 	},
-	fixOnDownloadChanged: function(download) {
+	fixDownload: function(download) {
 		this.fixUpdateFromDownload.call(download, download);
 	},
 	dontRemoveFinishedDownloadsLegacy: function(patch) {
@@ -302,13 +302,15 @@ var downloadsEnhancements = {
 		}
 		_log("fixOnDownloadAdded(" + fix + ")");
 		if(fix) {
+			var _this = this;
 			var onDownloadAdded = ddcPrototype.onDownloadAdded;
 			patcher.wrapFunction(ddcPrototype, "onDownloadAdded", key,
-				function before() {
+				function before(download) {
 					var args = arguments;
 					delay(function() {
 						_dbgv && _log(key + "()");
 						onDownloadAdded.apply(this, args);
+						_this.fixDownload(download);
 					}, this);
 					return true;
 				}
