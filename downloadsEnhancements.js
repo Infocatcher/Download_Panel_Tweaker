@@ -119,7 +119,7 @@ var downloadsEnhancements = {
 				patcher.unwrapFunction(ddcPrototype, onDownloadChangedProp, onDownloadChangedKey);
 			}
 		}
-		if(dcg && updateFromDownloadKey) {
+		if(dcg && (updateFromDownloadKey || onDownloadChangedKey)) {
 			if(patch) delay(function() {
 				this.fixLoadDownloadsPerformance(dcg, patch);
 			}, this);
