@@ -243,8 +243,12 @@ var dpTweaker = {
 				DownloadsPanel.terminate();
 				DownloadsView.richListBox.textContent = "";
 				// We can't use {} and [] here because of memory leaks!
-				DownloadsView._viewItems = new window.Object();
-				DownloadsView._dataItems = new window.Array();
+				if("_downloads" in DownloadsView) // Firefox 38+
+					DownloadsView._downloads = new window.Array();
+				else {
+					DownloadsView._viewItems = new window.Object();
+					DownloadsView._dataItems = new window.Array();
+				}
 			}
 			DownloadsPanel.initialize(function() {});
 		}
