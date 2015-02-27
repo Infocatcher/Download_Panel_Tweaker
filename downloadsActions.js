@@ -174,23 +174,25 @@ var downloadsActions = {
 		var document = mi.ownerDocument;
 		var clipHelper = Components.classes["@mozilla.org/widget/clipboardhelper;1"]
 			.getService(Components.interfaces.nsIClipboardHelper);
+		var dataItem = dlController.dataItem || dlController.download;
+		var referrer = dataItem.referrer || dataItem.source && dataItem.source.referrer;
 		try {
 			// Note: looks like gBrowser.selectedBrowser.contentWindowAsCPOW.document
 			// doesn't work here as expected
 			var contentDoc = document.defaultView.content.document; // For Private Tab extension
-			clipHelper.copyString(dlController.dataItem.referrer, contentDoc);
+			clipHelper.copyString(referrer, contentDoc);
 		}
 		catch(e) {
 			_log("nsIClipboardHelper.copyString(..., content.document) failed, Electrolysis?");
 			Components.utils.reportError(e);
-			clipHelper.copyString(dlController.dataItem.referrer, document);
+			clipHelper.copyString(referrer, document);
 		}
 	},
 	removeFile: function(mi) {
 		var dlContext = mi.parentNode;
 		var dlItem = this.getDlNode(dlContext.triggerNode);
 		var dlController = this.getDlController(dlItem);
-		var dataItem = dlController.dataItem;
+		var dataItem = dlController.dataItem || dlController.download;
 		var path = this.getDataItemPath(dataItem);
 		_log("removeFile(): " + path);
 		if(
@@ -270,13 +272,13 @@ var downloadsActions = {
 		_log("updateDownloadsContextMenu()");
 		var dlItem = this.getDlNode(popup.triggerNode);
 		var dlController = this.getDlController(dlItem);
-		var dataItem = dlController && dlController.dataItem;
+		var dataItem = dlController && (dlController.dataItem || dlController.download);
 		Array.forEach(
 			popup.getElementsByAttribute("downloadPanelTweaker-command", "*"),
 			function(mi) {
 				var cmd = mi.getAttribute("downloadPanelTweaker-command");
 				if(cmd == "copyReferrer") {
-					var ref = dataItem && dataItem.referrer || "";
+					var ref = dataItem && (dataItem.referrer || dataItem.source && dataItem.source.referrer) || "";
 					mi.disabled = !ref;
 					mi.tooltipText = ref;
 				}
@@ -288,6 +290,7 @@ var downloadsActions = {
 						window.DownloadsViewItem
 						&& window.DownloadsViewItem.prototype
 						&& !("verifyTargetExists" in window.DownloadsViewItem.prototype)
+						&& "localFile" in dataItem
 					) try { // Firefox 20 and older
 						_log("Will use dataItem.localFile.exists()");
 						exists = dataItem.localFile.exists();
@@ -364,6 +367,8 @@ var downloadsActions = {
 		return new window.DownloadsViewItemController(dlItem);
 	},
 	getDataItemPath: function(dataItem) {
+		if("target" in dataItem && !("file" in dataItem))
+			return dataItem.target && dataItem.target.path || dataItem.target;
 		var path = dataItem.file;
 		if(!path || typeof path != "string" || path.startsWith("file:/")) // Firefox 24 and older
 			path = dataItem.localFile.path;
