@@ -233,6 +233,8 @@ var downloadsEnhancements = {
 			var {DownloadStore} = Components.utils.import("resource://gre/modules/DownloadStore.jsm", {});
 		}
 		catch(e) {
+			if(this.dpt.fxVersion >= 26)
+				Components.utils.reportError(e);
 		}
 		if(
 			DownloadStore
