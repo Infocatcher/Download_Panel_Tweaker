@@ -56,6 +56,17 @@
 				<em:contributor>Иконка: основана на иконке из набора Farm-fresh от FatCow Web Hosting + встроенная иконка загрузок Firefox</em:contributor>
 			</Description>
 		</em:localized>
+		
+		<em:localized>
+			<Description>
+				<em:locale>zh-CN</em:locale>
+				<em:name>Download Panel Tweaker</em:name>
+				<em:description>对内建的下载面板进行一些调整</em:description>
+				<em:creator>Infocatcher</em:creator>
+				<em:contributor>图标是基于 FatCow Web Hosting 的 Farm-fresh 图标集和 Firefox 内建的下载图标</em:contributor>
+				<em:translator>fang5566</em:translator>
+			</Description>
+		</em:localized>
 
 	</Description>
 </RDF>
