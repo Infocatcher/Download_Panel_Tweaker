@@ -1,33 +1,33 @@
 <!-- Options -->
-<!ENTITY dpt.useOldUI "Use old downloads interface (not recommended)">
-<!ENTITY dpt.itemCountLimit "Visible downloads count limit">
-<!ENTITY dpt.panelWidth "Download panel width">
-<!ENTITY dpt.panelMaxHeight "Download panel height limit">
-<!ENTITY dpt.progressBarHeight "Progress bar height">
-<!ENTITY dpt.compactDownloads "Downloads list">
-<!ENTITY dpt.compactDownloads.default "Default">
-<!ENTITY dpt.compactDownloads.compact "Compact">
-<!ENTITY dpt.compactDownloads.veryCompact "Very compact">
-<!ENTITY dpt.showFullPathInTooltip "Show full patch in tooltip for file name">
-<!ENTITY dpt.showDownloadRate "Show download rate">
-<!ENTITY dpt.decolorizePausedProgress "Decolorize progress bar of paused downloads">
-<!ENTITY dpt.dontHighlightButton "Don't highlight button with new finished downloads">
-<!ENTITY dpt.menuButtonBehavior "Open panel right after mouse down on download button">
-<!ENTITY dpt.dontRemoveFinishedDownloads "Don't remove finished downloads">
-<!ENTITY dpt.middleClickToRemoveFromPanel "Middle-click to remove downloads from panel">
-<!ENTITY dpt.middleClickToRemoveFromPanel.clearHistory "Also remove from history">
+<!ENTITY dpt.useOldUI "使用传统下载界面（不推荐）">
+<!ENTITY dpt.itemCountLimit "最多允许显示的下载项数量">
+<!ENTITY dpt.panelWidth "下载面板宽度">
+<!ENTITY dpt.panelMaxHeight "下载面板最大高度">
+<!ENTITY dpt.progressBarHeight "进度条高度">
+<!ENTITY dpt.compactDownloads "下载项列表样式">
+<!ENTITY dpt.compactDownloads.default "默认">
+<!ENTITY dpt.compactDownloads.compact "紧凑">
+<!ENTITY dpt.compactDownloads.veryCompact "非常紧凑">
+<!ENTITY dpt.showFullPathInTooltip "在文件名工具提示中显示完整路径">
+<!ENTITY dpt.showDownloadRate "显示下载速率">
+<!ENTITY dpt.decolorizePausedProgress "灰色显示暂停下载时的进度条">
+<!ENTITY dpt.dontHighlightButton "有新下载项完成时不高亮显示下载按钮">
+<!ENTITY dpt.menuButtonBehavior "鼠标点击下载按钮时打开面板">
+<!ENTITY dpt.dontRemoveFinishedDownloads "不移除已完成的下载项">
+<!ENTITY dpt.middleClickToRemoveFromPanel "中键点击时从面板移除下载项">
+<!ENTITY dpt.middleClickToRemoveFromPanel.clearHistory "同时从下载历史中移除">
 
-<!ENTITY dpt.override.downloadsCommand "Command for downloads">
+<!ENTITY dpt.override.downloadsCommand "用命令操作时">
 <!-- We tries to replace {fallback value for hotkey} with real value -->
-<!ENTITY dpt.override.downloadsHotkey "Hotkey for downloads ({Ctrl+J})">
-<!ENTITY dpt.override.showAllDownloads "“Show All Downloads” button">
-<!ENTITY dpt.override.inPrivateWindow "In private window">
-<!ENTITY dpt.override.default "Default">
-<!ENTITY dpt.override.togglePanel "Toggle panel">
-<!ENTITY dpt.override.openOldWindow "Open old window">
-<!ENTITY dpt.override.openOldWindowNote "Doesn't work in Firefox 26+ without third-party extensions">
-<!ENTITY dpt.override.openOldWindowNotePrivate "May not work in private windows">
-<!ENTITY dpt.override.openInTab "Open in tab">
-<!ENTITY dpt.override.openLibraryWindow "Open Library window">
-<!ENTITY dpt.override.toggleSidebar "Toggle sidebar">
-<!ENTITY dpt.override.toggleSidebarNotePrivate "Doesn't work in private tabs">
+<!ENTITY dpt.override.downloadsHotkey "按下热键时 ({Ctrl+J})">
+<!ENTITY dpt.override.showAllDownloads "点击“显示所有下载”按钮时">
+<!ENTITY dpt.override.inPrivateWindow "打开隐私窗口时">
+<!ENTITY dpt.override.default "默认">
+<!ENTITY dpt.override.togglePanel "开关下载面板">
+<!ENTITY dpt.override.openOldWindow "打开传统下载窗口">
+<!ENTITY dpt.override.openOldWindowNote "无法在未安装第三方扩展的 Firefox 26+ 版本中使用">
+<!ENTITY dpt.override.openOldWindowNotePrivate "可能无法在隐私窗口中使用">
+<!ENTITY dpt.override.openInTab "在标签页打开">
+<!ENTITY dpt.override.openLibraryWindow "打开我的足迹窗口">
+<!ENTITY dpt.override.toggleSidebar "开关侧边栏">
+<!ENTITY dpt.override.toggleSidebarNotePrivate "无法在隐私标签页中使用">
