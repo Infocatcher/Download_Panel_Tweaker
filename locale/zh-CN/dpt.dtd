@@ -1,7 +1,7 @@
 <!-- Items in download panel context menu -->
-<!ENTITY dpt.copyReferrer "Copy Download Page Link">
+<!ENTITY dpt.copyReferrer "复制下载页面链接">
 <!ENTITY dpt.copyReferrer.accesskey "P">
-<!ENTITY dpt.removeFile "Remove File From Disk">
+<!ENTITY dpt.removeFile "从磁盘删除文件">
 <!ENTITY dpt.removeFile.accesskey "F">
 <!ENTITY dpt.removeFile.confirmMessage "Are you sure you want to remove file “$S”?">
 <!-- Like cmd.clearDownloads.label from view-source:chrome://browser/locale/downloads/downloads.dtd -->
