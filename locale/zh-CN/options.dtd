@@ -1,0 +1,33 @@
+<!-- Options -->
+<!ENTITY dpt.useOldUI "Use old downloads interface (not recommended)">
+<!ENTITY dpt.itemCountLimit "Visible downloads count limit">
+<!ENTITY dpt.panelWidth "Download panel width">
+<!ENTITY dpt.panelMaxHeight "Download panel height limit">
+<!ENTITY dpt.progressBarHeight "Progress bar height">
+<!ENTITY dpt.compactDownloads "Downloads list">
+<!ENTITY dpt.compactDownloads.default "Default">
+<!ENTITY dpt.compactDownloads.compact "Compact">
+<!ENTITY dpt.compactDownloads.veryCompact "Very compact">
+<!ENTITY dpt.showFullPathInTooltip "Show full patch in tooltip for file name">
+<!ENTITY dpt.showDownloadRate "Show download rate">
+<!ENTITY dpt.decolorizePausedProgress "Decolorize progress bar of paused downloads">
+<!ENTITY dpt.dontHighlightButton "Don't highlight button with new finished downloads">
+<!ENTITY dpt.menuButtonBehavior "Open panel right after mouse down on download button">
+<!ENTITY dpt.dontRemoveFinishedDownloads "Don't remove finished downloads">
+<!ENTITY dpt.middleClickToRemoveFromPanel "Middle-click to remove downloads from panel">
+<!ENTITY dpt.middleClickToRemoveFromPanel.clearHistory "Also remove from history">
+
+<!ENTITY dpt.override.downloadsCommand "Command for downloads">
+<!-- We tries to replace {fallback value for hotkey} with real value -->
+<!ENTITY dpt.override.downloadsHotkey "Hotkey for downloads ({Ctrl+J})">
+<!ENTITY dpt.override.showAllDownloads "“Show All Downloads” button">
+<!ENTITY dpt.override.inPrivateWindow "In private window">
+<!ENTITY dpt.override.default "Default">
+<!ENTITY dpt.override.togglePanel "Toggle panel">
+<!ENTITY dpt.override.openOldWindow "Open old window">
+<!ENTITY dpt.override.openOldWindowNote "Doesn't work in Firefox 26+ without third-party extensions">
+<!ENTITY dpt.override.openOldWindowNotePrivate "May not work in private windows">
+<!ENTITY dpt.override.openInTab "Open in tab">
+<!ENTITY dpt.override.openLibraryWindow "Open Library window">
+<!ENTITY dpt.override.toggleSidebar "Toggle sidebar">
+<!ENTITY dpt.override.toggleSidebarNotePrivate "Doesn't work in private tabs">
