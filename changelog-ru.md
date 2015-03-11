@@ -7,6 +7,7 @@
 
 ##### master/HEAD
 `x` Исправлена совместимость с Firefox 38+ (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/34">#34</a>, <a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/35">#35</a>, <a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/36">#36</a>, <a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/37">#37</a>).<br>
+`+` Добавлена Chinese Simplified (zh-CN) локаль, спасибо <a href="https://github.com/fang5566">fang5566</a> (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/pull/38">#38</a>).<br>
 
 ##### 0.2.3 (2015-02-16)
 `+` Добавлена возможность всегда сохранять последние загрузки в панели, даже если они очень старые (настройка <em>extensions.downloadPanelTweaker.downloadsMinStoreThreshold</em>) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/28">#28</a>).<br>
