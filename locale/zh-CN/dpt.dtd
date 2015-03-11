@@ -1,14 +1,14 @@
 <!-- Items in download panel context menu -->
 <!ENTITY dpt.copyReferrer "复制下载页面链接">
 <!ENTITY dpt.copyReferrer.accesskey "P">
-<!ENTITY dpt.removeFile "从磁盘删除文件">
+<!ENTITY dpt.removeFile "从磁盘中移除文件">
 <!ENTITY dpt.removeFile.accesskey "F">
-<!ENTITY dpt.removeFile.confirmMessage "Are you sure you want to remove file “$S”?">
+<!ENTITY dpt.removeFile.confirmMessage "您确定要移除“$S”文件吗？">
 <!-- Like cmd.clearDownloads.label from view-source:chrome://browser/locale/downloads/downloads.dtd -->
-<!ENTITY dpt.clearDownloads "Clear Downloads">
+<!ENTITY dpt.clearDownloads "清除下载项">
 <!ENTITY dpt.clearDownloads.accesskey "D">
-<!ENTITY dpt.clearDownloads.confirmMessage "Are you sure you want to clear ALL downloads history?">
+<!ENTITY dpt.clearDownloads.confirmMessage "您确定要清除所有下载项的历史吗？">
 
 <!-- Confirmation dialog -->
 <!ENTITY dpt.confirm.title "Download Panel Tweaker">
-<!ENTITY dpt.confirm.dontAskAgain "Don't ask again">
+<!ENTITY dpt.confirm.dontAskAgain "今后不再询问">
