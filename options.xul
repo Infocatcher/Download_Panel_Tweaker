@@ -53,7 +53,19 @@
 	<setting pref="extensions.downloadPanelTweaker.dontHighlightButton" type="bool" title="&dpt.dontHighlightButton;" />
 	<setting pref="extensions.downloadPanelTweaker.menuButtonBehavior" type="bool" title="&dpt.menuButtonBehavior;" />
 	<setting pref="extensions.downloadPanelTweaker.dontRemoveFinishedDownloads" type="bool" title="&dpt.dontRemoveFinishedDownloads;" />
-	<setting pref="extensions.downloadPanelTweaker.middleClickToRemoveFromPanel" type="bool" title="&dpt.middleClickToRemoveFromPanel;" />
+	<setting pref="extensions.downloadPanelTweaker.middleClickToRemoveFromPanel" type="bool" title="&dpt.middleClickToRemoveFromPanel;"
+		onpreferencechanged='
+			setTimeout(function(_this) {
+				var clearHistory = _this.nextSibling;
+				if(_this.value) {
+					clearHistory.removeAttribute("disabled");
+					clearHistory.style.opacity = "";
+				}
+				else {
+					clearHistory.setAttribute("disabled", "true");
+					clearHistory.style.opacity = "0.55";
+				}
+			}, 0, this);' />
 	<setting pref="extensions.downloadPanelTweaker.middleClickToRemoveFromPanel.clearHistory" type="bool" class="downloadPanelTweaker-indent" title="&dpt.middleClickToRemoveFromPanel.clearHistory;" />
 
 	<setting pref="extensions.downloadPanelTweaker.overrideDownloadsCommand" type="menulist" title="&dpt.override.downloadsCommand;"
@@ -69,6 +81,7 @@
 			if(version &lt; 20) {
 				var clearHistory = this.ownerDocument.getElementsByAttribute("pref", "extensions.downloadPanelTweaker.middleClickToRemoveFromPanel.clearHistory")[0];
 				if(clearHistory) {
+					clearHistory.previousSibling.removeAttribute("onpreferencechanged");
 					clearHistory.setAttribute("disabled", "true");
 					clearHistory.style.opacity = "0.55";
 					setTimeout(function() {
