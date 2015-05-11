@@ -111,6 +111,13 @@ var downloadsPanel = {
 			popup.removeEventListener("keypress", this, true);
 			popup.removeEventListener("mouseover", this, false);
 			popup.removeEventListener("popuphidden", this, false);
+			// Remove our tooltips, see this.da.updateDownloadsContextMenu()
+			var copyLoc = popup.getElementsByAttribute("command", "downloadsCmd_copyLocation")[0];
+			if(copyLoc)
+				copyLoc.tooltipText = "";
+			var openRef = popup.getElementsByAttribute("command", "downloadsCmd_openReferrer")[0];
+			if(openRef)
+				openRef.tooltipText = "";
 			// Note: following may be not needed, looks like we somehow cause XBL binding reattaching
 			force && this.restoreDlItemsTooltips(document, popup);
 		}

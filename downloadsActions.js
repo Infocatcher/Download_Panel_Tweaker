@@ -281,6 +281,9 @@ var downloadsActions = {
 					var ref = dataItem && (dataItem.referrer || dataItem.source && dataItem.source.referrer) || "";
 					mi.disabled = !ref;
 					mi.tooltipText = ref;
+					var openRef = popup.getElementsByAttribute("command", "downloadsCmd_openReferrer")[0];
+					if(openRef)
+						openRef.tooltipText = ref;
 				}
 				else if(cmd == "removeFile") {
 					var exists = dlItem && dlItem.getAttribute("exists") == "true";
@@ -320,6 +323,9 @@ var downloadsActions = {
 			},
 			this
 		);
+		var copyLoc = popup.getElementsByAttribute("command", "downloadsCmd_copyLocation")[0];
+		if(copyLoc)
+			copyLoc.tooltipText = dataItem && (dataItem.uri || dataItem.source && dataItem.source.url) || "";
 		var sep = popup.getElementsByAttribute("id", this.dpt.dp.removeFileSepId)[0];
 		if(sep)
 			sep.hidden = !this.hasVisibleNodeBefore(sep);
