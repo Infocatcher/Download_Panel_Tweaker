@@ -257,6 +257,8 @@ var downloadsPanel = {
 			return false;
 		var dlPopup = e.currentTarget;
 		for(var node = e.target; node; node = node.parentNode) {
+			if(node.localName == "menupopup")
+				break;
 			if(
 				node == dlPopup && !prefs.get("middleClickToRemoveFromPanel")
 				|| node.id == "downloadsFooter"
