@@ -20,8 +20,8 @@ var downloadsActions = {
 			"PrivateBrowsingUtils" in window
 			&& window.PrivateBrowsingUtils.isWindowPrivate(
 				window.content
-				|| window.gBrowser.selectedBrowser.contentWindow
-				|| window.gBrowser.selectedBrowser.contentWindowAsCPOW
+				|| window.gBrowser.contentWindow
+				|| window.gBrowser.contentWindowAsCPOW
 			)
 		) {
 			_log("showDownloadWindow(): private downloads aren't supported");
@@ -59,8 +59,8 @@ var downloadsActions = {
 		var pbu = "PrivateBrowsingUtils" in window && window.PrivateBrowsingUtils;
 		var isPrivate = pbu && pbu.isWindowPrivate(
 			window.content
-			|| gBrowser.selectedBrowser.contentWindow
-			|| gBrowser.selectedBrowser.contentWindowAsCPOW
+			|| gBrowser.contentWindow
+			|| gBrowser.contentWindowAsCPOW
 		);
 		if(!Array.some(gBrowser.visibleTabs || gBrowser.tabs, function(tab) {
 			var browser = tab.linkedBrowser;
@@ -177,7 +177,7 @@ var downloadsActions = {
 		var dataItem = dlController.dataItem || dlController.download;
 		var referrer = dataItem.referrer || dataItem.source && dataItem.source.referrer;
 		try {
-			// Note: looks like gBrowser.selectedBrowser.contentWindowAsCPOW.document
+			// Note: looks like gBrowser.contentWindowAsCPOW.document
 			// doesn't work here as expected
 			var contentDoc = document.defaultView.content.document; // For Private Tab extension
 			clipHelper.copyString(referrer, contentDoc);

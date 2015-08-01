@@ -415,8 +415,8 @@ var dpTweaker = {
 		var isPrivate = "PrivateBrowsingUtils" in window
 			&& window.PrivateBrowsingUtils.isWindowPrivate(
 				window.content
-				|| window.gBrowser.selectedBrowser.contentWindow
-				|| window.gBrowser.selectedBrowser.contentWindowAsCPOW
+				|| window.gBrowser.contentWindow
+				|| window.gBrowser.contentWindowAsCPOW
 			);
 		if(isPrivate)
 			prefName += ".private";
