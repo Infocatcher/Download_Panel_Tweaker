@@ -256,8 +256,8 @@ var downloadsActions = {
 	},
 	removeFromPanel: function(dlController, clearHistory) {
 		// See chrome://browser/content/downloads/downloads.js
-		if(!clearHistory && dlController.dataItem && "remove" in dlController.dataItem) {
-			dlController.dataItem.remove(); // Firefox 20+
+		if(!clearHistory && dlController.dataItem && "remove" in dlController.dataItem) { // Firefox 20+
+			dlController.dataItem.remove();
 			_log("removeFromPanel() -> dlController.dataItem.remove()");
 		}
 		else if(!clearHistory && "download" in dlController) { // Firefox 38+
@@ -267,7 +267,7 @@ var downloadsActions = {
 		}
 		else {
 			if(!clearHistory)
-				_log("removeFromPanel(): can't remove only from panel!");
+				Components.utils.reportError(LOG_PREFIX + "removeFromPanel(): can't remove only from panel!");
 			dlController.doCommand("cmd_delete");
 			_log('removeFromPanel() -> dlController.doCommand("cmd_delete")');
 		}
