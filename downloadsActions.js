@@ -260,9 +260,14 @@ var downloadsActions = {
 			dlController.dataItem.remove(); // Firefox 20+
 			_log("removeFromPanel() -> dlController.dataItem.remove()");
 		}
+		else if(!clearHistory && "download" in dlController) { // Firefox 38+
+			var {DownloadsCommon} = Components.utils.import("resource:///modules/DownloadsCommon.jsm", {});
+			DownloadsCommon.removeAndFinalizeDownload(dlController.download);
+			_log("removeFromPanel() -> DownloadsCommon.removeAndFinalizeDownload()");
+		}
 		else {
 			if(!clearHistory)
-				_log("removeFromPanel(): dlController.dataItem.remove() not available!");
+				_log("removeFromPanel(): can't remove only from panel!");
 			dlController.doCommand("cmd_delete");
 			_log('removeFromPanel() -> dlController.doCommand("cmd_delete")');
 		}
