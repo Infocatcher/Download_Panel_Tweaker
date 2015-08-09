@@ -6,6 +6,8 @@
 `*` - improved<br>
 
 ##### master/HEAD
+`x` Fixed unchecked “Also remove from history” in Firefox 38+ (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/39">#39</a>).<br>
+
 ##### 0.2.4 (2015-05-11)
 `x` Fixed compatibility with Firefox 38+ (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/34">#34</a>, <a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/35">#35</a>, <a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/36">#36</a>, <a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/37">#37</a>).<br>
 `+` Added Chinese Simplified (zh-CN) locale, thanks to <a href="https://github.com/fang5566">fang5566</a> (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/pull/38">#38</a>).<br>
