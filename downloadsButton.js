@@ -12,8 +12,9 @@ var downloadsButton = {
 
 	get evtSvc() {
 		delete this.evtSvc;
-		return this.evtSvc = Components.classes["@mozilla.org/eventlistenerservice;1"]
-			.getService(Components.interfaces.nsIEventListenerService);
+		return this.evtSvc = Services.els // Firefox 40+
+			|| Components.classes["@mozilla.org/eventlistenerservice;1"]
+				.getService(Components.interfaces.nsIEventListenerService);
 	},
 
 	getButtonById: function(window, id) {
