@@ -119,7 +119,10 @@ var downloadsActions = {
 		var wpBrowser = sbBrowser && sbBrowser.boxObject.width > 0
 			&& sbBrowser.contentDocument.getElementById("web-panels-browser");
 		if(wpBrowser && wpBrowser.currentURI.spec == "about:downloads") {
-			window.toggleSidebar();
+			if("SidebarUI" in window) // Firefox 38+
+				window.SidebarUI.hide();
+			else
+				window.toggleSidebar();
 			return;
 		}
 		var downloadsTitle = this.dpt.getEntity(
