@@ -372,6 +372,8 @@ var downloadsActions = {
 		var dlItem = this.getDlNode(node);
 		if(!dlItem)
 			return null;
+		if("_shell" in dlItem) // Firefox 47+
+			return dlItem._shell;
 		var window = dlItem.ownerDocument.defaultView;
 		if(
 			"DownloadsView" in window
