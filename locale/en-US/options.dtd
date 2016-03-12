@@ -8,14 +8,14 @@
 <!ENTITY dpt.compactDownloads.default "Default">
 <!ENTITY dpt.compactDownloads.compact "Compact">
 <!ENTITY dpt.compactDownloads.veryCompact "Very compact">
-<!ENTITY dpt.showFullPathInTooltip "Show full patch in tooltip for file name">
+<!ENTITY dpt.showFullPathInTooltip "Show full path in tooltip for file name">
 <!ENTITY dpt.showDownloadRate "Show download rate">
 <!ENTITY dpt.decolorizePausedProgress "Decolorize progress bar of paused downloads">
 <!ENTITY dpt.dontHighlightButton "Don't highlight button with new finished downloads">
 <!ENTITY dpt.menuButtonBehavior "Open panel right after mouse down on download button">
 <!ENTITY dpt.dontRemoveFinishedDownloads "Don't remove finished downloads">
 <!ENTITY dpt.middleClickToRemoveFromPanel "Middle-click to remove downloads from panel">
-<!ENTITY dpt.middleClickToRemoveFromPanel.clearHistory "Also remove from history">
+<!ENTITY dpt.middleClickToRemoveFromPanel.clearHistory "Also remove from downloads history">
 
 <!ENTITY dpt.override.downloadsCommand "Command for downloads">
 <!-- We tries to replace {fallback value for hotkey} with real value -->
