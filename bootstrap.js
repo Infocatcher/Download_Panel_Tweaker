@@ -412,13 +412,7 @@ var dpTweaker = {
 	},
 	downloadCommand: function(e, prefName) {
 		var window = e.currentTarget;
-		var isPrivate = "PrivateBrowsingUtils" in window
-			&& window.PrivateBrowsingUtils.isWindowPrivate(
-				window.content
-				|| window.gBrowser.contentWindow
-				|| window.gBrowser.contentWindowAsCPOW
-			);
-		if(isPrivate)
+		if(this.isPrivateContent(window))
 			prefName += ".private";
 		var cmd = prefs.get(prefName);
 		if(!cmd)
@@ -436,6 +430,38 @@ var dpTweaker = {
 			return;
 		_log("downloadCommand(): " + prefName + " = " + cmd);
 		this.stopEvent(e);
+	},
+	isPrivateContent: function(window) {
+		return this.isPrivateTab(window.gBrowser.selectedTab);
+	},
+	isPrivateTab: function(tab) {
+		var window = tab.ownerDocument.defaultView;
+		if(!("PrivateBrowsingUtils" in window))
+			return false;
+		var browser = tab.linkedBrowser;
+		// Try directly check state of content window, may failed with enabled e10s
+		var contentWindow = browser.contentWindow || browser.contentWindowAsCPOW || null;
+		if(contentWindow) try {
+			return window.PrivateBrowsingUtils.isWindowPrivate(contentWindow);
+		}
+		catch(e) {
+		}
+		// Installed Private Tab?
+		// https://github.com/Infocatcher/Private_Tab#privatetabistabprivate
+		if("privateTab" in window) try {
+			return window.privateTab.isTabPrivate(tab);
+		}
+		catch(e) {
+			Components.utils.reportError(e);
+		}
+		// Fallback to check state of browser window itself
+		try {
+			return window.PrivateBrowsingUtils.isWindowPrivate(window);
+		}
+		catch(e) {
+			Components.utils.reportError(e);
+		}
+		return false;
 	},
 
 	stopEvent: function(e) {

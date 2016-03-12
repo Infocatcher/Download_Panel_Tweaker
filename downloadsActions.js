@@ -16,14 +16,7 @@ var downloadsActions = {
 				features: "chrome,dialog=no,resizable,centerscreen"
 			});
 		}
-		if(
-			"PrivateBrowsingUtils" in window
-			&& window.PrivateBrowsingUtils.isWindowPrivate(
-				window.content
-				|| window.gBrowser.contentWindow
-				|| window.gBrowser.contentWindowAsCPOW
-			)
-		) {
+		if(this.dpt.isPrivateContent(window)) {
 			_log("showDownloadWindow(): private downloads aren't supported");
 			return false;
 		}
@@ -55,29 +48,21 @@ var downloadsActions = {
 		this.toggleDownloadPanel(window, false);
 		const downloadsURI = "about:downloads";
 		var gBrowser = window.gBrowser;
-		// We need to check private state for Private Tab extension
-		var pbu = "PrivateBrowsingUtils" in window && window.PrivateBrowsingUtils;
-		var isPrivate = pbu && pbu.isWindowPrivate(
-			window.content
-			|| gBrowser.contentWindow
-			|| gBrowser.contentWindowAsCPOW
-		);
+		// Check private state for Private Tab extension
+		var isPrivate = this.dpt.isPrivateContent(window);
 		if(!Array.some(gBrowser.visibleTabs || gBrowser.tabs, function(tab) {
 			var browser = tab.linkedBrowser;
 			if(
 				browser
 				&& browser.currentURI
 				&& browser.currentURI.spec == downloadsURI
-				&& isPrivate == (pbu && pbu.isWindowPrivate(
-					browser.contentWindow
-					|| browser.contentWindowAsCPOW
-				))
+				&& this.dpt.isPrivateTab(tab) == isPrivate
 			) {
 				gBrowser.selectedTab = tab;
 				return true;
 			}
 			return false;
-		})) {
+		}, this)) {
 			//gBrowser.selectedTab = gBrowser.addTab(downloadsURI);
 			// See resource:///components/DownloadsUI.js
 			window.openUILinkIn(downloadsURI, "tab");
