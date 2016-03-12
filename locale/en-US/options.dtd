@@ -15,7 +15,7 @@
 <!ENTITY dpt.menuButtonBehavior "Open panel right after mouse down on download button">
 <!ENTITY dpt.dontRemoveFinishedDownloads "Don't remove finished downloads">
 <!ENTITY dpt.middleClickToRemoveFromPanel "Middle-click to remove downloads from panel">
-<!ENTITY dpt.middleClickToRemoveFromPanel.clearHistory "Also remove from downloads history">
+<!ENTITY dpt.middleClickToRemoveFromPanel.clearHistory "Also remove from history">
 
 <!ENTITY dpt.override.downloadsCommand "Command for downloads">
 <!-- We tries to replace {fallback value for hotkey} with real value -->
