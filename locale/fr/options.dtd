@@ -1,0 +1,33 @@
+<!-- Options -->
+<!ENTITY dpt.useOldUI "Utiliser l'ancienne interface de téléchargement (non recommandé)">
+<!ENTITY dpt.itemCountLimit "Téléchargements visibles dans le panneau">
+<!ENTITY dpt.panelWidth "Largeur du panneau">
+<!ENTITY dpt.panelMaxHeight "Hauteur maximale du panneau">
+<!ENTITY dpt.progressBarHeight "Largeur de la barre de progrès">
+<!ENTITY dpt.compactDownloads "Liste de téléchargement">
+<!ENTITY dpt.compactDownloads.default "Par défaut">
+<!ENTITY dpt.compactDownloads.compact "Compact">
+<!ENTITY dpt.compactDownloads.veryCompact "Très compact">
+<!ENTITY dpt.showFullPathInTooltip "Afficher le chemin complet du fichier dans l'info-bulle">
+<!ENTITY dpt.showDownloadRate "Afficher la vitesse de téléchargement">
+<!ENTITY dpt.decolorizePausedProgress "Décoloriser la barre de progrès lors de la mise en pause">
+<!ENTITY dpt.dontHighlightButton "Ne pas colorier le bouton lors de la fin d'un téléchargement">
+<!ENTITY dpt.menuButtonBehavior "Ouvrir le panneau directement après le clic">
+<!ENTITY dpt.dontRemoveFinishedDownloads "Ne pas enlever les téléchargements terminés">
+<!ENTITY dpt.middleClickToRemoveFromPanel "Clic de la roulette pour enlever le téléchargement du panneau">
+<!ENTITY dpt.middleClickToRemoveFromPanel.clearHistory "Aussi enlever de l'historique">
+
+<!ENTITY dpt.override.downloadsCommand "Command for downloads">
+<!-- We tries to replace {fallback value for hotkey} with real value -->
+<!ENTITY dpt.override.downloadsHotkey "Raccourci clavier ({Ctrl+J})">
+<!ENTITY dpt.override.showAllDownloads "Bouton « Afficher tout les téléchargements »">
+<!ENTITY dpt.override.inPrivateWindow "Dans une fenêtre de navigation privée">
+<!ENTITY dpt.override.default "Par défaut">
+<!ENTITY dpt.override.togglePanel "Afficher/masquer le panneau">
+<!ENTITY dpt.override.openOldWindow "Ouvrir l'ancienne fenêtre">
+<!ENTITY dpt.override.openOldWindowNote "Ne fonctionne dans Firefox 26 ou supérieur sans une extension additionnelle">
+<!ENTITY dpt.override.openOldWindowNotePrivate "Peut ne pas fonctionner dans une fenêtre privée">
+<!ENTITY dpt.override.openInTab "Ouvrir dans un onglet">
+<!ENTITY dpt.override.openLibraryWindow "Ouvrir la fenêtre de bibliothèque">
+<!ENTITY dpt.override.toggleSidebar "Afficher/masquer la barre latérale">
+<!ENTITY dpt.override.toggleSidebarNotePrivate "Ne fonctionne pas dans un onglet privé">

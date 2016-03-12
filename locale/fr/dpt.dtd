@@ -1,0 +1,14 @@
+<!-- Items in download panel context menu -->
+<!ENTITY dpt.copyReferrer "Copier l'adresse de la page de téléchargement">
+<!ENTITY dpt.copyReferrer.accesskey "p">
+<!ENTITY dpt.removeFile "Supprimer le fichier du disque">
+<!ENTITY dpt.removeFile.accesskey "f">
+<!ENTITY dpt.removeFile.confirmMessage "Êtes-vous sûr de vouloir supprimer « $S »?">
+<!-- Like cmd.clearDownloads.label from view-source:chrome://browser/locale/downloads/downloads.dtd -->
+<!ENTITY dpt.clearDownloads "Vider la liste des téléchargements">
+<!ENTITY dpt.clearDownloads.accesskey "V">
+<!ENTITY dpt.clearDownloads.confirmMessage "Êtes-vous sûr de vouloir supprimer l'historique de téléchargements?">
+
+<!-- Confirmation dialog -->
+<!ENTITY dpt.confirm.title "Download Panel Tweaker">
+<!ENTITY dpt.confirm.dontAskAgain "Ne plus me demander">
