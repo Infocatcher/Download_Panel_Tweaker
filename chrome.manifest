@@ -2,5 +2,6 @@ content downloadpaneltweaker ./
 
 locale downloadpaneltweaker en-US locale/en-US/
 locale downloadpaneltweaker el    locale/el/
+locale downloadpaneltweaker fr    locale/fr/
 locale downloadpaneltweaker ru    locale/ru/
 locale downloadpaneltweaker zh-CN    locale/zh-CN/
