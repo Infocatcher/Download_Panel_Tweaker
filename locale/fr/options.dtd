@@ -20,7 +20,7 @@
 <!ENTITY dpt.override.downloadsCommand "Command for downloads">
 <!-- We tries to replace {fallback value for hotkey} with real value -->
 <!ENTITY dpt.override.downloadsHotkey "Raccourci clavier ({Ctrl+J})">
-<!ENTITY dpt.override.showAllDownloads "Bouton « Afficher tout les téléchargements">
+<!ENTITY dpt.override.showAllDownloads "Bouton « Afficher tout les téléchargements »">
 <!ENTITY dpt.override.inPrivateWindow "Dans une fenêtre de navigation privée">
 <!ENTITY dpt.override.default "Par défaut">
 <!ENTITY dpt.override.togglePanel "Afficher/masquer le panneau">
