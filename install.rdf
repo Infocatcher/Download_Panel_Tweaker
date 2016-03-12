@@ -67,6 +67,17 @@
 				<em:translator>fang5566</em:translator>
 			</Description>
 		</em:localized>
+		
+		<em:localized>
+            		<Description>
+                		<em:locale>fr</em:locale>
+                		<em:name>Download Panel Tweaker</em:name>
+                		<em:description>Petites modifications au panneau des téléchargements</em:description>
+                		<em:creator>Infocatcher</em:creator>
+                		<em:contributor>Icône: basé sur le Farm-fresh icon set par FatCow Web Hosting et l'icône de téléchargement de Firefox</em:contributor>
+                		<em:translator>Charles Milette</em:translator>
+            		</Description>
+        	</em:localized>
 
 	</Description>
 </RDF>
