@@ -15,7 +15,7 @@
 <!ENTITY dpt.menuButtonBehavior "Ouvrir le panneau directement après le clic">
 <!ENTITY dpt.dontRemoveFinishedDownloads "Ne pas enlever les téléchargements terminés">
 <!ENTITY dpt.middleClickToRemoveFromPanel "Clic de la roulette pour enlever le téléchargement du panneau">
-<!ENTITY dpt.middleClickToRemoveFromPanel.clearHistory "Aussi enlever de l'historique des téléchargements">
+<!ENTITY dpt.middleClickToRemoveFromPanel.clearHistory "Aussi enlever de l'historique">
 
 <!ENTITY dpt.override.downloadsCommand "Command for downloads">
 <!-- We tries to replace {fallback value for hotkey} with real value -->
