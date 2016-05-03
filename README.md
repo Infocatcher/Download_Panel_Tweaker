@@ -4,7 +4,7 @@ Example styles for <a href="http://kb.mozillazine.org/UserChrome.css">userChrome
 * <a href="https://github.com/Infocatcher/UserStyles/blob/master/Download_percentage">show NN% label after each progress bar</a>
 
 #### API
-You can use "DownloadPanelTweaker:OpenDownloadWindow" and "DownloadPanelTweaker:ToggleDownloadSidebar" events to override “open old window” and “toggle sidebar” commands, example:
+You can use `DownloadPanelTweaker:OpenDownloadWindow` (“open old window”), `DownloadPanelTweaker:ToggleDownloadSidebar` (“toggle sidebar”) and `DownloadPanelTweaker:OpenDownloadTab` (“open in tab”) events to override commands, example:
 ```js
 window.addEventListener("DownloadPanelTweaker:OpenDownloadWindow", function(e) {
 	e.preventDefault();
