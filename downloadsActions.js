@@ -46,6 +46,10 @@ var downloadsActions = {
 	},
 	openDownloadsTab: function(window) {
 		this.toggleDownloadPanel(window, false);
+		if(!this.dpt.dispatchAPIEvent(window, "OpenDownloadTab")) {
+			_log("openDownloadsTab(): someone handle API event, do nothing");
+			return;
+		}
 		const downloadsURI = "about:downloads";
 		var gBrowser = window.gBrowser;
 		// Check private state for Private Tab extension
