@@ -9,6 +9,7 @@
 `x` Исправлена работа при выключенной настройке «Также удалять из истории» в Firefox 38+ (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/39">#39</a>).<br>
 `x` Исправлена обработка элементов панели загрузок в Firefox 47+ (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/41">#41</a>).<br>
 `+` Добавлена французская (fr) локаль, спасибо <a href="https://github.com/charlesmilette">Charles Milette</a> (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/pull/40">#40</a>).<br>
+`+` Добавлено <a href="https://github.com/Infocatcher/Download_Panel_Tweaker#api">API-событие</a> `DownloadPanelTweaker:OpenDownloadTab`.<br>
 
 ##### 0.2.4 (2015-05-11)
 `x` Исправлена совместимость с Firefox 38+ (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/34">#34</a>, <a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/35">#35</a>, <a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/36">#36</a>, <a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/37">#37</a>).<br>
