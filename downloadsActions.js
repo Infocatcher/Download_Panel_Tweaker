@@ -167,7 +167,7 @@ var downloadsActions = {
 		var clipHelper = Components.classes["@mozilla.org/widget/clipboardhelper;1"]
 			.getService(Components.interfaces.nsIClipboardHelper);
 		var dataItem = dlController.dataItem || dlController.download;
-		var ref = this.getDataItemReferrer(dataItem);
+		var ref = this.getDlReferrer(dataItem);
 		try {
 			// Note: looks like gBrowser.contentWindowAsCPOW.document
 			// doesn't work here as expected
@@ -185,7 +185,7 @@ var downloadsActions = {
 		var dlItem = this.getDlNode(dlContext.triggerNode);
 		var dlController = this.getDlController(dlItem);
 		var dataItem = dlController.dataItem || dlController.download;
-		var path = this.getDataItemPath(dataItem);
+		var path = this.getDlPath(dataItem);
 		_log("removeFile(): " + path);
 		if(
 			!this.confirm({
@@ -275,7 +275,7 @@ var downloadsActions = {
 			function(mi) {
 				var cmd = mi.getAttribute("downloadPanelTweaker-command");
 				if(cmd == "copyReferrer") {
-					var ref = this.getDataItemReferrer(dataItem);
+					var ref = this.getDlReferrer(dataItem);
 					mi.disabled = !ref;
 					mi.tooltipText = ref;
 					var openRef = popup.getElementsByAttribute("command", "downloadsCmd_openReferrer")[0];
@@ -303,7 +303,7 @@ var downloadsActions = {
 					// "exists" attribute may be wrong for canceled downloads
 					if(!existsChecked && !dataItem.openable) {
 						_log("Will check anyway using OS.File.exists() (exists: " + exists + ")");
-						var path = this.getDataItemPath(dataItem);
+						var path = this.getDlPath(dataItem);
 						Components.utils.import("resource://gre/modules/osfile.jsm");
 						OS.File.exists(path).then(
 							function onSuccess(exists) {
@@ -314,7 +314,7 @@ var downloadsActions = {
 						);
 					}
 					window.setTimeout(function() {
-						mi.tooltipText = mi.disabled ? "" : path || this.getDataItemPath(dataItem);
+						mi.tooltipText = mi.disabled ? "" : path || this.getDlPath(dataItem);
 					}.bind(this), 0);
 				}
 			},
@@ -371,7 +371,7 @@ var downloadsActions = {
 			return window.DownloadsView.controllerForElement(dlItem);
 		return new window.DownloadsViewItemController(dlItem);
 	},
-	getDataItemPath: function(dataItem) {
+	getDlPath: function(dataItem) {
 		if("target" in dataItem && !("file" in dataItem))
 			return dataItem.target && dataItem.target.path || dataItem.target;
 		var path = dataItem.file;
@@ -379,7 +379,7 @@ var downloadsActions = {
 			path = dataItem.localFile.path;
 		return path;
 	},
-	getDataItemReferrer: function(dataItem) {
+	getDlReferrer: function(dataItem) {
 		return dataItem && (dataItem.referrer || dataItem.source && dataItem.source.referrer) || "";
 	},
 
