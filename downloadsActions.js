@@ -167,17 +167,17 @@ var downloadsActions = {
 		var clipHelper = Components.classes["@mozilla.org/widget/clipboardhelper;1"]
 			.getService(Components.interfaces.nsIClipboardHelper);
 		var dataItem = dlController.dataItem || dlController.download;
-		var referrer = dataItem.referrer || dataItem.source && dataItem.source.referrer;
+		var ref = this.getDataItemReferrer(dataItem);
 		try {
 			// Note: looks like gBrowser.contentWindowAsCPOW.document
 			// doesn't work here as expected
 			var contentDoc = document.defaultView.content.document; // For Private Tab extension
-			clipHelper.copyString(referrer, contentDoc);
+			clipHelper.copyString(ref, contentDoc);
 		}
 		catch(e) {
 			_log("nsIClipboardHelper.copyString(..., content.document) failed, Electrolysis?");
 			Components.utils.reportError(e);
-			clipHelper.copyString(referrer, document);
+			clipHelper.copyString(ref, document);
 		}
 	},
 	removeFile: function(mi) {
@@ -275,7 +275,7 @@ var downloadsActions = {
 			function(mi) {
 				var cmd = mi.getAttribute("downloadPanelTweaker-command");
 				if(cmd == "copyReferrer") {
-					var ref = dataItem && (dataItem.referrer || dataItem.source && dataItem.source.referrer) || "";
+					var ref = this.getDataItemReferrer(dataItem);
 					mi.disabled = !ref;
 					mi.tooltipText = ref;
 					var openRef = popup.getElementsByAttribute("command", "downloadsCmd_openReferrer")[0];
@@ -378,6 +378,9 @@ var downloadsActions = {
 		if(!path || typeof path != "string" || path.startsWith("file:/")) // Firefox 24 and older
 			path = dataItem.localFile.path;
 		return path;
+	},
+	getDataItemReferrer: function(dataItem) {
+		return dataItem && (dataItem.referrer || dataItem.source && dataItem.source.referrer) || "";
 	},
 
 	get xcr() {
