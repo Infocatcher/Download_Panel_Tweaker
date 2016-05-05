@@ -181,8 +181,7 @@ var downloadsPanel = {
 		}.bind(this), 0);
 	},
 	updateDlItemTooltip: function(trg) {
-		var dlController = this.dpt.da.getDlController(trg);
-		var dataItem = dlController.dataItem || dlController.download;
+		var dataItem = this.dpt.da.getDlDataItem(trg);
 		var path = this.dpt.da.getDlPath(dataItem);
 		var tt = trg.getAttribute("tooltiptext") || "";
 		trg.setAttribute(this.origTtAttr, tt);

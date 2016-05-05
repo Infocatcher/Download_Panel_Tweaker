@@ -162,11 +162,10 @@ var downloadsActions = {
 	},
 	copyReferrer: function(mi) {
 		var dlContext = mi.parentNode;
-		var dlController = this.getDlController(dlContext.triggerNode);
 		var document = mi.ownerDocument;
 		var clipHelper = Components.classes["@mozilla.org/widget/clipboardhelper;1"]
 			.getService(Components.interfaces.nsIClipboardHelper);
-		var dataItem = dlController.dataItem || dlController.download;
+		var dataItem = this.getDlDataItem(dlContext.triggerNode);
 		var ref = this.getDlReferrer(dataItem);
 		try {
 			// Note: looks like gBrowser.contentWindowAsCPOW.document
@@ -184,7 +183,7 @@ var downloadsActions = {
 		var dlContext = mi.parentNode;
 		var dlItem = this.getDlNode(dlContext.triggerNode);
 		var dlController = this.getDlController(dlItem);
-		var dataItem = dlController.dataItem || dlController.download;
+		var dataItem = this.getDlDataItem(dlController);
 		var path = this.getDlPath(dataItem);
 		_log("removeFile(): " + path);
 		if(
@@ -269,7 +268,7 @@ var downloadsActions = {
 		_log("updateDownloadsContextMenu()");
 		var dlItem = this.getDlNode(popup.triggerNode);
 		var dlController = this.getDlController(dlItem);
-		var dataItem = dlController && (dlController.dataItem || dlController.download);
+		var dataItem = this.getDlDataItem(dlController);
 		Array.forEach(
 			popup.getElementsByAttribute("downloadPanelTweaker-command", "*"),
 			function(mi) {
@@ -370,6 +369,11 @@ var downloadsActions = {
 		)
 			return window.DownloadsView.controllerForElement(dlItem);
 		return new window.DownloadsViewItemController(dlItem);
+	},
+	getDlDataItem: function(dlController) {
+		if(dlController && "parentNode" in dlController)
+			dlController = this.getDlController(dlController);
+		return dlController && (dlController.dataItem || dlController.download);
 	},
 	getDlPath: function(dataItem) {
 		if("target" in dataItem && !("file" in dataItem))
