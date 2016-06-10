@@ -6,6 +6,7 @@
 `*` - улучшено<br>
 
 ##### master/HEAD
+##### 0.2.5 (2016-06-10)
 `x` Исправлена работа при выключенной настройке «Также удалять из истории» в Firefox 38+ (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/39">#39</a>).<br>
 `x` Исправлена обработка элементов панели загрузок в Firefox 47+ (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/41">#41</a>).<br>
 `+` Добавлена французская (fr) локаль, спасибо <a href="https://github.com/charlesmilette">Charles Milette</a> (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/pull/40">#40</a>).<br>
