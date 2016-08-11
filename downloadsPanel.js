@@ -4,12 +4,12 @@ var downloadsPanel = {
 
 	handleEvent: function(e) {
 		switch(e.type) {
-			case "mouseover":   this.panelMouseOver(e); break;
-			case "click":       this.panelClick(e);     break;
-			case "keypress":    this.panelKeyPress(e);  break;
-			case "popupshowing": this.panelShowing(e);  break;
-			case "popuphidden": this.panelHidden(e);    break;
-			case "mousedown":   this.windowMouseDown(e);
+			case "mouseover":    this.panelMouseOver(e); break;
+			case "click":        this.panelClick(e);     break;
+			case "keypress":     this.panelKeyPress(e);  break;
+			case "popupshowing": this.panelShowing(e);   break;
+			case "popuphidden":  this.panelHidden(e);    break;
+			case "mousedown":    this.windowMouseDown(e);
 		}
 	},
 
