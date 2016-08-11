@@ -6,6 +6,8 @@
 `*` - improved<br>
 
 ##### master/HEAD
+`x` Fixed compatibility with Firefox 51+ (SyntaxError: non-generator method definitions may not contain yield).<br>
+
 ##### 0.2.5 (2016-06-10)
 `x` Fixed unchecked “Also remove from history” in Firefox 38+ (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/39">#39</a>).<br>
 `x` Correctly handle download items in Firefox 47+ (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/41">#41</a>).<br>
