@@ -276,7 +276,7 @@ var downloadsPanel = {
 	checkForDlClick: function(e) {
 		if(!prefs.get("middleClickToRemoveFromPanel"))
 			return false;
-		var dlController = this.dpt.da.getDlController(e.target);
+		var dlController = this.dpt.da.getDlController(e.originalTarget);
 		if(!dlController)
 			return false;
 		this.dpt.da.removeFromPanel(dlController, prefs.get("middleClickToRemoveFromPanel.clearHistory"));
