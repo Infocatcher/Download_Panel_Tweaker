@@ -36,7 +36,7 @@ var dpTweaker = {
 		_dbg = prefs.get("debug", false);
 		_dbgv = prefs.get("debug.verbose", false);
 
-		for(var window in this.windows)
+		for(var window of this.windows)
 			this.initWindow(window, reason);
 		if(!this._tweakStyleLoaded && Services.wm.getMostRecentWindow("Places:Organizer"))
 			this.stl.loadStyles(true);
@@ -81,7 +81,7 @@ var dpTweaker = {
 			}.bind(this), "profile-change-teardown", false);
 		}
 
-		for(var window in this.windows)
+		for(var window of this.windows)
 			this.destroyWindow(window, reason);
 		Services.ww.unregisterNotification(this);
 
@@ -192,9 +192,11 @@ var dpTweaker = {
 		return window.document.documentElement.getAttribute("windowtype") == "Places:Organizer";
 	},
 	get windows() {
+		var windows = [];
 		var ws = Services.wm.getEnumerator("navigator:browser");
 		while(ws.hasMoreElements())
-			yield ws.getNext();
+			windows.push(ws.getNext());
+		return windows;
 	},
 
 	get stl() { return this.lazy("stl", "downloadsStyles");       },
@@ -592,13 +594,13 @@ var dpTweaker = {
 			this.stl.loadCompactStyle(pVal);
 		else if(pName == "showDownloadRate") {
 			this.showDownloadRate(pVal);
-			for(var window in this.windows)
+			for(var window of this.windows)
 				this.udateDownloadRate(window.document, pVal);
 		}
 		else if(pName == "itemCountLimit") {
 			if(this.wrongPref(pName, pVal, this.minItemCountLimit, 10e3))
 				return;
-			for(var window in this.windows)
+			for(var window of this.windows)
 				this.setItemCountLimit(window, true);
 		}
 		else if(
@@ -618,7 +620,7 @@ var dpTweaker = {
 				return;
 			if(pName == "decolorizePausedProgress") {
 				this.showPausedDownloadsSummary(pVal);
-				for(var window in this.windows)
+				for(var window of this.windows)
 					this.updateDownloadsSummary(window.document, pVal);
 			}
 			this.stl.reloadTweakStyleProxy();
@@ -636,7 +638,7 @@ var dpTweaker = {
 				+ ", handleCommandEvent = " + handleCommand
 				+ ", handleClickEvent = " + handleClick
 			);
-			for(var window in this.windows) {
+			for(var window of this.windows) {
 				if(handleCommand)
 					window.addEventListener("command", this, true);
 				else
@@ -657,14 +659,14 @@ var dpTweaker = {
 		else if(pName == "fixDownloadsLoading")
 			this.de.fixLoadDownloads(pVal && prefs.get("dontRemoveFinishedDownloads"));
 		else if(pName == "fixWrongTabsOnTopAttribute") {
-			for(var window in this.windows)
+			for(var window of this.windows)
 				this.setFixToolbox(window, pVal, true);
 		}
 		else if(
 			pName == "dontHighlightButton"
 			|| pName == "menuButtonBehavior"
 		) {
-			for(var window in this.windows)
+			for(var window of this.windows)
 				this.btn.tweakDlButton(window, this.enableDlButtonTweaks, true);
 		}
 		else if(pName == "debug")
