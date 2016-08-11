@@ -315,8 +315,10 @@ var downloadsPanel = {
 	},
 
 	panelShowing: function(e) {
-		var popup = e.currentTarget;
 		// Trick to correctly update height in Firefox 50+
+		if(!prefs.get("fixPanelHeight"))
+			return;
+		var popup = e.currentTarget;
 		var multiView = popup.getElementsByAttribute("id", "downloadsPanel-multiView")[0] || null;
 		var mainView = multiView && multiView._mainView;
 		var hasFlex = mainView && mainView.getAttribute("flex") == "1";

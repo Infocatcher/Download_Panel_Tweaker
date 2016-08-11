@@ -72,6 +72,9 @@ pref("extensions.downloadPanelTweaker.suppressFailedDownloadsNotifications", tru
 
 pref("extensions.downloadPanelTweaker.fixWrongTabsOnTopAttribute", true);
 
+pref("extensions.downloadPanelTweaker.fixPanelHeight", true);
+// Use trick to correctly update panel height in Firefox 50+
+
 pref("extensions.downloadPanelTweaker.prefsVersion", 0);
 
 pref("extensions.downloadPanelTweaker.debug", false);
