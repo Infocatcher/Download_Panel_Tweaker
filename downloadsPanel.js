@@ -7,6 +7,7 @@ var downloadsPanel = {
 			case "mouseover":   this.panelMouseOver(e); break;
 			case "click":       this.panelClick(e);     break;
 			case "keypress":    this.panelKeyPress(e);  break;
+			case "popupshowing": this.panelShowing(e);  break;
 			case "popuphidden": this.panelHidden(e);    break;
 			case "mousedown":   this.windowMouseDown(e);
 		}
@@ -24,6 +25,7 @@ var downloadsPanel = {
 		popup.addEventListener("click", this, true);
 		popup.addEventListener("keypress", this, true);
 		popup.addEventListener("mouseover", this, false);
+		popup.addEventListener("popupshowing", this, false);
 		popup.addEventListener("popuphidden", this, false);
 		if(prefs.get("menuButtonBehavior"))
 			this.dpt.btn.menuPanelBehavior(popup, true);
@@ -110,6 +112,7 @@ var downloadsPanel = {
 			popup.removeEventListener("click", this, true);
 			popup.removeEventListener("keypress", this, true);
 			popup.removeEventListener("mouseover", this, false);
+			popup.removeEventListener("popupshowing", this, false);
 			popup.removeEventListener("popuphidden", this, false);
 			// Remove our tooltips, see this.da.updateDownloadsContextMenu()
 			var copyLoc = popup.getElementsByAttribute("command", "downloadsCmd_copyLocation")[0];
@@ -309,6 +312,20 @@ var downloadsPanel = {
 	windowMouseDown: function(e) {
 		_log(e.type + " -> cancelReopenPanel()");
 		this.cancelReopenPanel(e.currentTarget);
+	},
+
+	panelShowing: function(e) {
+		var popup = e.currentTarget;
+		// Trick to correctly update height in Firefox 50+
+		var multiView = popup.getElementsByAttribute("id", "downloadsPanel-multiView")[0] || null;
+		var mainView = multiView && multiView._mainView;
+		var hasFlex = mainView && mainView.getAttribute("flex") == "1";
+		if(hasFlex) {
+			mainView.removeAttribute("flex");
+			e.view.setTimeout(function() {
+				mainView.setAttribute("flex", "1");
+			}, 0);
+		}
 	},
 
 	panelCloseTime: 0,
