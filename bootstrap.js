@@ -457,8 +457,8 @@ var dpTweaker = {
 		if(!("PrivateBrowsingUtils" in window))
 			return false;
 		var browser = tab.linkedBrowser;
-		// Try directly check state of content window, may failed with enabled e10s
-		var contentWindow = browser.contentWindow || browser.contentWindowAsCPOW || null;
+		// Try directly check state of content window, may fail in e10s mode
+		var contentWindow = browser.contentWindow;
 		if(contentWindow) try {
 			return window.PrivateBrowsingUtils.isWindowPrivate(contentWindow);
 		}
