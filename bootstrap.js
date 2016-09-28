@@ -43,9 +43,25 @@ var dpTweaker = {
 		Services.ww.registerNotification(this);
 
 		delay(function() {
+			if(!prefs.get("dontRemoveFinishedDownloads"))
+				return;
 			// We can't apply this patch after "domwindowopened" + delay at least in Firefox 27
-			if(prefs.get("dontRemoveFinishedDownloads") && prefs.get("fixDownloadsLoading"))
+			if(prefs.get("fixDownloadsLoading"))
 				this.de.fixLoadDownloads(true);
+			// Workaround: turn on notifications after small delay
+			var notifyPref = "browser.download.animateNotifications";
+			var restoreDelay = prefs.get("suppressDownloadsNotificationsAtStartup");
+			if(restoreDelay > 0 && reason == APP_STARTUP && prefs.getPref(notifyPref)) {
+				_log(notifyPref + " -> false");
+				prefs.setPref(notifyPref, false);
+				var timer = Components.classes["@mozilla.org/timer;1"]
+					.createInstance(Components.interfaces.nsITimer);
+				timer.init(function() {
+					_log(notifyPref + " -> restore to true");
+					prefs.setPref(notifyPref, true);
+					timer; // Yeah, really. Needed in Firefox 52. GC kills timer otherwise. O_O
+				}, restoreDelay, timer.TYPE_ONE_SHOT);
+			}
 		}, this);
 
 		_log("Successfully started");

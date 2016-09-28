@@ -69,6 +69,9 @@ pref("extensions.downloadPanelTweaker.suppressPausedDownloadsNotifications", tru
 // Suppress notifications about all "canceled" downloads (include paused)
 pref("extensions.downloadPanelTweaker.suppressFailedDownloadsNotifications", true);
 // Suppress notifications about downloads with not empty "error" property
+pref("extensions.downloadPanelTweaker.suppressDownloadsNotificationsAtStartup", 15000);
+// Set browser.download.animateNotifications = false on startup
+// and turn on after delay (in ms), 0 to disable
 
 pref("extensions.downloadPanelTweaker.fixWrongTabsOnTopAttribute", true);
 
