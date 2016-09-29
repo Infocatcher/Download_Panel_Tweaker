@@ -420,16 +420,40 @@ var dpTweaker = {
 		}
 	},
 	handleClick: function(e) {
-		var trg = e.target;
+		var trg = e.originalTarget || e.target;
 		if(
 			trg.ownerDocument
 			&& trg.ownerDocument.documentURI == "about:home"
 			&& trg.id == "downloads"
 		)
 			this.downloadCommand(e, "overrideDownloadsCommand");
+		else if(
+			trg.localName == "browser"
+			&& trg.getAttribute("remote") == "true"
+			&& trg.currentURI.spec == "about:home"
+		) {
+			var window = e.currentTarget;
+			var origBrowserDownloadsUI = window.BrowserDownloadsUI;
+			if(origBrowserDownloadsUI.name == "dpTweakerWrapper")
+				return;
+
+			var unwrap = function() {
+				window.BrowserDownloadsUI = origBrowserDownloadsUI;
+			};
+			var _this = this;
+			window.BrowserDownloadsUI = function dpTweakerWrapper() {
+				_log(e.type + " -> BrowserDownloadsUI() => downloadCommand()");
+				unwrap();
+				// Note: we can't use event here, at least e.currentTarget is broken after delay
+				_this.downloadCommand(window, "overrideDownloadsCommand");
+			};
+			window.setTimeout(unwrap, 50);
+		}
 	},
 	downloadCommand: function(e, prefName) {
-		var window = e.currentTarget;
+		var window = e.currentTarget || e;
+		if(e instanceof Components.interfaces.nsIDOMWindow)
+			e = null;
 		if(this.isPrivateContent(window))
 			prefName += ".private";
 		var cmd = prefs.get(prefName);
@@ -447,7 +471,7 @@ var dpTweaker = {
 		if(ok == false)
 			return;
 		_log("downloadCommand(): " + prefName + " = " + cmd);
-		this.stopEvent(e);
+		e && this.stopEvent(e);
 	},
 	isPrivateContent: function(window) {
 		return this.isPrivateTab(window.gBrowser.selectedTab);
