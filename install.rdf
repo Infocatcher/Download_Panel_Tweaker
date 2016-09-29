@@ -6,6 +6,7 @@
 		<em:id>downloadPanelTweaker@infocatcher</em:id>
 		<em:type>2</em:type>
 		<em:bootstrap>true</em:bootstrap>
+		<em:multiprocessCompatible>true</em:multiprocessCompatible>
 		<em:name>Download Panel Tweaker</em:name>
 		<em:version>0.2.5</em:version>
 		<em:description>Some tweaks for built-in download panel</em:description>
