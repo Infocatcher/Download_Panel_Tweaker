@@ -167,17 +167,15 @@ var downloadsActions = {
 			.getService(Components.interfaces.nsIClipboardHelper);
 		var dataItem = this.getDlDataItem(dlContext.triggerNode);
 		var ref = this.getDlReferrer(dataItem);
-		try {
-			// Note: looks like gBrowser.contentWindowAsCPOW.document
-			// doesn't work here as expected
-			var contentDoc = document.defaultView.content.document; // For Private Tab extension
-			clipHelper.copyString(ref, contentDoc);
+		var content = document.defaultView.content; // For Private Tab extension
+		if(content) try {
+			clipHelper.copyString(ref, content.document);
+			return;
 		}
 		catch(e) {
-			_log("nsIClipboardHelper.copyString(..., content.document) failed, Electrolysis?");
 			Components.utils.reportError(e);
-			clipHelper.copyString(ref, document);
 		}
+		clipHelper.copyString(ref, document);
 	},
 	removeFile: function(mi) {
 		var dlContext = mi.parentNode;
