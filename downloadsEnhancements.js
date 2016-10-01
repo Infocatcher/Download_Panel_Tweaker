@@ -176,6 +176,28 @@ var downloadsEnhancements = {
 		)
 			this.newDownloadNotified = true;
 	},
+	suppressNotifications: function() {
+		// Workaround: turn on notifications after small delay
+		var notifyPref = "browser.download.animateNotifications";
+		var restorePref = "suppressDownloadsNotificationsAtStartup.restore";
+		var restoreDelay = prefs.get("suppressDownloadsNotificationsAtStartup");
+		if(
+			restoreDelay > 0
+			&& (prefs.getPref(notifyPref) || prefs.get(restorePref))
+		) {
+			_log(notifyPref + " -> false");
+			prefs.setPref(notifyPref, false);
+			prefs.set(restorePref, true);
+			var timer = Components.classes["@mozilla.org/timer;1"]
+				.createInstance(Components.interfaces.nsITimer);
+			timer.init(function() {
+				_log(notifyPref + " -> restore to true");
+				prefs.setPref(notifyPref, true);
+				Services.prefs.deleteBranch(prefs.ns + restorePref);
+				timer; // Yeah, really. Needed in Firefox 52. GC kills timer otherwise. O_O
+			}, restoreDelay, timer.TYPE_ONE_SHOT);
+		}
+	},
 	fixDownload: function(download) {
 		this.fixUpdateFromDownload.call(download, download);
 	},
