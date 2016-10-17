@@ -7,7 +7,11 @@ var downloadsEnhancements = {
 		var logPrefix = "dontRemoveFinishedDownloads(" + patch + "): ";
 		try { // Firefox 26+
 			// http://mxr.mozilla.org/mozilla-central/source/toolkit/components/jsdownloads/src/DownloadIntegration.jsm
-			var {DownloadIntegration} = Components.utils.import("resource://gre/modules/DownloadIntegration.jsm", {});
+			var dig = Components.utils.import("resource://gre/modules/DownloadIntegration.jsm", {});
+			var {DownloadIntegration} = dig;
+			// Note: how ensure, that we patch/restore the same object/method? Some new API?
+			if("gCombinedDownloadIntegration" in dig) // Firefox 49+
+				DownloadIntegration = dig.gCombinedDownloadIntegration;
 			var dcg = Components.utils.import("resource:///modules/DownloadsCommon.jsm", {});
 			var {DownloadsDataItem} = dcg;
 			if(DownloadsDataItem && DownloadsDataItem.prototype) {
@@ -426,10 +430,14 @@ var downloadsEnhancements = {
 	},
 	saveDownloads: function() {
 		try { // Firefox 26+
-			var {DownloadIntegration} = Components.utils.import("resource://gre/modules/DownloadIntegration.jsm", {});
+			var dig = Components.utils.import("resource://gre/modules/DownloadIntegration.jsm", {});
+			var DownloadIntegration = dig.gCombinedDownloadIntegration || dig.DownloadIntegration;
 			if(DownloadIntegration._store) {
 				DownloadIntegration._store.save();
 				_log("saveDownloads()");
+			}
+			else {
+				_log("saveDownloads() failed: DownloadIntegration._store is " + DownloadIntegration._store);
 			}
 		}
 		catch(e) {
