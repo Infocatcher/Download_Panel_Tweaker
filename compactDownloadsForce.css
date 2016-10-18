@@ -8,7 +8,7 @@
 	#downloadsListBox {
 		padding: 3px !important;
 	}
-	#downloadsPanel-multiView #downloadsListBox {
+	#downloadsPanel-multiView[downloadPanelTweaker_newList] #downloadsListBox {
 		padding: 0 !important;
 	}
 	#downloadsSummary,
@@ -52,7 +52,7 @@
 		margin: 0 !important;
 		padding: 5px 1px !important;
 	}
-	#downloadsPanel-multiView .downloadButton {
+	#downloadsPanel-multiView[downloadPanelTweaker_newList] .downloadButton {
 		min-width: 32px !important;
 	}
 	.downloadsPanelFooterButton {

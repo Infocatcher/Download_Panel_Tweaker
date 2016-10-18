@@ -516,6 +516,10 @@ var dpTweaker = {
 				window.setTimeout(function() {
 					this.dp.initPanel(window.document, popup);
 				}.bind(this), 0);
+				if(this.fxVersion >= 52) {
+					var mv = popup.getElementsByAttribute("id", "downloadsPanel-multiView")[0];
+					mv && mv.setAttribute("downloadPanelTweaker_newList", "true");
+				}
 			}
 			return;
 		}

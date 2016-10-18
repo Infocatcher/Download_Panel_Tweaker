@@ -8,7 +8,7 @@
 	#downloadsListBox {
 		padding: 4px !important;
 	}
-	#downloadsPanel-multiView #downloadsListBox {
+	#downloadsPanel-multiView[downloadPanelTweaker_newList] #downloadsListBox {
 		padding: 0 !important;
 	}
 	#downloadsSummary,
@@ -25,7 +25,7 @@
 	richlistitem[type="download"] {
 		padding: 2px !important;
 	}
-	#downloadsPanel-multiView richlistitem[type="download"] {
+	#downloadsPanel-multiView[downloadPanelTweaker_newList] richlistitem[type="download"] {
 		padding: 0 !important;
 	}
 	#downloadsHistory > .button-box {
@@ -58,7 +58,7 @@
 		margin: 2px !important;
 		padding: 5px 3px !important;
 	}
-	#downloadsPanel-multiView .downloadButton {
+	#downloadsPanel-multiView[downloadPanelTweaker_newList] .downloadButton {
 		min-width: 32px !important;
 	}
 	.downloadsPanelFooterButton {
