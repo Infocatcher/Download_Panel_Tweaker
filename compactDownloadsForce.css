@@ -8,6 +8,9 @@
 	#downloadsListBox {
 		padding: 3px !important;
 	}
+	#downloadsPanel-multiView #downloadsListBox {
+		padding: 0 !important;
+	}
 	#downloadsSummary,
 	richlistitem[type="download"],
 	#downloadsRichListBox > richlistitem.download {
@@ -42,9 +45,19 @@
 		margin: 1px !important;
 		-moz-margin-start: 3px !important;
 	}
+	.downloadMainArea {
+		padding: 1px !important;
+	}
 	.downloadButton {
 		margin: 0 !important;
 		padding: 5px 1px !important;
+	}
+	#downloadsPanel-multiView .downloadButton {
+		min-width: 32px !important;
+	}
+	.downloadsPanelFooterButton {
+		min-height: 26px !important;
+		padding: 0 8px !important;
 	}
 	.downloadProgress {
 		margin: 1px 3px !important;
