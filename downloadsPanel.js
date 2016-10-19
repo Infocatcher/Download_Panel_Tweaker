@@ -27,6 +27,7 @@ var downloadsPanel = {
 		popup.addEventListener("mouseover", this, false);
 		popup.addEventListener("popupshowing", this, false);
 		popup.addEventListener("popuphidden", this, false);
+		this.panelShowing(popup);
 		if(prefs.get("menuButtonBehavior"))
 			this.dpt.btn.menuPanelBehavior(popup, true);
 
@@ -314,17 +315,17 @@ var downloadsPanel = {
 		this.cancelReopenPanel(e.currentTarget);
 	},
 
-	panelShowing: function(e) {
+	panelShowing: function(popupOrEvent) {
 		// Trick to correctly update height in Firefox 50+
 		if(!prefs.get("fixPanelHeight"))
 			return;
-		var popup = e.currentTarget;
+		var popup = popupOrEvent.currentTarget || popupOrEvent;
 		var multiView = popup.getElementsByAttribute("id", "downloadsPanel-multiView")[0] || null;
 		var mainView = multiView && multiView._mainView;
 		var hasFlex = mainView && mainView.getAttribute("flex") == "1";
 		if(hasFlex) {
 			mainView.removeAttribute("flex");
-			e.view.setTimeout(function() {
+			popup.ownerDocument.defaultView.setTimeout(function() {
 				mainView.setAttribute("flex", "1");
 			}, 0);
 		}
