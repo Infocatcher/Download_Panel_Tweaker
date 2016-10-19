@@ -8,6 +8,11 @@
 ##### master/HEAD
 `x` Исправлена совместимость с Firefox 51+ (SyntaxError: non-generator method definitions may not contain yield).<br>
 `x` Исправлена работа настройки «Удалять загрузки из панели по клику средней кнопкой мыши» в Firefox 38+.<br>
+`x` Исправлено обновление высоты панели в Firefox 50+ (настройка <em>extensions.downloadPanelTweaker.fixPanelHeight</em>).<br>
+`+` Добавлен трюк для принудительной блокировки ложных оповещений о загрузках при запуске (настройка <em>extensions.downloadPanelTweaker.suppressDownloadsNotificationsAtStartup</em>, задержка от запуска до включения оповещений, в миллисекундах).<br>
+`x` Исправления для совместимости с мультипроцессным режимом (Electrolysis aka e10s) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/32">#32</a>, <a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/33">#33</a>).<br>
+`x` Исправлена настройка «Не удалять завершённые загрузки» в Firefox 49+ (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/47">#47</a>).<br>
+`x` Откорректированы «Компактный» и «Очень компактный» стили в Firefox 52+ (также подкорректирован вид «подвала» панели загрузок в Firefox 50+) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/48">#48</a>).<br>
 
 ##### 0.2.5 (2016-06-10)
 `x` Исправлена работа при выключенной настройке «Также удалять из истории» в Firefox 38+ (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/39">#39</a>).<br>

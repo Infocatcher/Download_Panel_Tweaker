@@ -8,6 +8,11 @@
 ##### master/HEAD
 `x` Fixed compatibility with Firefox 51+ (SyntaxError: non-generator method definitions may not contain yield).<br>
 `x` Fixed “Middle-click to remove downloads from panel” in Firefox 38+.<br>
+`x` Correctly update panel height in Firefox 50+ (<em>extensions.downloadPanelTweaker.fixPanelHeight</em> preference).<br>
+`+` Added trick to force suppress wrong download notifications on startup (<em>extensions.downloadPanelTweaker.suppressDownloadsNotificationsAtStartup</em> preference, delay from startup to turn on notifications, in ms).<br>
+`x` Compatibility fixes for multi-process mode (Electrolysis aka e10s) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/32">#32</a>, <a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/33">#33</a>).<br>
+`x` Fixed “Don't remove finished downloads” option in Firefox 49+ (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/47">#47</a>).<br>
+`x` Corrected “Compact” and “Very compact” styles in Firefox 52+ (also corrected appearance of download panel footer in Firefox 50+) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/48">#48</a>).<br>
 
 ##### 0.2.5 (2016-06-10)
 `x` Fixed unchecked “Also remove from history” in Firefox 38+ (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/39">#39</a>).<br>
