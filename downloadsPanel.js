@@ -324,6 +324,8 @@ var downloadsPanel = {
 		var mainView = multiView && multiView._mainView;
 		var hasFlex = mainView && mainView.getAttribute("flex") == "1";
 		if(hasFlex) {
+			if(mainView.style.height)
+				mainView.style.height = "";
 			mainView.removeAttribute("flex");
 			popup.ownerDocument.defaultView.setTimeout(function() {
 				mainView.setAttribute("flex", "1");
