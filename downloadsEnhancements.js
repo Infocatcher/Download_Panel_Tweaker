@@ -382,7 +382,7 @@ var downloadsEnhancements = {
 			}
 			var list = this.list;
 			var path = this.path;
-			var {OS} = Components.utils.import("resource://gre/modules/osfile.jsm", {});
+			var {OS, TextDecoder} = Components.utils.import("resource://gre/modules/osfile.jsm", {});
 			OS.File.read(path).then(
 				function onReadSuccess(bytes) {
 					if(!bytes) {
@@ -390,8 +390,6 @@ var downloadsEnhancements = {
 						onSuccess && onSuccess();
 						return;
 					}
-					// We don't have TextDecoder in our global object...
-					var TextDecoder = Components.utils.getGlobalForObject(OS).TextDecoder;
 					var json = new TextDecoder().decode(bytes);
 					_log("loadDownloads(): read downloads.json in " + (Date.now() - startTime) + " ms");
 					startTime = Date.now();
