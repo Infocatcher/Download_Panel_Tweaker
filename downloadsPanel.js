@@ -15,6 +15,7 @@ var downloadsPanel = {
 
 	clearDownloadsId: "downloadPanelTweaker-menuItem-clearDownloads",
 	clearDownloads2Id: "downloadPanelTweaker-menuItem-clearDownloads2",
+	clearDownloadsDdId: "downloadPanelTweaker-menuItem-dropdownClearDownloads",
 	copyReferrerId: "downloadPanelTweaker-menuItem-copyReferrer",
 	removeFileId: "downloadPanelTweaker-menuItem-removeFile",
 	removeFileSepId: "downloadPanelTweaker-menuItem-removeFile-separator",
@@ -78,6 +79,14 @@ var downloadsPanel = {
 				footer.setAttribute("downloadPanelTweaker-origContext", footer.getAttribute("context"));
 			footer.setAttribute("context", this.panelFooterContextId);
 			_log("Add context menu for download panel footer");
+		}
+
+		var ddClearList = document.getElementById("downloadsDropdownItemClearList");
+		if(ddClearList) { // Firefox 51+
+			var clearDownloadsDd = clearDownloads.cloneNode(true);
+			clearDownloadsDd.id = this.clearDownloadsDdId;
+			clearDownloadsDd.addEventListener("command", this.dpt, false);
+			ddClearList.parentNode.insertBefore(clearDownloadsDd, ddClearList.nextSibling);
 		}
 
 		var contextMenu = document.getElementById("downloadsContextMenu");
@@ -157,6 +166,11 @@ var downloadsPanel = {
 			var footerContext = document.getElementById(this.panelFooterContextId);
 			if(footerContext && force)
 				footerContext.parentNode.removeChild(footerContext);
+		}
+		var clearDownloadsDd = document.getElementById(this.clearDownloadsDdId);
+		if(clearDownloadsDd) { // Anonymous node can't be obtained using getElementsByAttribute()
+			clearDownloadsDd.removeEventListener("command", this.dpt, false);
+			clearDownloadsDd.parentNode.removeChild(clearDownloadsDd);
 		}
 		Array.slice(document.getElementsByAttribute("downloadPanelTweaker-command", "*"))
 			.forEach(function(mi) {
