@@ -13,8 +13,8 @@ var downloadsPanel = {
 		}
 	},
 
-	clearDownloadsId: "downloadPanelTweaker-menuItem-clearDownloads",
-	clearDownloads2Id: "downloadPanelTweaker-menuItem-clearDownloads2",
+	clearDownloadsId: "downloadPanelTweaker-menuItem-contextClearDownloads",
+	clearDownloadsPfId: "downloadPanelTweaker-menuItem-footerClearDownloads",
 	clearDownloadsDdId: "downloadPanelTweaker-menuItem-dropdownClearDownloads",
 	copyReferrerId: "downloadPanelTweaker-menuItem-copyReferrer",
 	removeFileId: "downloadPanelTweaker-menuItem-removeFile",
@@ -69,10 +69,10 @@ var downloadsPanel = {
 		if(footer) {
 			var footerContext = document.createElement("menupopup");
 			footerContext.id = this.panelFooterContextId;
-			var clearDownloads2 = clearDownloads.cloneNode(true);
-			clearDownloads2.id = this.clearDownloads2Id;
-			clearDownloads2.addEventListener("command", this.dpt, false);
-			footerContext.appendChild(clearDownloads2);
+			var clearDownloadsPf = clearDownloads.cloneNode(true);
+			clearDownloadsPf.id = this.clearDownloadsPfId;
+			clearDownloadsPf.addEventListener("command", this.dpt, false);
+			footerContext.appendChild(clearDownloadsPf);
 			var popupSet = document.getElementById("mainPopupSet") || document.documentElement;
 			popupSet.appendChild(footerContext);
 			if(footer.hasAttribute("context"))
@@ -160,9 +160,9 @@ var downloadsPanel = {
 				footer.setAttribute("context", footer.getAttribute("downloadPanelTweaker-origContext"));
 			else
 				footer.removeAttribute("context");
-			var clearDownloads2 = document.getElementById(this.clearDownloads2Id);
-			if(clearDownloads2)
-				clearDownloads2.removeEventListener("command", this.dpt, false);
+			var clearDownloadsPf = document.getElementById(this.clearDownloadsPfId);
+			if(clearDownloadsPf)
+				clearDownloadsPf.removeEventListener("command", this.dpt, false);
 			var footerContext = document.getElementById(this.panelFooterContextId);
 			if(footerContext && force)
 				footerContext.parentNode.removeChild(footerContext);
