@@ -16,6 +16,7 @@ var downloadsPanel = {
 	clearDownloadsId: "downloadPanelTweaker-menuItem-contextClearDownloads",
 	clearDownloadsPfId: "downloadPanelTweaker-menuItem-footerClearDownloads",
 	clearDownloadsDdId: "downloadPanelTweaker-menuItem-dropdownClearDownloads",
+	clearDownloadsDdSepId: "downloadPanelTweaker-menuItem-dropdownClearDownloads-separator",
 	copyReferrerId: "downloadPanelTweaker-menuItem-copyReferrer",
 	removeFileId: "downloadPanelTweaker-menuItem-removeFile",
 	removeFileSepId: "downloadPanelTweaker-menuItem-removeFile-separator",
@@ -86,7 +87,13 @@ var downloadsPanel = {
 			var clearDownloadsDd = clearDownloads.cloneNode(true);
 			clearDownloadsDd.id = this.clearDownloadsDdId;
 			clearDownloadsDd.addEventListener("command", this.dpt, false);
-			ddClearList.parentNode.insertBefore(clearDownloadsDd, ddClearList.nextSibling);
+			var insPos = ddClearList.nextSibling;
+			ddClearList.parentNode.insertBefore(clearDownloadsDd, insPos);
+			if(insPos) {
+				var sep = document.createElement("menuseparator");
+				sep.id = this.clearDownloadsDdSepId;
+				ddClearList.parentNode.insertBefore(sep, insPos);
+			}
 		}
 
 		var contextMenu = document.getElementById("downloadsContextMenu");
@@ -167,11 +174,14 @@ var downloadsPanel = {
 			if(footerContext && force)
 				footerContext.parentNode.removeChild(footerContext);
 		}
+		// Note: anonymous node can't be obtained using getElementsByAttribute()
 		var clearDownloadsDd = document.getElementById(this.clearDownloadsDdId);
-		if(clearDownloadsDd) { // Anonymous node can't be obtained using getElementsByAttribute()
+		if(clearDownloadsDd) {
 			clearDownloadsDd.removeEventListener("command", this.dpt, false);
 			clearDownloadsDd.parentNode.removeChild(clearDownloadsDd);
 		}
+		var sep = document.getElementById(this.clearDownloadsDdSepId);
+		sep && sep.parentNode.removeChild(sep);
 		Array.slice(document.getElementsByAttribute("downloadPanelTweaker-command", "*"))
 			.forEach(function(mi) {
 				mi.removeEventListener("command", this.dpt, false);
