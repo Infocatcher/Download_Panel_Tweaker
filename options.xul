@@ -106,8 +106,14 @@
 							var doc = win.document;
 							var mi = doc.getElementById("menu_openDownloads");
 							var menu = mi.parentNode.parentNode;
+							var stopEvent = function(e) {
+								e.preventDefault();
+								e.stopPropagation();
+							};
+							win.addEventListener("popupshowing", stopEvent, true);
 							menu.open = true;
 							menu.open = false;
+							win.removeEventListener("popupshowing", stopEvent, true);
 							var key = mi.getAttribute("acceltext");
 							if(key)
 								keyText = key;
