@@ -12,7 +12,9 @@
 `+` Добавлен трюк для принудительной блокировки ложных оповещений о загрузках при запуске (настройка <em>extensions.downloadPanelTweaker.suppressDownloadsNotificationsAtStartup</em>, задержка от запуска до включения оповещений, в миллисекундах).<br>
 `x` Исправления для совместимости с мультипроцессным режимом (Electrolysis aka e10s) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/32">#32</a>, <a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/33">#33</a>).<br>
 `x` Исправлена настройка «Не удалять завершённые загрузки» в Firefox 49+ (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/47">#47</a>).<br>
-`x` Откорректированы «Компактный» и «Очень компактный» стили в Firefox 52+ (также подкорректирован вид «подвала» панели загрузок в Firefox 50+) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/48">#48</a>).<br>
+`x` Откорректированы «Компактный» и «Очень компактный» стили в Firefox 52+ (также подкорректирован вид нижней части панели загрузок в Firefox 50+) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/48">#48</a>).<br>
+`+` Добавлен пункт «Очистить загрузки» в меню нижней части панели загрузок (Firefox 51+) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/50">#50</a>).<br>
+`x` Исправлено: скрытая панель меню показывалась при открытии настроек (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/49">#49</a>).<br>
 
 ##### 0.2.5 (2016-06-10)
 `x` Исправлена работа при выключенной настройке «Также удалять из истории» в Firefox 38+ (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/39">#39</a>).<br>
