@@ -383,6 +383,7 @@ var dpTweaker = {
 	handleCommand: function(e) {
 		var curTrg = e.currentTarget;
 		var trg = e.target;
+		var origTrg = e.originalTarget;
 		if(curTrg.getAttribute && curTrg.hasAttribute("downloadPanelTweaker-command")) {
 			var cmd = curTrg.getAttribute("downloadPanelTweaker-command");
 			if(cmd == "clearDownloads")
@@ -398,7 +399,7 @@ var dpTweaker = {
 			else
 				this.downloadCommand(e, "overrideDownloadsHotkey");
 		}
-		else if(trg.id == "downloadsHistory")
+		else if(origTrg.id == "downloadsHistory")
 			this.downloadCommand(e, "overrideShowAllDownloads");
 		else if(trg.id == "downloadsCmd_show") {
 			if(prefs.get("reopenPanel.openContainingFolder")) {
