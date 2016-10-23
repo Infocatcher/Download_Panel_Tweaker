@@ -16,6 +16,7 @@
 `+` Added “Clear Downloads” menu item to dropmarker of download panel footer (Firefox 51+) (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/50">#50</a>).<br>
 `x` Fixed: hidden menu bar was shown when accessing options (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/49">#49</a>).<br>
 `x` Correctly override action of “Show All Downloads” button in Firefox 50+.<br>
+`x` Correctly close panel after middle-click in Firefox 50+ (<em>extensions.downloadPanelTweaker.middleClickToClosePanel</em> preference).<br>
 
 ##### 0.2.5 (2016-06-10)
 `x` Fixed unchecked “Also remove from history” in Firefox 38+ (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/39">#39</a>).<br>
