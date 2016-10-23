@@ -283,7 +283,7 @@ var downloadsPanel = {
 		if(!prefs.get("middleClickToClosePanel"))
 			return false;
 		var dlPopup = e.currentTarget;
-		for(var node = e.target; node; node = node.parentNode) {
+		for(var node = e.originalTarget; node; node = node.parentNode) {
 			if(node.localName == "menupopup")
 				break;
 			if(
