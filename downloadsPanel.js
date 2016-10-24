@@ -7,7 +7,7 @@ var downloadsPanel = {
 			case "mouseover":    this.panelMouseOver(e); break;
 			case "click":        this.panelClick(e);     break;
 			case "keypress":     this.panelKeyPress(e);  break;
-			case "popupshowing": this.panelShowing(e);   break;
+			case "popupshowing": this.popupShowing(e);   break;
 			case "popuphidden":  this.panelHidden(e);    break;
 			case "mousedown":    this.windowMouseDown(e);
 		}
@@ -119,7 +119,7 @@ var downloadsPanel = {
 					removeFile.parentNode.insertBefore(removeFromHistory, removeFile);
 				}
 			}
-			contextMenu.addEventListener("popupshowing", this.dpt, false);
+			contextMenu.addEventListener("popupshowing", this, false);
 			_log("Add menu items to panel context menu");
 		}
 	},
@@ -143,7 +143,7 @@ var downloadsPanel = {
 		}
 		var contextMenu = document.getElementById("downloadsContextMenu");
 		if(contextMenu) {
-			contextMenu.removeEventListener("popupshowing", this.dpt, false);
+			contextMenu.removeEventListener("popupshowing", this, false);
 			var removeFromHistory = contextMenu.getElementsByAttribute("command", "cmd_delete")[0];
 			if(removeFromHistory && "_downloadPanelTweaker_previousSibling" in removeFromHistory) {
 				var ps = removeFromHistory._downloadPanelTweaker_previousSibling;
@@ -339,11 +339,18 @@ var downloadsPanel = {
 		this.cancelReopenPanel(e.currentTarget);
 	},
 
-	panelShowing: function(popupOrEvent) {
+	popupShowing: function(e) {
+		var popup = e.originalTarget;
+		var id = popup.id;
+		if(id == "downloadsPanel")
+			this.panelShowing(popup);
+		else if(id == "downloadsContextMenu")
+			this.dpt.da.updateDownloadsContextMenu(popup);
+	},
+	panelShowing: function(popup) {
 		// Trick to correctly update height in Firefox 50+
 		if(!prefs.get("fixPanelHeight"))
 			return;
-		var popup = popupOrEvent.currentTarget || popupOrEvent;
 		var multiView = popup.getElementsByAttribute("id", "downloadsPanel-multiView")[0] || null;
 		var mainView = multiView && multiView._mainView;
 		var hasFlex = mainView && mainView.getAttribute("flex") == "1";

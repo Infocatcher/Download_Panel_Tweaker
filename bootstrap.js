@@ -508,26 +508,17 @@ var dpTweaker = {
 
 	popupShowingHandler: function(e) {
 		var popup = e.target;
-		var curTrg = e.currentTarget;
-		var id = popup.id;
-		if(curTrg instanceof Components.interfaces.nsIDOMWindow) {
-			var window = curTrg;
-			if(id == "downloadsPanel") {
-				window.removeEventListener("popupshowing", this, false);
-				window.setTimeout(function() {
-					this.dp.initPanel(window.document, popup);
-				}.bind(this), 0);
-				if(this.fxVersion >= 52) {
-					var mv = popup.getElementsByAttribute("id", "downloadsPanel-multiView")[0];
-					mv && mv.setAttribute("downloadPanelTweaker_newList", "true");
-				}
-			}
+		if(popup.id != "downloadsPanel")
 			return;
+		var window = e.currentTarget;
+		window.removeEventListener("popupshowing", this, false);
+		window.setTimeout(function() {
+			this.dp.initPanel(window.document, popup);
+		}.bind(this), 0);
+		if(this.fxVersion >= 52) {
+			var mv = popup.getElementsByAttribute("id", "downloadsPanel-multiView")[0];
+			mv && mv.setAttribute("downloadPanelTweaker_newList", "true");
 		}
-		if(popup != curTrg)
-			return;
-		if(id == "downloadsContextMenu")
-			this.da.updateDownloadsContextMenu(popup);
 	},
 
 	setFixToolbox: function(window, enable, force) {
