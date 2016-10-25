@@ -80,20 +80,23 @@ var downloadsPanel = {
 				footer.setAttribute("downloadPanelTweaker-origContext", footer.getAttribute("context"));
 			footer.setAttribute("context", this.panelFooterContextId);
 			_log("Add context menu for download panel footer");
+			footerContext.addEventListener("popupshowing", this, false);
 		}
 
 		var ddClearList = document.getElementById("downloadsDropdownItemClearList");
 		if(ddClearList) { // Firefox 51+
+			var ddPopup = ddClearList.parentNode;
 			var clearDownloadsDd = clearDownloads.cloneNode(true);
 			clearDownloadsDd.id = this.clearDownloadsDdId;
 			clearDownloadsDd.addEventListener("command", this.dpt, false);
 			var insPos = ddClearList.nextSibling;
-			ddClearList.parentNode.insertBefore(clearDownloadsDd, insPos);
+			ddPopup.insertBefore(clearDownloadsDd, insPos);
 			if(insPos) {
 				var sep = document.createElement("menuseparator");
 				sep.id = this.clearDownloadsDdSepId;
-				ddClearList.parentNode.insertBefore(sep, insPos);
+				ddPopup.insertBefore(sep, insPos);
 			}
+			ddPopup.addEventListener("popupshowing", this, false);
 		}
 
 		var contextMenu = document.getElementById("downloadsContextMenu");
@@ -171,17 +174,21 @@ var downloadsPanel = {
 			if(clearDownloadsPf)
 				clearDownloadsPf.removeEventListener("command", this.dpt, false);
 			var footerContext = document.getElementById(this.panelFooterContextId);
-			if(footerContext && force)
-				footerContext.parentNode.removeChild(footerContext);
+			if(footerContext) {
+				footerContext.removeEventListener("popupshowing", this, false);
+				force && footerContext.parentNode.removeChild(footerContext);
+			}
 		}
 		// Note: anonymous node can't be obtained using getElementsByAttribute()
 		var clearDownloadsDd = document.getElementById(this.clearDownloadsDdId);
 		if(clearDownloadsDd) {
+			var ddPopup = clearDownloadsDd.parentNode;
 			clearDownloadsDd.removeEventListener("command", this.dpt, false);
-			clearDownloadsDd.parentNode.removeChild(clearDownloadsDd);
+			ddPopup.removeEventListener("popupshowing", this, false);
+			force && ddPopup.removeChild(clearDownloadsDd);
 		}
 		var sep = document.getElementById(this.clearDownloadsDdSepId);
-		sep && sep.parentNode.removeChild(sep);
+		force && sep && sep.parentNode.removeChild(sep);
 		Array.slice(document.getElementsByAttribute("downloadPanelTweaker-command", "*"))
 			.forEach(function(mi) {
 				mi.removeEventListener("command", this.dpt, false);
@@ -341,11 +348,18 @@ var downloadsPanel = {
 
 	popupShowing: function(e) {
 		var popup = e.originalTarget;
+		if(popup != e.currentTarget) // Ignore sub-popups
+			return;
 		var id = popup.id;
 		if(id == "downloadsPanel")
 			this.panelShowing(popup);
 		else if(id == "downloadsContextMenu")
 			this.dpt.da.updateDownloadsContextMenu(popup);
+		else if(
+			id == this.panelFooterContextId
+			|| id == "downloadSubPanel"
+		)
+			this.dpt.da.updateClearDownloads(popup);
 	},
 	panelShowing: function(popup) {
 		// Trick to correctly update height in Firefox 50+

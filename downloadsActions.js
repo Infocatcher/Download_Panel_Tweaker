@@ -323,6 +323,22 @@ var downloadsActions = {
 		var sep = popup.getElementsByAttribute("id", this.dpt.dp.removeFileSepId)[0];
 		if(sep)
 			sep.hidden = !this.hasVisibleNodeBefore(sep);
+		this.updateClearDownloads(popup);
+	},
+	updateClearDownloads: function(popup) {
+		_log("updateClearDownloads() in #" + popup.id);
+		var cd = popup.getElementsByAttribute("downloadPanelTweaker-command", "clearDownloads")[0];
+		cd.disabled = false;
+		this.hasDlSessionHistoryAsync(function(hasSessionHistory) {
+			if(hasSessionHistory) {
+				_log("updateClearDownloads(): has session history");
+				return;
+			}
+			if(this.hasDlHistory)
+				_log("updateClearDownloads(): has persistent history");
+			else
+				cd.disabled = true;
+		}, this);
 	},
 	isActiveDownload: function(state) {
 		var dm = Components.interfaces.nsIDownloadManager || {};
@@ -339,6 +355,34 @@ var downloadsActions = {
 			if(ps.boxObject.width && ps.boxObject.height)
 				return true;
 		return false;
+	},
+	hasDlSessionHistoryAsync: function(callback, context) {
+		try {
+			callback.call(context, Services.downloads.canCleanUp || Services.downloads.canCleanUpPrivate);
+			return;
+		}
+		catch(e) { // Firefox 26+
+		}
+		var {Downloads} = Components.utils.import("resource://gre/modules/Downloads.jsm", {});
+		Downloads.getList(Downloads.ALL).then(function(list) {
+			var hasHistory = list._publicList._downloads.length > 0
+				|| list._privateList._downloads.length > 0;
+			callback.call(context, hasHistory);
+		});
+	},
+	get hasDlHistory() {
+		var {PlacesUtils} = Components.utils.import("resource://gre/modules/PlacesUtils.jsm", {});
+		var query = PlacesUtils.history.getNewQuery();
+		query.setTransitions([Components.interfaces.nsINavHistoryService.TRANSITION_DOWNLOAD], 1);
+		var options = PlacesUtils.history.getNewQueryOptions();
+		options.resultType = options.RESULTS_AS_URI;
+		options.queryType = Components.interfaces.nsINavHistoryQueryOptions.QUERY_TYPE_HISTORY;
+		options.includeHidden = true;
+		options.maxResults = 1;
+		var result = PlacesUtils.history.executeQuery(query, options);
+		var contents = result.root;
+		contents.containerOpen = true;
+		return !!contents.childCount;
 	},
 
 	getDlNode: function(node) {
