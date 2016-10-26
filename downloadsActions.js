@@ -296,7 +296,7 @@ var downloadsActions = {
 					catch(e) {
 						Components.utils.reportError(e);
 					}
-					mi.disabled = this.isActiveDownload(dataItem.state) || !exists;
+					mi.disabled = this.isActiveDownload(dataItem) || !exists;
 					// "exists" attribute may be wrong for canceled downloads
 					if(!existsChecked && !dataItem.openable) {
 						_log("Will check anyway using OS.File.exists() (exists: " + exists + ")");
@@ -305,7 +305,7 @@ var downloadsActions = {
 						OS.File.exists(path).then(
 							function onSuccess(exists) {
 								_log("OS.File.exists(): " + exists);
-								mi.disabled = this.isActiveDownload(dataItem.state) || !exists;
+								mi.disabled = this.isActiveDownload(dataItem) || !exists;
 							}.bind(this),
 							Components.utils.reportError
 						);
@@ -340,15 +340,23 @@ var downloadsActions = {
 				cd.disabled = true;
 		}, this);
 	},
-	isActiveDownload: function(state) {
-		var dm = Components.interfaces.nsIDownloadManager || {};
-		switch(state) {
-			case dm.DOWNLOAD_DOWNLOADING || 0:
-			case dm.DOWNLOAD_PAUSED      || 4:
-			case dm.DOWNLOAD_QUEUED      || 5:
-				return true;
+	isActiveDownload: function(dl) {
+		var isActive = false;
+		if("stopped" in dl && "canceled" in dl && "hasPartialData" in dl) {
+			isActive = !dl.stopped // DOWNLOAD_DOWNLOADING
+				|| dl.canceled && dl.hasPartialData; // DOWNLOAD_PAUSED
 		}
-		return false;
+		else { // Legacy
+			var dm = Components.interfaces.nsIDownloadManager || {};
+			switch(dl.state) {
+				case dm.DOWNLOAD_DOWNLOADING || 0:
+				case dm.DOWNLOAD_PAUSED      || 4:
+				case dm.DOWNLOAD_QUEUED      || 5:
+					isActive = true;
+			}
+		}
+		_log("isActiveDownload(): " + isActive);
+		return isActive;
 	},
 	hasVisibleNodeBefore: function(node) {
 		for(var ps = node.previousSibling; ps; ps = ps.previousSibling)
