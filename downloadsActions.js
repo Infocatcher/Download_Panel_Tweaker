@@ -267,56 +267,52 @@ var downloadsActions = {
 		var dlItem = this.getDlNode(popup.triggerNode);
 		var dlController = this.getDlController(dlItem);
 		var dataItem = this.getDlDataItem(dlController);
-		Array.forEach(
-			popup.getElementsByAttribute("downloadPanelTweaker-command", "*"),
-			function(mi) {
-				var cmd = mi.getAttribute("downloadPanelTweaker-command");
-				if(cmd == "copyReferrer") {
-					var ref = this.getDlReferrer(dataItem);
-					mi.disabled = !ref;
-					mi.tooltipText = ref;
-					var openRef = popup.getElementsByAttribute("command", "downloadsCmd_openReferrer")[0];
-					if(openRef)
-						openRef.tooltipText = ref;
-				}
-				else if(cmd == "removeFile") {
-					var exists = dlItem && dlItem.getAttribute("exists") == "true";
-					var existsChecked = false;
-					var window = popup.ownerDocument.defaultView;
-					if(
-						window.DownloadsViewItem
-						&& window.DownloadsViewItem.prototype
-						&& !("verifyTargetExists" in window.DownloadsViewItem.prototype)
-						&& "localFile" in dataItem
-					) try { // Firefox 20 and older
-						_log("Will use dataItem.localFile.exists()");
-						exists = dataItem.localFile.exists();
-						existsChecked = true;
-					}
-					catch(e) {
-						Components.utils.reportError(e);
-					}
-					mi.disabled = this.isActiveDownload(dataItem) || !exists;
-					// "exists" attribute may be wrong for canceled downloads
-					if(!existsChecked && !dataItem.openable) {
-						_log("Will check anyway using OS.File.exists() (exists: " + exists + ")");
-						var path = this.getDlPath(dataItem);
-						Components.utils.import("resource://gre/modules/osfile.jsm");
-						OS.File.exists(path).then(
-							function onSuccess(exists) {
-								_log("OS.File.exists(): " + exists);
-								mi.disabled = this.isActiveDownload(dataItem) || !exists;
-							}.bind(this),
-							Components.utils.reportError
-						);
-					}
-					window.setTimeout(function() {
-						mi.tooltipText = mi.disabled ? "" : path || this.getDlPath(dataItem);
-					}.bind(this), 0);
-				}
-			},
-			this
-		);
+
+		var miRef = popup.getElementsByAttribute("downloadPanelTweaker-command", "copyReferrer")[0];
+		if(miRef) {
+			var ref = this.getDlReferrer(dataItem);
+			miRef.disabled = !ref;
+			miRef.tooltipText = ref;
+			var openRef = popup.getElementsByAttribute("command", "downloadsCmd_openReferrer")[0];
+			if(openRef)
+				openRef.tooltipText = ref;
+		}
+		var miRemove = popup.getElementsByAttribute("downloadPanelTweaker-command", "removeFile")[0];
+		if(miRemove) {
+			var exists = dlItem && dlItem.getAttribute("exists") == "true";
+			var existsChecked = false;
+			var window = popup.ownerDocument.defaultView;
+			if(
+				window.DownloadsViewItem
+				&& window.DownloadsViewItem.prototype
+				&& !("verifyTargetExists" in window.DownloadsViewItem.prototype)
+				&& "localFile" in dataItem
+			) try { // Firefox 20 and older
+				_log("Will use dataItem.localFile.exists()");
+				exists = dataItem.localFile.exists();
+				existsChecked = true;
+			}
+			catch(e) {
+				Components.utils.reportError(e);
+			}
+			miRemove.disabled = this.isActiveDownload(dataItem) || !exists;
+			// "exists" attribute may be wrong for canceled downloads
+			if(!existsChecked && !dataItem.openable) {
+				_log("Will check anyway using OS.File.exists() (exists: " + exists + ")");
+				var path = this.getDlPath(dataItem);
+				Components.utils.import("resource://gre/modules/osfile.jsm");
+				OS.File.exists(path).then(
+					function onSuccess(exists) {
+						_log("OS.File.exists(): " + exists);
+						miRemove.disabled = this.isActiveDownload(dataItem) || !exists;
+					}.bind(this),
+					Components.utils.reportError
+				);
+			}
+			window.setTimeout(function() {
+				miRemove.tooltipText = miRemove.disabled ? "" : path || this.getDlPath(dataItem);
+			}.bind(this), 0);
+		}
 		var copyLoc = popup.getElementsByAttribute("command", "downloadsCmd_copyLocation")[0];
 		if(copyLoc)
 			copyLoc.tooltipText = dataItem && (dataItem.uri || dataItem.source && dataItem.source.url) || "";
