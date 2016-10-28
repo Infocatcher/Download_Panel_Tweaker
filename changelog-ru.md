@@ -17,6 +17,7 @@
 `x` Исправлено: скрытая панель меню показывалась при открытии настроек (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/49">#49</a>).<br>
 `x` Исправлено переопределение действия кнопки «Показать все загрузки» в Firefox 50+.<br>
 `x` Исправлено закрытие панели кликом средней кнопки мыши в Firefox 50+ (настройка <em>extensions.downloadPanelTweaker.middleClickToClosePanel</em>).<br>
+`*` Пункт меню «Очистить загрузки» теперь отключается в случае пустой истории загрузок.<br>
 
 ##### 0.2.5 (2016-06-10)
 `x` Исправлена работа при выключенной настройке «Также удалять из истории» в Firefox 38+ (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/39">#39</a>).<br>
