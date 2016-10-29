@@ -29,7 +29,7 @@ var downloadsActions = {
 		return true;
 	},
 	toggleDownloadPanel: function(window, show) {
-		_log("toggleDownloadPanel(" + show + ")");
+		_log("toggleDownloadPanel(" + (arguments.length > 1 ? show : "") + ")");
 		var DownloadsPanel = window.DownloadsPanel;
 		if(!DownloadsPanel) {
 			_log("toggleDownloadPanel(): window.DownloadsPanel not found!");
