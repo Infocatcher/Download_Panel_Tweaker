@@ -43,6 +43,19 @@ var downloadsActions = {
 			DownloadsPanel.showPanel();
 		else
 			DownloadsPanel.hidePanel();
+
+		if(show) try { // Ensure, that anchor for downloads popup is visible
+			window.DownloadsButton.getAnchor(function(anchor) {
+				if(anchor && anchor.boxObject.width && anchor.boxObject.height)
+					return;
+				_log("toggleDownloadPanel(): anchor not found or not visible, move panel to #identity-box");
+				var anchor = window.document.getElementById("identity-box");
+				DownloadsPanel.panel.openPopup(anchor, "bottomcenter topright", 0, 0, false, null);
+			});
+		}
+		catch(e) {
+			Components.utils.reportError(e);
+		}
 	},
 	openDownloadsTab: function(window) {
 		this.toggleDownloadPanel(window, false);
