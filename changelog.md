@@ -18,6 +18,7 @@
 `x` Correctly override action of “Show All Downloads” button in Firefox 50+.<br>
 `x` Correctly close panel after middle-click in Firefox 50+ (<em>extensions.downloadPanelTweaker.middleClickToClosePanel</em> preference).<br>
 `*` Disable “Clear Downloads” menu item in case of empty downloads history.<br>
+`*` Open download panel below location bar, if downloads buttons is hidden (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/51">#51</a>).<br>
 
 ##### 0.2.5 (2016-06-10)
 `x` Fixed unchecked “Also remove from history” in Firefox 38+ (<a href="https://github.com/Infocatcher/Download_Panel_Tweaker/issues/39">#39</a>).<br>
