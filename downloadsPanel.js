@@ -43,19 +43,25 @@ var downloadsPanel = {
 		};
 		this.dpt.getEntities(["chrome://downloadpaneltweaker/locale/dpt.dtd"], labels);
 
-		var clearDownloads = this.createMenuItem(document, {
+		function mi(attrs) {
+			var mi = document.createElement("menuitem");
+			for(var attr in attrs)
+				mi.setAttribute(attr, attrs[attr]);
+			return mi;
+		}
+		var clearDownloads = mi({
 			id: this.clearDownloadsId,
 			label: labels["dpt.clearDownloads"],
 			accesskey: labels["dpt.clearDownloads.accesskey"],
 			"downloadPanelTweaker-command": "clearDownloads"
 		});
-		var copyReferrer = this.createMenuItem(document, {
+		var copyReferrer = mi({
 			id: this.copyReferrerId,
 			label: labels["dpt.copyReferrer"],
 			accesskey: labels["dpt.copyReferrer.accesskey"],
 			"downloadPanelTweaker-command": "copyReferrer"
 		});
-		var removeFile = this.createMenuItem(document, {
+		var removeFile = mi({
 			id: this.removeFileId,
 			label: labels["dpt.removeFile"],
 			accesskey: labels["dpt.removeFile.accesskey"],
@@ -194,12 +200,6 @@ var downloadsPanel = {
 				mi.removeEventListener("command", this.dpt, false);
 				force && mi.parentNode.removeChild(mi);
 			}, this);
-	},
-	createMenuItem: function(document, attrs) {
-		var mi = document.createElement("menuitem");
-		for(var attr in attrs)
-			mi.setAttribute(attr, attrs[attr]);
-		return mi;
 	},
 
 	panelMouseOver: function(e) {
