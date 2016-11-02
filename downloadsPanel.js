@@ -13,15 +13,19 @@ var downloadsPanel = {
 		}
 	},
 
-	clearDownloadsId: "downloadPanelTweaker-menuItem-contextClearDownloads",
-	clearDownloadsPfId: "downloadPanelTweaker-menuItem-footerClearDownloads",
-	clearDownloadsDdId: "downloadPanelTweaker-menuItem-dropdownClearDownloads",
-	clearDownloadsDdSepId: "downloadPanelTweaker-menuItem-dropdownClearDownloads-separator",
-	copyReferrerId: "downloadPanelTweaker-menuItem-copyReferrer",
-	removeFileId: "downloadPanelTweaker-menuItem-removeFile",
-	removeFileSepId: "downloadPanelTweaker-menuItem-removeFile-separator",
-	panelFooterContextId: "downloadPanelTweaker-popup-panelFooterContext",
+	ids: {
+		clearDownloads:      "downloadPanelTweaker-menuItem-contextClearDownloads",
+		clearDownloadsPf:    "downloadPanelTweaker-menuItem-footerClearDownloads",
+		clearDownloadsDd:    "downloadPanelTweaker-menuItem-dropdownClearDownloads",
+		clearDownloadsDdSep: "downloadPanelTweaker-menuItem-dropdownClearDownloads-separator",
+		copyReferrer:        "downloadPanelTweaker-menuItem-copyReferrer",
+		removeFile:          "downloadPanelTweaker-menuItem-removeFile",
+		removeFileSep:       "downloadPanelTweaker-menuItem-removeFile-separator",
+		panelFooterContext:  "downloadPanelTweaker-popup-panelFooterContext",
+		__proto__: null
+	},
 	origTtAttr: "downloadPanelTweaker_origTooltiptext",
+
 	initPanel: function(document, popup) {
 		_log("initPanel()");
 		popup.addEventListener("click", this, true);
@@ -50,41 +54,41 @@ var downloadsPanel = {
 			return mi;
 		}
 		var clearDownloads = mi({
-			id: this.clearDownloadsId,
+			id: this.ids.clearDownloads,
 			label: labels["dpt.clearDownloads"],
 			accesskey: labels["dpt.clearDownloads.accesskey"],
 			"downloadPanelTweaker-command": "clearDownloads"
 		});
 		var copyReferrer = mi({
-			id: this.copyReferrerId,
+			id: this.ids.copyReferrer,
 			label: labels["dpt.copyReferrer"],
 			accesskey: labels["dpt.copyReferrer.accesskey"],
 			"downloadPanelTweaker-command": "copyReferrer"
 		});
 		var removeFile = mi({
-			id: this.removeFileId,
+			id: this.ids.removeFile,
 			label: labels["dpt.removeFile"],
 			accesskey: labels["dpt.removeFile.accesskey"],
 			"downloadPanelTweaker-command": "removeFile"
 		});
 		var removeFileSep = document.createElement("menuseparator");
-		removeFileSep.id = this.removeFileSepId;
+		removeFileSep.id = this.ids.removeFileSep;
 		removeFileSep.setAttribute("downloadPanelTweaker-command", "<nothing>");
 
 		var footer = document.getElementById("downloadsFooter")
 			|| document.getElementById("downloadsHistory"); // Firefox 19 and older
 		if(footer) {
 			var footerContext = document.createElement("menupopup");
-			footerContext.id = this.panelFooterContextId;
+			footerContext.id = this.ids.panelFooterContext;
 			var clearDownloadsPf = clearDownloads.cloneNode(true);
-			clearDownloadsPf.id = this.clearDownloadsPfId;
+			clearDownloadsPf.id = this.ids.clearDownloadsPf;
 			clearDownloadsPf.addEventListener("command", this.dpt, false);
 			footerContext.appendChild(clearDownloadsPf);
 			var popupSet = document.getElementById("mainPopupSet") || document.documentElement;
 			popupSet.appendChild(footerContext);
 			if(footer.hasAttribute("context"))
 				footer.setAttribute("downloadPanelTweaker-origContext", footer.getAttribute("context"));
-			footer.setAttribute("context", this.panelFooterContextId);
+			footer.setAttribute("context", this.ids.panelFooterContext);
 			_log("Add context menu for download panel footer");
 			footerContext.addEventListener("popupshowing", this, false);
 		}
@@ -93,13 +97,13 @@ var downloadsPanel = {
 		if(ddClearList) { // Firefox 51+
 			var ddPopup = ddClearList.parentNode;
 			var clearDownloadsDd = clearDownloads.cloneNode(true);
-			clearDownloadsDd.id = this.clearDownloadsDdId;
+			clearDownloadsDd.id = this.ids.clearDownloadsDd;
 			clearDownloadsDd.addEventListener("command", this.dpt, false);
 			var insPos = ddClearList.nextSibling;
 			ddPopup.insertBefore(clearDownloadsDd, insPos);
 			if(insPos) {
 				var sep = document.createElement("menuseparator");
-				sep.id = this.clearDownloadsDdSepId;
+				sep.id = this.ids.clearDownloadsDdSep;
 				ddPopup.insertBefore(sep, insPos);
 			}
 			ddPopup.addEventListener("popupshowing", this, false);
@@ -176,24 +180,24 @@ var downloadsPanel = {
 				footer.setAttribute("context", footer.getAttribute("downloadPanelTweaker-origContext"));
 			else
 				footer.removeAttribute("context");
-			var clearDownloadsPf = document.getElementById(this.clearDownloadsPfId);
+			var clearDownloadsPf = document.getElementById(this.ids.clearDownloadsPf);
 			if(clearDownloadsPf)
 				clearDownloadsPf.removeEventListener("command", this.dpt, false);
-			var footerContext = document.getElementById(this.panelFooterContextId);
+			var footerContext = document.getElementById(this.ids.panelFooterContext);
 			if(footerContext) {
 				footerContext.removeEventListener("popupshowing", this, false);
 				force && footerContext.parentNode.removeChild(footerContext);
 			}
 		}
 		// Note: anonymous node can't be obtained using getElementsByAttribute()
-		var clearDownloadsDd = document.getElementById(this.clearDownloadsDdId);
+		var clearDownloadsDd = document.getElementById(this.ids.clearDownloadsDd);
 		if(clearDownloadsDd) {
 			var ddPopup = clearDownloadsDd.parentNode;
 			clearDownloadsDd.removeEventListener("command", this.dpt, false);
 			ddPopup.removeEventListener("popupshowing", this, false);
 			force && ddPopup.removeChild(clearDownloadsDd);
 		}
-		var sep = document.getElementById(this.clearDownloadsDdSepId);
+		var sep = document.getElementById(this.ids.clearDownloadsDdSep);
 		force && sep && sep.parentNode.removeChild(sep);
 		Array.slice(document.getElementsByAttribute("downloadPanelTweaker-command", "*"))
 			.forEach(function(mi) {
@@ -356,7 +360,7 @@ var downloadsPanel = {
 		else if(id == "downloadsContextMenu")
 			this.dpt.da.updateDownloadsContextMenu(popup);
 		else if(
-			id == this.panelFooterContextId
+			id == this.ids.panelFooterContext
 			|| id == "downloadSubPanel"
 		)
 			this.dpt.da.updateClearDownloads(popup);

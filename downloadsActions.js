@@ -329,7 +329,7 @@ var downloadsActions = {
 		var copyLoc = popup.getElementsByAttribute("command", "downloadsCmd_copyLocation")[0];
 		if(copyLoc)
 			copyLoc.tooltipText = dataItem && (dataItem.uri || dataItem.source && dataItem.source.url) || "";
-		var sep = popup.getElementsByAttribute("id", this.dpt.dp.removeFileSepId)[0];
+		var sep = popup.getElementsByAttribute("id", this.dpt.dp.ids.removeFileSep)[0];
 		if(sep)
 			sep.hidden = !this.hasVisibleNodeBefore(sep);
 		this.updateClearDownloads(popup);
