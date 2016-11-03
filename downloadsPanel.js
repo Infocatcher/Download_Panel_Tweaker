@@ -73,7 +73,6 @@ var downloadsPanel = {
 		});
 		var removeFileSep = document.createElement("menuseparator");
 		removeFileSep.id = this.ids.removeFileSep;
-		removeFileSep.setAttribute("downloadPanelTweaker-command", "<nothing>");
 
 		var footer = document.getElementById("downloadsFooter")
 			|| document.getElementById("downloadsHistory"); // Firefox 19 and older
@@ -180,30 +179,22 @@ var downloadsPanel = {
 				footer.setAttribute("context", footer.getAttribute("downloadPanelTweaker-origContext"));
 			else
 				footer.removeAttribute("context");
-			var clearDownloadsPf = document.getElementById(this.ids.clearDownloadsPf);
-			if(clearDownloadsPf)
-				clearDownloadsPf.removeEventListener("command", this.dpt, false);
 			var footerContext = document.getElementById(this.ids.panelFooterContext);
-			if(footerContext) {
+			if(footerContext)
 				footerContext.removeEventListener("popupshowing", this, false);
-				force && footerContext.parentNode.removeChild(footerContext);
-			}
 		}
-		// Note: anonymous node can't be obtained using getElementsByAttribute()
-		var clearDownloadsDd = document.getElementById(this.ids.clearDownloadsDd);
-		if(clearDownloadsDd) {
-			var ddPopup = clearDownloadsDd.parentNode;
-			clearDownloadsDd.removeEventListener("command", this.dpt, false);
-			ddPopup.removeEventListener("popupshowing", this, false);
-			force && ddPopup.removeChild(clearDownloadsDd);
+		var ddClearList = document.getElementById("downloadsDropdownItemClearList");
+		if(ddClearList)
+			ddClearList.parentNode.removeEventListener("popupshowing", this, false);
+
+		for(var p in this.ids) {
+			var node = document.getElementById(this.ids[p]);
+			if(!node)
+				continue;
+			if(node.hasAttribute("downloadPanelTweaker-command"))
+				node.removeEventListener("command", this.dpt, false);
+			force && node.parentNode.removeChild(node);
 		}
-		var sep = document.getElementById(this.ids.clearDownloadsDdSep);
-		force && sep && sep.parentNode.removeChild(sep);
-		Array.slice(document.getElementsByAttribute("downloadPanelTweaker-command", "*"))
-			.forEach(function(mi) {
-				mi.removeEventListener("command", this.dpt, false);
-				force && mi.parentNode.removeChild(mi);
-			}, this);
 	},
 
 	panelMouseOver: function(e) {
