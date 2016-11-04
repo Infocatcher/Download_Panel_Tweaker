@@ -53,6 +53,9 @@ var downloadsPanel = {
 				mi.setAttribute(attr, attrs[attr]);
 			return mi;
 		}
+		function $(id) {
+			return document.getElementById(id);
+		}
 		var clearDownloads = mi({
 			id: this.ids.clearDownloads,
 			label: labels["dpt.clearDownloads"],
@@ -74,8 +77,8 @@ var downloadsPanel = {
 		var removeFileSep = document.createElement("menuseparator");
 		removeFileSep.id = this.ids.removeFileSep;
 
-		var footer = document.getElementById("downloadsFooter")
-			|| document.getElementById("downloadsHistory"); // Firefox 19 and older
+		var footer = $("downloadsFooter")
+			|| $("downloadsHistory"); // Firefox 19 and older
 		if(footer) {
 			var footerContext = document.createElement("menupopup");
 			footerContext.id = this.ids.panelFooterContext;
@@ -83,7 +86,7 @@ var downloadsPanel = {
 			clearDownloadsPf.id = this.ids.clearDownloadsPf;
 			clearDownloadsPf.addEventListener("command", this.dpt, false);
 			footerContext.appendChild(clearDownloadsPf);
-			var popupSet = document.getElementById("mainPopupSet") || document.documentElement;
+			var popupSet = $("mainPopupSet") || document.documentElement;
 			popupSet.appendChild(footerContext);
 			if(footer.hasAttribute("context"))
 				footer.setAttribute("downloadPanelTweaker-origContext", footer.getAttribute("context"));
@@ -92,7 +95,7 @@ var downloadsPanel = {
 			footerContext.addEventListener("popupshowing", this, false);
 		}
 
-		var ddClearList = document.getElementById("downloadsDropdownItemClearList");
+		var ddClearList = $("downloadsDropdownItemClearList");
 		if(ddClearList) { // Firefox 51+
 			var ddPopup = ddClearList.parentNode;
 			var clearDownloadsDd = clearDownloads.cloneNode(true);
@@ -108,7 +111,7 @@ var downloadsPanel = {
 			ddPopup.addEventListener("popupshowing", this, false);
 		}
 
-		var contextMenu = document.getElementById("downloadsContextMenu");
+		var contextMenu = $("downloadsContextMenu");
 		if(contextMenu) {
 			var insert = function(item, insPos) {
 				item.addEventListener("command", this.dpt, false);
@@ -136,7 +139,10 @@ var downloadsPanel = {
 		}
 	},
 	destroyPanel: function(document, force) {
-		var popup = document.getElementById("downloadsPanel");
+		function $(id) {
+			return document.getElementById(id);
+		}
+		var popup = $("downloadsPanel");
 		if(popup) {
 			popup.removeEventListener("click", this, true);
 			popup.removeEventListener("keypress", this, true);
@@ -153,7 +159,7 @@ var downloadsPanel = {
 			// Note: following may be not needed, looks like we somehow cause XBL binding reattaching
 			force && this.restoreDlItemsTooltips(document, popup);
 		}
-		var contextMenu = document.getElementById("downloadsContextMenu");
+		var contextMenu = $("downloadsContextMenu");
 		if(contextMenu) {
 			contextMenu.removeEventListener("popupshowing", this, false);
 			var removeFromHistory = contextMenu.getElementsByAttribute("command", "cmd_delete")[0];
@@ -172,23 +178,23 @@ var downloadsPanel = {
 					_log("Can't move \"Remove From History\" to original position!");
 			}
 		}
-		var footer = document.getElementById("downloadsFooter")
-			|| document.getElementById("downloadsHistory"); // Firefox 19 and older
+		var footer = $("downloadsFooter")
+			|| $("downloadsHistory"); // Firefox 19 and older
 		if(footer) {
 			if(footer.hasAttribute("downloadPanelTweaker-origContext"))
 				footer.setAttribute("context", footer.getAttribute("downloadPanelTweaker-origContext"));
 			else
 				footer.removeAttribute("context");
-			var footerContext = document.getElementById(this.ids.panelFooterContext);
+			var footerContext = $(this.ids.panelFooterContext);
 			if(footerContext)
 				footerContext.removeEventListener("popupshowing", this, false);
 		}
-		var ddClearList = document.getElementById("downloadsDropdownItemClearList");
+		var ddClearList = $("downloadsDropdownItemClearList");
 		if(ddClearList)
 			ddClearList.parentNode.removeEventListener("popupshowing", this, false);
 
 		for(var p in this.ids) {
-			var node = document.getElementById(this.ids[p]);
+			var node = $(this.ids[p]);
 			if(!node)
 				continue;
 			if(node.hasAttribute("downloadPanelTweaker-command"))
