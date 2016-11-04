@@ -280,17 +280,21 @@ var downloadsActions = {
 		var dlItem = this.getDlNode(popup.triggerNode);
 		var dlController = this.getDlController(dlItem);
 		var dataItem = this.getDlDataItem(dlController);
+		var dc = "downloadPanelTweaker-command";
+		function $a(attr, val) {
+			return popup.getElementsByAttribute(attr, val)[0];
+		}
 
-		var miRef = popup.getElementsByAttribute("downloadPanelTweaker-command", "copyReferrer")[0];
+		var miRef = $a(dc, "copyReferrer");
 		if(miRef) {
 			var ref = this.getDlReferrer(dataItem);
 			miRef.disabled = !ref;
 			miRef.tooltipText = ref;
-			var openRef = popup.getElementsByAttribute("command", "downloadsCmd_openReferrer")[0];
+			var openRef = $a("command", "downloadsCmd_openReferrer");
 			if(openRef)
 				openRef.tooltipText = ref;
 		}
-		var miRemove = popup.getElementsByAttribute("downloadPanelTweaker-command", "removeFile")[0];
+		var miRemove = $a(dc, "removeFile");
 		if(miRemove) {
 			var exists = dlItem && dlItem.getAttribute("exists") == "true";
 			var existsChecked = false;
@@ -326,10 +330,10 @@ var downloadsActions = {
 				miRemove.tooltipText = miRemove.disabled ? "" : path || this.getDlPath(dataItem);
 			}.bind(this), 0);
 		}
-		var copyLoc = popup.getElementsByAttribute("command", "downloadsCmd_copyLocation")[0];
+		var copyLoc = $a("command", "downloadsCmd_copyLocation");
 		if(copyLoc)
 			copyLoc.tooltipText = dataItem && (dataItem.uri || dataItem.source && dataItem.source.url) || "";
-		var sep = popup.getElementsByAttribute("id", this.dpt.dp.ids.removeFileSep)[0];
+		var sep = $a("id", this.dpt.dp.ids.removeFileSep);
 		if(sep)
 			sep.hidden = !this.hasVisibleNodeBefore(sep);
 		this.updateClearDownloads(popup);
