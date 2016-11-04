@@ -49,7 +49,7 @@ var downloadsActions = {
 				if(anchor && anchor.boxObject.width && anchor.boxObject.height)
 					return;
 				_log("toggleDownloadPanel(): anchor not found or not visible, move panel to #identity-box");
-				var anchor = window.document.getElementById("identity-box");
+				anchor = window.document.getElementById("identity-box");
 				DownloadsPanel.panel.openPopup(anchor, "bottomcenter topright", 0, 0, false, null);
 			});
 		}
