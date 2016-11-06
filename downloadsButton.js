@@ -193,12 +193,18 @@ var downloadsButton = {
 			if(nativeEvent)
 				return;
 			var hasCmdListener = this.evtSvc.hasListenersFor(trg, "command");
-			_log(e.type + " in #" + panel.id + " => " + (hasCmdListener ? "doCommand()" : "click()"));
+			var _evt = e.type + " in #" + panel.id + " => ";
 			if(hasCmdListener) {
+				_log(_evt + "doCommand()");
 				trg.doCommand();
 				this.dpt.dp.panelClick(e);
 			}
+			else if(trg.localName == "button" && trg.type == "menu") {
+				_log(_evt + "toggle button.open");
+				trg.open = !trg.open;
+			}
 			else {
+				_log(_evt + "click()");
 				trg.click();
 			}
 		}.bind(this), 0);
