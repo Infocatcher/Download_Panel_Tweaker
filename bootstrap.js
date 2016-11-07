@@ -138,10 +138,10 @@ var dpTweaker = {
 		if(this.handleClickEvent)
 			window.addEventListener("click", this, true);
 		window.addEventListener("popupshowing", this, false);
-		if(this.enableDlButtonTweaks) window.setTimeout(function() {
-			this.btn.tweakDlButton(window, true);
-		}.bind(this), 0);
 		window.setTimeout(function() {
+			if(this.enableDlButtonTweaks) window.setTimeout(function() {
+				this.btn.tweakDlButton(window, true);
+			}.bind(this), 0);
 			this.setItemCountLimit(window, true);
 			var needUpdate = reason != WINDOW_LOADED;
 			var document = window.document;
@@ -159,7 +159,7 @@ var dpTweaker = {
 				this.de.dontRemoveFinishedDownloads(true);
 			if(prefs.get("fixWrongTabsOnTopAttribute"))
 				this.setFixToolbox(window, true);
-		}.bind(this), 10);
+		}.bind(this), 15);
 		window.setTimeout(function() {
 			this.stl.loadStyles(true);
 		}.bind(this), 50);
