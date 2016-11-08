@@ -386,18 +386,18 @@ var dpTweaker = {
 		var origTrg = e.originalTarget;
 		if(curTrg.getAttribute && curTrg.hasAttribute("downloadPanelTweaker-command")) {
 			var cmd = curTrg.getAttribute("downloadPanelTweaker-command");
-			if(cmd == "clearDownloads")
-				this.da.clearDownloads(trg);
-			else if(cmd == "copyReferrer")
-				this.da.copyReferrer(trg);
-			else if(cmd == "removeFile")
-				this.da.removeFile(trg);
+			switch(cmd) {
+				case "clearDownloads":
+				case "copyReferrer":
+				case "removeFile":
+					this.da[cmd](trg);
+			}
 		}
 		else if(trg.id == "Tools:Downloads") {
-			if(e.sourceEvent && e.sourceEvent.target.nodeName != "key")
-				this.downloadCommand(e, "overrideDownloadsCommand");
-			else
-				this.downloadCommand(e, "overrideDownloadsHotkey");
+			var cmd = e.sourceEvent && e.sourceEvent.target.nodeName != "key"
+				? "overrideDownloadsCommand"
+				: "overrideDownloadsHotkey";
+			this.downloadCommand(e, cmd);
 		}
 		else if(origTrg.id == "downloadsHistory")
 			this.downloadCommand(e, "overrideShowAllDownloads");
