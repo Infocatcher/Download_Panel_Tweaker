@@ -6,6 +6,7 @@
 `*` - improved<br>
 
 ##### master/HEAD
+##### 0.2.6 (2016-11-08)
 `x` Fixed compatibility with Firefox 51+ (SyntaxError: non-generator method definitions may not contain yield).<br>
 `x` Fixed “Middle-click to remove downloads from panel” in Firefox 38+.<br>
 `x` Correctly update panel height in Firefox 50+ (<em>extensions.downloadPanelTweaker.fixPanelHeight</em> preference).<br>

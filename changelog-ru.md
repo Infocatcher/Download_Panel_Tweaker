@@ -6,6 +6,7 @@
 `*` - улучшено<br>
 
 ##### master/HEAD
+##### 0.2.6 (2016-11-08)
 `x` Исправлена совместимость с Firefox 51+ (SyntaxError: non-generator method definitions may not contain yield).<br>
 `x` Исправлена работа настройки «Удалять загрузки из панели по клику средней кнопкой мыши» в Firefox 38+.<br>
 `x` Исправлено обновление высоты панели в Firefox 50+ (настройка <em>extensions.downloadPanelTweaker.fixPanelHeight</em>).<br>
