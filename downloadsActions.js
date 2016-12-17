@@ -67,7 +67,7 @@ var downloadsActions = {
 		var gBrowser = window.gBrowser;
 		// Check private state for Private Tab extension
 		var isPrivate = this.dpt.isPrivateContent(window);
-		if(!Array.some(gBrowser.visibleTabs || gBrowser.tabs, function(tab) {
+		if(!Array.prototype.some.call(gBrowser.visibleTabs || gBrowser.tabs, function(tab) {
 			var browser = tab.linkedBrowser;
 			if(
 				browser

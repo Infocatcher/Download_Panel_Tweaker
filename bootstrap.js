@@ -281,7 +281,7 @@ var dpTweaker = {
 			return; // Not implemented
 		_log("udateDownloadRate(" + patch + ")");
 		var lb = document.getElementById("downloadsListBox");
-		lb && Array.forEach(
+		lb && Array.prototype.forEach.call(
 			lb.getElementsByTagName("richlistitem"),
 			function(item) {
 				if(

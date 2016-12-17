@@ -31,7 +31,7 @@
 					|| pref.endsWith(".dontRemoveFinishedDownloads")
 				) {
 					setup(setting);
-					Array.forEach(setting.getElementsByTagName("*"), setup);
+					Array.prototype.forEach.call(setting.getElementsByTagName("*"), setup);
 				}
 			}
 		}, 0, this);
@@ -138,7 +138,7 @@
 						}
 						else {
 							setting.setAttribute("disabled", "true");
-							Array.forEach(setting.getElementsByTagName("*"), function(node) {
+							Array.prototype.forEach.call(setting.getElementsByTagName("*"), function(node) {
 								node.setAttribute("disabled", "true");
 							});
 							setting.style.opacity = "0.55";

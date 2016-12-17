@@ -230,7 +230,7 @@ var downloadsPanel = {
 		if(!panel)
 			return;
 		_log("restoreDlItemsTooltips()");
-		Array.forEach(
+		Array.prototype.forEach.call(
 			panel.getElementsByTagName("richlistitem"),
 			function(rli) {
 				var trg = document.getAnonymousElementByAttribute(rli, "class", "downloadTarget");
