@@ -6,6 +6,11 @@
 `*` - улучшено<br>
 
 ##### master/HEAD
+`x` Исправлена совместимость с будущими версиями Firefox: прекращено использование Array generics вида `Array.forEach()` (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1222547">bug 1222547</a>).<br>
+`x` Исправлен патчер при наличии оберток от других расширений (TypeError: Array is undefined) (<a href="https://forum.mozilla-russia.org/viewtopic.php?pid=728469#p728469">спасибо Dumby</a>).<br>
+`x` Исправлена совместимость с будущими версиями Firefox: прекращено использование `Date.prototype.toLocaleFormat()` (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=818634">bug 818634</a>).<br>
+`x` Исправлено удаление оберток для функций из других расширений в Firefox 45+ (теперь для расширений используется «песочница», и будет использован трюк для получения ссылки на актуальный объект `window` для сохранения внутренних данных).<br>
+
 ##### 0.2.6 (2016-11-08)
 `x` Исправлена совместимость с Firefox 51+ (SyntaxError: non-generator method definitions may not contain yield).<br>
 `x` Исправлена работа настройки «Удалять загрузки из панели по клику средней кнопкой мыши» в Firefox 38+.<br>
