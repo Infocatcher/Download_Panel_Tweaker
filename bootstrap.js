@@ -630,8 +630,9 @@ var dpTweaker = {
 		else if(
 			pName == "panelWidth"
 			|| pName == "progressBarHeight"
-			|| pName == "decolorizePausedProgress"
 			|| pName == "panelMaxHeight"
+			|| pName == "decolorizePausedProgress"
+			|| pName == "panelButtonsOpacity"
 		) {
 			if(
 				pName == "panelWidth"

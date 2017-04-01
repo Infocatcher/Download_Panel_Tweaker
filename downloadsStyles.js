@@ -61,6 +61,7 @@ var downloadsStyles = {
 			var grayscaleFilter = this.dpt.fxVersion >= 36
 				? "grayscale(1)"
 				: 'url("chrome://mozapps/skin/extensions/extensions.svg#greyscale")';
+			var buttonsOpacity = prefs.get("panelButtonsOpacity");
 			var cssStr = '\
 				/* Download Panel Tweaker */\n\
 				@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");\n\
@@ -109,6 +110,14 @@ var downloadsStyles = {
 					#downloadsSummary[' + this.dpt.pausedAttr + '] .downloadProgress > .progress-bar,\n\
 					#downloadsSummary[' + this.dpt.pausedAttr + '] .downloadProgress > .progress-remainder {\n\
 						opacity: 0.85;\n\
+					}'
+						: ""
+					) + (
+						buttonsOpacity
+						? '\n\
+					/* Less-intrusive buttons in Firefox 52+ */\n\
+					#downloadsPanel-multiView[downloadPanelTweaker_newList] .downloadButton .button-icon {\n\
+						opacity: ' + buttonsOpacity + ';\n\
 					}'
 						: ""
 					) + '\n\
