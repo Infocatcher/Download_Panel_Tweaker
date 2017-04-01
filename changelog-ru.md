@@ -10,6 +10,7 @@
 `x` Исправлен патчер при наличии оберток от других расширений (TypeError: Array is undefined) (<a href="https://forum.mozilla-russia.org/viewtopic.php?pid=728469#p728469">спасибо Dumby</a>).<br>
 `x` Исправлена совместимость с будущими версиями Firefox: прекращено использование `Date.prototype.toLocaleFormat()` (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=818634">bug 818634</a>).<br>
 `x` Исправлено удаление оберток для функций из других расширений в Firefox 45+ (теперь для расширений используется «песочница», и будет использован трюк для получения ссылки на актуальный объект `window` для сохранения внутренних данных).<br>
+`*` Кнопки в панели загрузок в Firefox 52+ сделаны менее навязчивыми: добавлено осветление (настройка <em>extensions.downloadPanelTweaker.panelButtonsOpacity</em>).<br>
 
 ##### 0.2.6 (2016-11-08)
 `x` Исправлена совместимость с Firefox 51+ (SyntaxError: non-generator method definitions may not contain yield).<br>
