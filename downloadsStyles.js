@@ -62,6 +62,18 @@ var downloadsStyles = {
 				? "grayscale(1)"
 				: 'url("chrome://mozapps/skin/extensions/extensions.svg#greyscale")';
 			var buttonsOpacity = prefs.get("panelButtonsOpacity");
+			var fixLabels = window && "CSS" in window && "supports" in window.CSS
+				&& window.CSS.supports("filter", "contrast(1)")
+				&& '\n\
+					/*\n\
+					Fix missing text and delays inside download panel in Firefox 51+\n\
+					https://bugzilla.mozilla.org/show_bug.cgi?id=1318898\n\
+					https://bugzilla.mozilla.org/show_bug.cgi?id=1306670\n\
+					*/\n\
+					#downloadsPanel description,\n\
+					#downloadsPanel label {\n\
+						filter: contrast(1);\n\
+					}' || "";
 			var cssStr = '\
 				/* Download Panel Tweaker */\n\
 				@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");\n\
@@ -120,7 +132,7 @@ var downloadsStyles = {
 						opacity: ' + buttonsOpacity + ';\n\
 					}'
 						: ""
-					) + '\n\
+					) + fixLabels + '\n\
 				}\n\
 				@-moz-document url("about:addons"),\n\
 					url("chrome://mozapps/content/extensions/extensions.xul") {\n\
