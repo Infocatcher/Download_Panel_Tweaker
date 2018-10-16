@@ -215,8 +215,11 @@ var dpTweaker = {
 		return this[prop] = global[name];
 	},
 	get fxVersion() {
+		var pv = parseFloat(Services.appinfo.version);
+		if(Services.appinfo.name == "Pale Moon" || Services.appinfo.name == "Basilisk")
+			pv = pv >= 4.1 ? 56 : 28;
 		delete this.fxVersion;
-		return this.fxVersion = parseFloat(Services.appinfo.version);
+		return this.fxVersion = pv;
 	},
 
 	minItemCountLimit: 1,
