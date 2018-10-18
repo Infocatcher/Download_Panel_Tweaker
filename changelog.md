@@ -11,6 +11,7 @@
 `x` Fixed compatibility with future Firefox versions: don't use deprecated `Date.prototype.toLocaleFormat()` (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=818634">bug 818634</a>).<br>
 `x` Correctly remove wrappers for functions from another extensions in Firefox 45+ (now sandboxed, will used trick to get actual `window` object to store internal data).<br>
 `*` Use less-intrusive buttons inside download panel in Firefox 52+: reduced opacity (<em>extensions.downloadPanelTweaker.panelButtonsOpacity</em> preference).<br>
+`*` Compatibility fixes for Pale Moon 28.1+ and Basilisk.<br>
 
 ##### 0.2.6 (2016-11-08)
 `x` Fixed compatibility with Firefox 51+ (SyntaxError: non-generator method definitions may not contain yield).<br>
