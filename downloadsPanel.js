@@ -205,8 +205,10 @@ var downloadsPanel = {
 
 	panelMouseOver: function(e) {
 		var trg = e.originalTarget;
+		var isFileName = trg.classList.contains("downloadTarget")
+			|| trg.classList.contains("downloadDisplayName"); // Pale Moon 28.1+
 		if(
-			!trg.classList.contains("downloadTarget")
+			!isFileName
 			|| trg.hasAttribute(this.origTtAttr)
 			|| !prefs.get("showFullPathInTooltip")
 		)
