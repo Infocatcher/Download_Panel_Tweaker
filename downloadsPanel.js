@@ -235,7 +235,8 @@ var downloadsPanel = {
 		Array.prototype.forEach.call(
 			panel.getElementsByTagName("richlistitem"),
 			function(rli) {
-				var trg = document.getAnonymousElementByAttribute(rli, "class", "downloadTarget");
+				var trg = document.getAnonymousElementByAttribute(rli, "class", "downloadTarget")
+					|| document.getAnonymousElementByAttribute(rli, "class", "downloadDisplayName");  // Pale Moon 28.1+
 				if(trg && trg.hasAttribute(this.origTtAttr)) {
 					var tt = trg.getAttribute(this.origTtAttr);
 					_log("Restore tooltiptext: " + trg.getAttribute("tooltiptext") + " => " + tt);
