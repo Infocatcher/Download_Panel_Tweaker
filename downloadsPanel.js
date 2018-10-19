@@ -248,7 +248,7 @@ var downloadsPanel = {
 	},
 	restoreAllDlItemsTooltips: function() {
 		_log("restoreAllDlItemsTooltips()");
-		for(var window in this.dpt.windows)
+		for(var window of this.dpt.windows)
 			this.restoreDlItemsTooltips(window.document);
 	},
 
