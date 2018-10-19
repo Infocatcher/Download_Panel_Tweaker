@@ -12,6 +12,7 @@
 `x` Correctly remove wrappers for functions from another extensions in Firefox 45+ (now sandboxed, will used trick to get actual `window` object to store internal data).<br>
 `*` Use less-intrusive buttons inside download panel in Firefox 52+: reduced opacity (<em>extensions.downloadPanelTweaker.panelButtonsOpacity</em> preference).<br>
 `*` Compatibility fixes for Pale Moon 28.1+ and Basilisk.<br>
+`x` Correctly restore original tooltips after <em>extensions.downloadPanelTweaker.showFullPathInTooltip</em> -> false change.<br>
 
 ##### 0.2.6 (2016-11-08)
 `x` Fixed compatibility with Firefox 51+ (SyntaxError: non-generator method definitions may not contain yield).<br>
