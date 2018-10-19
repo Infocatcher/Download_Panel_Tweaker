@@ -29,7 +29,8 @@
 		margin: 0.14em 0.4em !important;
 	}
 	#downloadsSummaryDescription,
-	.downloadTarget {
+	.downloadTarget,
+	.downloadDisplayName {
 		margin: 0 3px !important;
 	}
 	.downloadDetails {
@@ -45,7 +46,8 @@
 		margin: 1px !important;
 		-moz-margin-start: 3px !important;
 	}
-	.downloadMainArea {
+	.downloadMainArea,
+	richlistitem.download-state {
 		padding: 1px !important;
 	}
 	.downloadButton {
