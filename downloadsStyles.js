@@ -58,12 +58,12 @@ var downloadsStyles = {
 			var tdsPrefix = window && "textDecorationStyle" in window.document.documentElement.style
 				? ""
 				: "-moz-";
-			var grayscaleFilter = this.dpt.fxVersion >= 36
+			var CSS = window && "CSS" in window && "supports" in window.CSS && window.CSS;
+			var grayscaleFilter = CSS && CSS.supports("filter", "grayscale(1)")
 				? "grayscale(1)"
 				: 'url("chrome://mozapps/skin/extensions/extensions.svg#greyscale")';
 			var buttonsOpacity = prefs.get("panelButtonsOpacity");
-			var fixLabels = window && "CSS" in window && "supports" in window.CSS
-				&& window.CSS.supports("filter", "contrast(1)")
+			var fixLabels = CSS && CSS.supports("filter", "contrast(1)")
 				&& '\n\
 					/*\n\
 					Fix missing text and delays inside download panel in Firefox 51+\n\
